@@ -1,13 +1,10 @@
 package atlantis.framework.graphics;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 
 import atlantis.framework.IDisposable;
 

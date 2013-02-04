@@ -1,7 +1,6 @@
 package atlantis.engine.graphics;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import atlantis.framework.GameTime;
 import atlantis.framework.IDrawable;

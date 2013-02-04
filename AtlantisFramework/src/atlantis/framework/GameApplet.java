@@ -2,7 +2,7 @@ package atlantis.framework;
 
 import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JApplet;
 
 import atlantis.framework.platform.IGamePlatform;
 import atlantis.framework.platform.JPanelRenderer;

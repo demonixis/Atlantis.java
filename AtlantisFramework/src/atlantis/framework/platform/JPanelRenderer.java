@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import atlantis.framework.GameComponentCollection;
 import atlantis.framework.IDrawable;
 
 public class JPanelRenderer extends JPanel {

@@ -2,13 +2,11 @@ package atlantis.samples;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import atlantis.engine.Engine;
+
 import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
-import atlantis.framework.Game;
 import atlantis.framework.GameDesktop;
 import atlantis.framework.GameTime;
-import atlantis.framework.audio.SoundEffect;
 
 public class SpriteGame extends GameDesktop {
 	private Entity background;

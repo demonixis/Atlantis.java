@@ -2,7 +2,7 @@ package atlantis.framework.platform;
 
 import java.awt.GraphicsDevice;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class DesktopPlatform extends JFrame implements IGamePlatform {
 	protected JPanelRenderer renderer;

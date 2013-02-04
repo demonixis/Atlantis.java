@@ -1,8 +1,9 @@
 package atlantis.engine.graphics;
 
 import java.util.HashMap;
-import atlantis.framework.Vector2;
+
 import atlantis.framework.Rectangle;
+import atlantis.framework.Vector2;
 
 public class SpriteAnimator {
 	protected HashMap<String, SpriteAnimation> animations;

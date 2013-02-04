@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.input.KeyboardState;
 import atlantis.framework.input.MouseState;
-import atlantis.framework.platform.DesktopPlatform;
 import atlantis.framework.platform.IGamePlatform;
 import atlantis.framework.platform.JPanelRenderer;
 

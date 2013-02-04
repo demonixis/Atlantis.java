@@ -2,6 +2,7 @@ package atlantis.engine;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+
 import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;

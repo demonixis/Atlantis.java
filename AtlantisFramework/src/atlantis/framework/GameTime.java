@@ -30,7 +30,7 @@ public class GameTime {
 	 * @return 
 	 */
 	public long getElapsedTime() {
-		return (long)(this.elapsedTime * 0.01f);
+		return (long)(this.elapsedTime);
 	}
 
 	/**
@@ -38,6 +38,6 @@ public class GameTime {
 	 * @return
 	 */
 	public long getTotalGameTime() {
-		return (long)(this.totalGameTime * 0.01f);
+		return (long)(this.totalGameTime);
 	}
 }

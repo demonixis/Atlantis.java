@@ -20,7 +20,7 @@ public class SpriteAnimation {
 	}
 	
 	public Rectangle next(long elapsedTime) {
-		this.elapsedTime += elapsedTime;
+		this.elapsedTime += elapsedTime * 0.001f;
 		
 		if (this.elapsedTime > this.frameRate) {
             this.index++;

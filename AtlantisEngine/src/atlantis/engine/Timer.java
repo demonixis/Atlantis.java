@@ -15,7 +15,13 @@ public class Timer implements IUpdateable {
 		this.repeat = -1;
 		this.elapsedTime = 0;
 		this.counter = this.repeat;
-		this.enabled = true;
+		this.enabled = false;
+	}
+	
+	public Timer(int interval, int repeat) {
+		this(interval);
+		this.repeat = repeat;
+		this.counter = this.repeat;
 	}
 	
 	public void start() {
@@ -44,15 +50,17 @@ public class Timer implements IUpdateable {
 	
 	@Override
 	public void update(GameTime gameTime) {
-		if (this.enabled) {
+		if (this.enabled) { 
 			this.elapsedTime += gameTime.getElapsedTime();
 			
 			if (this.elapsedTime >= this.interval) {
-				if (this.counter == 0) {
-					this.enabled = false;
-				}
-				else {
-					this.counter--;
+				if (this.repeat != -1) {
+					if (this.counter == 0) {
+						this.enabled = false;
+					}
+					else {
+						this.counter--;
+					}
 				}
 				this.elapsedTime = 0;
 			}
@@ -66,6 +74,38 @@ public class Timer implements IUpdateable {
 		else {
 			return (long)(this.interval - this.elapsedTime);
 		}
+	}
+
+	public int getInterval() {
+		return interval;
+	}
+
+	public int getRepeat() {
+		return repeat;
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setInterval(int interval) {
+		this.interval = interval;
+	}
+
+	public void setRepeat(int repeat) {
+		this.repeat = repeat;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

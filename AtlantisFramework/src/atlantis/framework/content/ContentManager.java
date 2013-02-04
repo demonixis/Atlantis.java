@@ -19,7 +19,7 @@ public class ContentManager {
 	 * @param assetName
 	 * @return an image
 	 */
-	public Texture2D loadImage(String assetName) {
+	public Texture2D loadTexture(String assetName) {
 		Texture2D image;
 		
 		image = (Texture2D) this.assets.get(assetName);
@@ -48,6 +48,28 @@ public class ContentManager {
 		}
 		
 		return sound;
+	}
+	
+	/**
+	 * Get an asset by its type and its name
+	 * @param assetName
+	 * @return 
+	 */
+	public <T> T load(String assetName) {
+		T asset = null;
+		
+		asset = (T)this.assets.get(assetName);
+		
+		if (asset == null) {
+			if (asset.getClass().equals(Texture2D.class)) {
+				asset = (T) loadTexture(assetName);
+			}
+			else if (asset.getClass().equals(SoundEffect.class)) {
+				asset = (T) loadSound(assetName);
+			}
+		}
+		
+		return asset;
 	}
 	
 	public void setRootDirectory(String rootDirectory) {

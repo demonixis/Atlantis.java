@@ -50,7 +50,7 @@ public class Entity implements IUpdateable, IDrawable {
 	
 	public void loadContent(ContentManager content) {
 		if (this.textureName != "" && this.assetLoaded == false) {
-			this.texture = content.loadImage(this.textureName);
+			this.texture = content.loadTexture(this.textureName);
 			this.rectangle.setWidth(this.texture.getWidth());
 			this.rectangle.setHeight(this.texture.getHeight());
 			this.assetLoaded = true;

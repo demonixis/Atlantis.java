@@ -127,7 +127,7 @@ public class Game implements Runnable, IDrawable, IUpdateable {
 		return this.mouseState;
 	}
 	
-	public ContentManager getContent() {
+	public ContentManager getContentManager() {
 		return this.content;
 	}
 }

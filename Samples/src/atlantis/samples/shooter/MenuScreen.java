@@ -9,19 +9,11 @@ import atlantis.framework.GameTime;
 
 public class MenuScreen extends State {
 	Entity background;
-	Entity mask;
-	int index;
 	
 	public MenuScreen(String name) {
 		super(name);
-		
 		this.background = new Entity("menu.png");
-		this.mask = new Entity("mask.png");
-		this.mask.setPosition(280, 250);
-		
 		this.scene.add(background);
-		this.scene.add(mask);
-		this.index = 0;
 	}
 
 	public void update(GameTime gameTime) {

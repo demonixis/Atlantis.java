@@ -86,6 +86,10 @@ public class GameScreen extends State {
 			this.ship.setY(this.ship.getY() + 2);
 		}
 		
+		if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_ESCAPE)) {
+			Atlantis.game.exit();
+		}
+		
 		// Shoot a laser
 		if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_SPACE)) {
 			if (!this.shootTimer.isEnabled()) {

@@ -1,7 +1,6 @@
 package atlantis.engine;
 
-import atlantis.framework.BaseGame;
-import atlantis.framework.awt.Game;
+import atlantis.framework.Game;
 
 /**
  * AtlantisEngine is the bootstrap class that create the game and prepare
@@ -29,6 +28,10 @@ public class AtlantisEngine extends Game {
 		this(width, height, "Atlantis Game");
 	}
 	
+	/**
+	 * Enabled or disable the state manager
+	 * @param isActive
+	 */
 	public void setStateManager(boolean isActive) {
 		if (isActive) {
 			if (this.stateManager == null) {

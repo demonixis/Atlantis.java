@@ -7,6 +7,10 @@ import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.BaseGame;
 import atlantis.framework.GameTime;
 
+/**
+ * A State manager
+ * @author Yann
+ */
 public class StateManager extends DrawableGameComponent {
 
 	protected ArrayList<State> states;
@@ -16,29 +20,37 @@ public class StateManager extends DrawableGameComponent {
 		this.states = new ArrayList<State>();
 	}
 	
-	public void loadContent() {
-		for (State state : this.states) {
-			state.loadContent(this.game.getContentManager());
-			state.initialize();
+	@Override
+	public void initialize() {
+		if (!this.initialized) {
+			for (State state : this.states) {
+				state.initialize();
+			}
 			this.initialized = true;
+		}
+	}
+	
+	@Override
+	public void loadContent() {
+		if (!this.assetsLoaded) {
+			for (State state : this.states) {
+				state.loadContent(this.game.getContentManager());
+			}
+			this.assetsLoaded = true;
 		}
 	}
 
 	@Override
 	public void update(GameTime gameTime) {
 		for (State state : this.states) {
-			if (state.active) {
-				state.update(gameTime);
-			}
+			state.update(gameTime);
 		}
 	}
 
 	@Override
 	public void draw(Graphics graphics) {
 		for (State state : this.states) {
-			if (state.active) {
-				state.draw(graphics);
-			}
+			state.draw(graphics);
 		}
 	}
 	
@@ -52,8 +64,8 @@ public class StateManager extends DrawableGameComponent {
         int size = this.states.size();
 
 		while (i < size && index == -1) {
-			if (this.states.get(i).name == name) {
-                this.states.get(i).active = true;
+			if (this.states.get(i).getName() == name) {
+                this.states.get(i).setActive(true);
                 index = i;
 			}
 			i++;
@@ -68,13 +80,13 @@ public class StateManager extends DrawableGameComponent {
 		State state = this.states.get(position);
 		
 		if (state != null) {
-			state.active = true;
+			state.setActive(true);
 		}
 	}
 	
 	public void disableStates() {
 		for (State state : this.states) {
-			state.active = false;
+			state.setActive(false);
 		}
 	}
 	
@@ -89,7 +101,7 @@ public class StateManager extends DrawableGameComponent {
 		}
 		
 		state.stateManager = this;
-		state.active = isActive;
+		state.setActive(isActive);
 		
 		if (this.initialized) {
 			state.loadContent(this.game.getContentManager());
@@ -119,7 +131,7 @@ public class StateManager extends DrawableGameComponent {
         int size = this.states.size();
 
 		while (i < size && index == -1) {
-			if (this.states.get(i).name == name) {
+			if (this.states.get(i).getName() == name) {
                 state = this.states.get(i);
                 index = i;
 			}

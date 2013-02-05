@@ -11,10 +11,79 @@ import java.util.ArrayList;
 public class GameComponentCollection implements IUpdateable, IDrawable {
 	protected ArrayList<GameComponent> components;
 	protected ArrayList<DrawableGameComponent> drawableGameComponents;
+	protected boolean initialized;
+	protected boolean assetsLoaded;
+	
 	
 	public GameComponentCollection() {
 		this.components = new ArrayList<GameComponent>();
 		this.drawableGameComponents = new ArrayList<DrawableGameComponent>();
+		this.initialized = false;
+		this.assetsLoaded = false;
+	}
+	
+	/**
+	 * Initialize all components
+	 */
+	public void initialize() { 
+		if (this.components.size() > 0) {
+			for (GameComponent component : this.components) {
+				component.initialize();
+			}
+		}
+
+		this.initialized = true;
+	}
+	
+	/**
+	 * Load assets on all DrawableGameComponent
+	 */
+	public void loadContent() {
+		if (this.drawableGameComponents.size() > 0) {
+			for (DrawableGameComponent component : this.drawableGameComponents) {
+				component.loadContent();
+			}
+		}
+		
+		this.assetsLoaded = true;
+	}
+	
+	/**
+	 * Unload assets on all DrawableGameComponent
+	 */
+	public void unloadContent() {
+		if (this.assetsLoaded && this.drawableGameComponents.size() > 0) {
+			for (DrawableGameComponent component : this.drawableGameComponents) {
+				component.unloadContent();
+			}
+		}
+	}
+	
+	/**
+	 * Update all components if they are enabled
+	 * @param gameTime
+	 */
+	public void update(GameTime gameTime) {
+		if (this.components.size() > 0) {
+			for (GameComponent component : this.components) {
+				if (component.isEnabled()) {
+					component.update(gameTime);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Draw all DrawableGameComponent if they are visibles
+	 */
+	public void draw(Graphics graphics) {
+		if (this.drawableGameComponents.size() > 0) {
+			for (DrawableGameComponent component : this.drawableGameComponents) {
+				if (component.isVisible()) {
+					component.draw(graphics);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -25,7 +94,17 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 		components.add(component);
 		
 		if (component instanceof DrawableGameComponent) {
-			drawableGameComponents.add((DrawableGameComponent) component);
+			DrawableGameComponent drawableGameComponent = (DrawableGameComponent) component;
+			
+			if (this.assetsLoaded) {
+				drawableGameComponent.loadContent();
+			}
+			
+			if (this.initialized) {
+				drawableGameComponent.initialize();
+			}
+			
+			drawableGameComponents.add(drawableGameComponent);
 		}
 	}
 	
@@ -33,8 +112,17 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 	 * Remove a component from the collection
 	 * @param component
 	 */
-	public void remove(GameComponent component) {
-		components.remove(component);
+	public boolean remove(GameComponent component) {
+		if (component instanceof GameComponent) {
+			return components.remove(component);
+		}
+		else if (component instanceof DrawableGameComponent) {
+			boolean ret1 = this.components.remove(component);
+			boolean ret2 = this.drawableGameComponents.remove(component);
+			return ret1 && ret2;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -42,53 +130,18 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 	 * @param index of component in the collection
 	 * @return the component
 	 */
-	public GameComponent get(int index) {
-		return components.get(index);
-	}
-	
-	/**
-	 * Initialize all components
-	 */
-	public void initialize() { }
-	
-	/**
-	 * Load assets on all DrawableGameComponent
-	 */
-	public void loadContent() {
-		for (int i = 0; i < drawableGameComponents.size(); i++) {
-			drawableGameComponents.get(i).loadContent();
-		}
-	}
-	
-	/**
-	 * Unload assets on all DrawableGameComponent
-	 */
-	public void unloadContent() {
-		for (int i = 0; i < drawableGameComponents.size(); i++) {
-			drawableGameComponents.get(i).unloadContent();
-		}
-	}
-	
-	/**
-	 * Update all components if they are enabled
-	 * @param gameTime
-	 */
-	public void update(GameTime gameTime) {
-		for (int i = 0; i < components.size(); i++) {
-			if (components.get(i).isEnabled()) {
-				components.get(i).update(gameTime);
+	public <T> GameComponent get(int index) {
+		if (index >= 0) {
+			T type = null;
+			
+			if (type.getClass().getName().equals(GameComponent.class.getName())) {
+				return this.components.get(index);
+			}
+			else if (type.getClass().getName().equals(DrawableGameComponent.class.getName())) {
+				return (GameComponent)this.drawableGameComponents.get(index);
 			}
 		}
-	}
-	
-	/**
-	 * Draw all DrawableGameComponent if they are visible
-	 */
-	public void draw(Graphics graphics) {
-		for (int i = 0; i < drawableGameComponents.size(); i++) {
-			if (drawableGameComponents.get(i).isVisible()) {
-				drawableGameComponents.get(i).draw(graphics);
-			}
-		}
+		
+		return null;
 	}
 }

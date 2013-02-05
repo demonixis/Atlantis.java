@@ -3,9 +3,11 @@ package atlantis.framework.platform;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.IDrawable;
 
 public class JPanelRenderer extends JPanel {
@@ -26,8 +28,8 @@ public class JPanelRenderer extends JPanel {
 		graphics.fillRect(0, 0, getWidth(), getHeight());
 		
 		// Draw all drawable objects
-		for (int i = 0; i < this.drawableCollection.size(); i++) {
-			this.drawableCollection.get(i).draw(graphics);
+		for (IDrawable drawable : this.drawableCollection) {
+			drawable.draw(graphics);
 		}
 	}
 	

@@ -1,11 +1,13 @@
-package atlantis.framework.input.awt;
+package atlantis.framework.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import atlantis.framework.input.IKeyboardState;
-
-public class KeyboardState implements KeyListener, IKeyboardState {
+/**
+ * A keyboard state manager
+ * @author Yann
+ */
+public class KeyboardState implements KeyListener {
 
 	protected boolean [] keys;
 	
@@ -17,10 +19,20 @@ public class KeyboardState implements KeyListener, IKeyboardState {
 		}
 	}
 	
+	/**
+	 * Determine if a key is pressed
+	 * @param key
+	 * @return true if the key is pressed otherwise return false
+	 */
 	public boolean isKeyDown(int key) {
 		return this.keys[key] == true;
 	}
 	
+	/**
+	 * Determine if a key is released
+	 * @param key
+	 * @return true if the key is released otherewise return false
+	 */
 	public boolean isKeyUp(int key) {
 		return this.keys[key] == true;
 	}

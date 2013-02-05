@@ -1,10 +1,7 @@
 package atlantis.engine.graphics;
 
 import java.awt.Graphics;
-
 import atlantis.framework.GameTime;
-import atlantis.framework.IDrawable;
-import atlantis.framework.IUpdateable;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
 import atlantis.framework.content.ContentManager;
@@ -14,28 +11,17 @@ import atlantis.framework.graphics.Texture2D;
  * Define a basic entity who is updated and drawn on each frame
  * @author Yannick
  */
-public class Entity implements IUpdateable, IDrawable {
-	protected boolean enabled;
-	protected boolean visible;
+public class Entity extends BaseEntity {
 	protected Rectangle rectangle;
 	protected Vector2 position;
 	protected Texture2D texture;
 	protected String textureName;
-	protected boolean initialized;
-	protected boolean assetLoaded;
-	protected String name;
-	private static int entityCounter = 0;
 	
 	public Entity() {
-		this.enabled = true;
-		this.visible = true;
 		this.rectangle = new Rectangle();
 		this.position = new Vector2();
-		this.initialized = false;
-		this.assetLoaded = false;
 		this.texture = null;
 		this.textureName = "";
-		this.name = "Entity_" + entityCounter++;
 	}
 	
 	public Entity(String textureName) {
@@ -56,27 +42,15 @@ public class Entity implements IUpdateable, IDrawable {
 		}
 	}
 	
-	@Override
-	public void draw(Graphics graphics) {
-        if (this.visible) {
-            graphics.drawImage(this.texture.getTexture(), this.rectangle.getX(), this.rectangle.getY(), this.rectangle.getWidth(), this.rectangle.getHeight(), null);
-        }
-	}
 
 	@Override
-	public void update(GameTime gameTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(GameTime gameTime) { }
 	
-	/**
-	 * Active or desactive an entity.
-	 * If isActice is set to true the entity is not udpated and not drawed
-	 * @param isActive
-	 */
-	public void setActive(boolean isActive) {
-		this.enabled = isActive;
-		this.visible = isActive;
+	@Override
+	public void draw(Graphics graphics) {
+        if (this.visible && this.assetLoaded) {
+            graphics.drawImage(this.texture.getTexture(), this.rectangle.getX(), this.rectangle.getY(), this.rectangle.getWidth(), this.rectangle.getHeight(), null);
+        }
 	}
 	
 	/**

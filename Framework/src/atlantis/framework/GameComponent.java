@@ -16,15 +16,10 @@ public class GameComponent implements IUpdateable {
 		this.initialized = false;
 	}
 	
-	public void initialize() {
-		this.initialized = true;
-	}
+	public void initialize() { }
 
 	@Override
-	public void update(GameTime gameTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(GameTime gameTime) { }
 	
 	public boolean isEnabled() {
 		return enabled;
@@ -32,5 +27,13 @@ public class GameComponent implements IUpdateable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	public void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
+	
+	public boolean isInitialized() {
+		return this.initialized;
 	}
 }

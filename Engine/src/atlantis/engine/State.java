@@ -2,47 +2,54 @@ package atlantis.engine;
 
 import java.awt.Graphics;
 
+import atlantis.engine.graphics.BaseEntity;
 import atlantis.engine.graphics.SpriteGroup;
 import atlantis.framework.GameTime;
-import atlantis.framework.IDrawable;
-import atlantis.framework.IUpdateable;
 import atlantis.framework.content.ContentManager;
 
-public class State implements IUpdateable, IDrawable {
-	protected String name;
-	protected boolean active;
-	protected boolean initialized;
+public class State extends BaseEntity {
 	protected SpriteGroup scene;
 	protected StateManager stateManager;
 	
-	public State(String name) {
-		this.name = name;
-		this.active = true;
-		this.initialized = false;
+	public State() {
+		super();
 		this.scene = new SpriteGroup();
 		this.stateManager = null;
 	}
 	
-	public void initialize() {
-		
+	public State(String name) {
+		this();
+		this.name = name;
 	}
 	
-	public void loadContent(ContentManager content) {
-		this.scene.loadContent(content);
+	public void initialize() {
 		this.scene.initialize();
 		this.initialized = true;
 	}
 	
-	@Override
-	public void draw(Graphics graphics) {
-		this.scene.draw(graphics);
+	public void loadContent(ContentManager content) {
+		this.scene.loadContent(content);
+		this.assetLoaded = true;
 	}
-
+	
 	@Override
 	public void update(GameTime gameTime) {
-		this.scene.update(gameTime);
+		if (this.enabled) {
+			this.scene.update(gameTime);
+		}
+	}
+	
+	@Override
+	public void draw(Graphics graphics) {
+		if (this.visible) {
+			this.scene.draw(graphics);
+		}
 	}
 
+	/**
+	 * Gets the scene
+	 * @return
+	 */
 	public SpriteGroup getScene() {
 		return this.scene;
 	}

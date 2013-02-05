@@ -1,9 +1,11 @@
-package atlantis.framework.input;
+package atlantis.framework.input.awt;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyboardState implements KeyListener {
+import atlantis.framework.input.IKeyboardState;
+
+public class KeyboardState implements KeyListener, IKeyboardState {
 
 	protected boolean [] keys;
 	

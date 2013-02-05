@@ -3,8 +3,8 @@ package atlantis.framework;
 import java.awt.Graphics;
 
 import atlantis.framework.content.ContentManager;
-import atlantis.framework.input.KeyboardState;
-import atlantis.framework.input.MouseState;
+import atlantis.framework.input.IKeyboardState;
+import atlantis.framework.input.IMouseState;
 import atlantis.framework.platform.IGamePlatform;
 import atlantis.framework.platform.JPanelRenderer;
 
@@ -14,9 +14,9 @@ import atlantis.framework.platform.JPanelRenderer;
  * @author Yannick
  *
  */
-public class Game implements Runnable, IDrawable, IUpdateable {
-	protected KeyboardState keyboardState;
-	protected MouseState mouseState;
+public abstract class BaseGame implements IDrawable, IUpdateable {
+	protected IKeyboardState keyboardState;
+	protected IMouseState mouseState;
 	protected GameTime gameTime;
 	protected IGamePlatform window;
 	protected JPanelRenderer renderer;
@@ -28,28 +28,26 @@ public class Game implements Runnable, IDrawable, IUpdateable {
 	protected boolean isRunning;
 	protected Thread gameThread;
 	
-	public Game(int width, int height, String title) {
+	public BaseGame(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
-		this.keyboardState = new KeyboardState();
-		this.mouseState = new MouseState();
+		this.keyboardState = null;
+		this.mouseState = null;
 		this.gameTime = new GameTime();
 		this.components = new GameComponentCollection();
 		this.content = new ContentManager();
 		
 		// The renderer
-		this.renderer = new JPanelRenderer();
-		this.renderer.addDrawable(this.components);
-		this.renderer.addDrawable(this);
+		this.renderer = null;
 
 		// Thread for rendering
 		this.gameThread = new Thread(new MainLoop(this));
 	}
 	
 	private class MainLoop implements Runnable {
-		private Game game;
+		private BaseGame game;
 		
-		public MainLoop(Game game) {
+		public MainLoop(BaseGame game) {
 			this.game = game;
 		}
 		
@@ -64,6 +62,7 @@ public class Game implements Runnable, IDrawable, IUpdateable {
 			
 				this.game.renderer.repaint();
 				
+				// TODO : Use a correct value
 				try {
 					Thread.sleep(10);
 				}
@@ -119,11 +118,11 @@ public class Game implements Runnable, IDrawable, IUpdateable {
 		this.components = components;
 	}
 	
-	public KeyboardState getKeyboard() {
+	public IKeyboardState getKeyboard() {
 		return this.keyboardState;
 	}
 	
-	public MouseState getMouse() {
+	public IMouseState getMouse() {
 		return this.mouseState;
 	}
 	

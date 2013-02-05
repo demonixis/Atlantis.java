@@ -1,12 +1,13 @@
 package atlantis.engine;
 
-import atlantis.framework.GameDesktop;
+import atlantis.framework.BaseGame;
+import atlantis.framework.awt.Game;
 
 /**
  * AtlantisEngine is the bootstrap class that create the game and prepare
  * all objects used for the game
  */
-public class AtlantisEngine extends GameDesktop {
+public class AtlantisEngine extends Game {
 	protected StateManager stateManager;
 	
 	public AtlantisEngine(int width, int height, String title) {
@@ -15,13 +16,13 @@ public class AtlantisEngine extends GameDesktop {
 		this.stateManager = new StateManager(this);
 		this.components.add(this.stateManager);
 		
-		Engine.game = this;
-		Engine.content = this.content;
-		Engine.components = this.components;
-		Engine.keyboard = this.keyboardState;
-		Engine.mouse = this.mouseState;
-		Engine.width = this.width;
-		Engine.height = this.height;
+		Atlantis.game = this;
+		Atlantis.content = this.content;
+		Atlantis.components = this.components;
+		Atlantis.keyboard = this.keyboardState;
+		Atlantis.mouse = this.mouseState;
+		Atlantis.width = this.width;
+		Atlantis.height = this.height;
 	}
 	
 	public AtlantisEngine(int width, int height) {

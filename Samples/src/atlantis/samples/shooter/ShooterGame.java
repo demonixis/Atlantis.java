@@ -1,10 +1,6 @@
 package atlantis.samples.shooter;
 
-import java.awt.event.KeyEvent;
-
 import atlantis.engine.AtlantisEngine;
-import atlantis.engine.Engine;
-import atlantis.framework.GameTime;
 
 public class ShooterGame extends AtlantisEngine {
 	private MenuScreen menuScreen;

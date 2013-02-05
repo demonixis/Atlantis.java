@@ -69,6 +69,21 @@ public class Entity implements IUpdateable, IDrawable {
 		
 	}
 	
+	/**
+	 * Active or desactive an entity.
+	 * If isActice is set to true the entity is not udpated and not drawed
+	 * @param isActive
+	 */
+	public void setActive(boolean isActive) {
+		this.enabled = isActive;
+		this.visible = isActive;
+	}
+	
+	/**
+	 * Set the position of the entity on the screen
+	 * @param x X coordinate
+	 * @param y Y coordinate
+	 */
 	public void setPosition(int x, int y) {
 		this.position.setX(x);
 		this.position.setY(y);
@@ -76,16 +91,29 @@ public class Entity implements IUpdateable, IDrawable {
 		this.rectangle.setY(y);
 	}
 	
+	/**
+	 * Change the size of the entity
+	 * @param width
+	 * @param height
+	 */
 	public void setSize(int width, int height) {
 		this.rectangle.setWidth(width);
 		this.rectangle.setHeight(height);
 	}
 	
+	/**
+	 * Sets the value of X coordinate of the entity
+	 * @param x
+	 */
 	public void setX(int x) {
 		this.position.setX(x);
 		this.rectangle.setX(x);
 	}
 	
+	/**
+	 * Sets the value of Y coordinate of the entity
+	 * @param y
+	 */
 	public void setY(int y) {
 		this.position.setY(y);
 		this.rectangle.setY(y);
@@ -113,5 +141,9 @@ public class Entity implements IUpdateable, IDrawable {
 	
 	public int getHeight() {
 		return this.rectangle.getHeight();
+	}
+	
+	public Rectangle getRectangle() {
+		return this.rectangle;
 	}
 }

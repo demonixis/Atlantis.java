@@ -1,4 +1,4 @@
-package atlantis.framework.input;
+package atlantis.framework.input.awt;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -6,7 +6,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-public class MouseState implements MouseListener, MouseMotionListener, MouseWheelListener {
+import atlantis.framework.Point;
+import atlantis.framework.input.IMouseState;
+
+public class MouseState  implements MouseListener, MouseMotionListener, MouseWheelListener, IMouseState {
 	
 	protected int x;
 	protected int y;
@@ -79,5 +82,16 @@ public class MouseState implements MouseListener, MouseMotionListener, MouseWhee
 	private void updateMousePosition(MouseEvent mouseEvent) {
 		this.x = mouseEvent.getX();
 		this.y = mouseEvent.getY();
+	}
+
+	@Override
+	public Point getPosition() {
+		return new Point(this.x, this.y);
+	}
+
+	@Override
+	public boolean click(int buttonId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

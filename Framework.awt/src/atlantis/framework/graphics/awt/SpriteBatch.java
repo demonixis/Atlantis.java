@@ -3,14 +3,14 @@ package atlantis.framework.graphics.awt;
 import java.awt.Graphics;
 
 import atlantis.framework.Rectangle;
-import atlantis.framework.graphics.SpriteBatch;
+import atlantis.framework.graphics.ISpriteBatch;
 import atlantis.framework.graphics.SpriteFont;
 import atlantis.framework.graphics.Texture2D;
 
-public class SpriteBatchAwt extends SpriteBatch {
+public class SpriteBatch implements ISpriteBatch {
 	private Graphics graphics;
 	
-	public SpriteBatchAwt(GraphicsDeviceAwt device) {
+	public SpriteBatch(GraphicsDevice device) {
 		
 	}
 	

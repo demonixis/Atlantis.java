@@ -1,6 +1,7 @@
 package atlantis.engine.graphics;
 
 import java.awt.Graphics;
+import java.util.List;
 import java.util.ArrayList;
 
 import atlantis.framework.GameTime;
@@ -41,14 +42,35 @@ public class SpriteGroup extends Entity {
 		}
 	}
 	
+	public List<Entity> getEntities() {
+		return this.entities;
+	}
+	
+	public int getCount() {
+		return this.entities.size();
+	}
+	
+	/**
+	 * Add an Entity to the collection
+	 * @param entity
+	 */
 	public void add(Entity entity) {
 		this.entities.add(entity);
 	}
 	
+	/**
+	 * Remove an Entity from the collection
+	 * @param entity
+	 */
 	public void remove(Entity entity) {
 		this.entities.remove(entity);
 	}
 	
+	/**
+	 * Get an Entity from the colletion
+	 * @param position
+	 * @return
+	 */
 	public Entity get(int position) {
 		return this.entities.get(position);
 	}

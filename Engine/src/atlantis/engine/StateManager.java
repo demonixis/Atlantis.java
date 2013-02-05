@@ -4,14 +4,14 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import atlantis.framework.DrawableGameComponent;
-import atlantis.framework.Game;
+import atlantis.framework.BaseGame;
 import atlantis.framework.GameTime;
 
 public class StateManager extends DrawableGameComponent {
 
 	protected ArrayList<State> states;
 	
-	public StateManager(Game game) {
+	public StateManager(BaseGame game) {
 		super(game);
 		this.states = new ArrayList<State>();
 	}

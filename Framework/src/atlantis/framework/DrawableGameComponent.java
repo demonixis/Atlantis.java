@@ -10,7 +10,7 @@ import java.awt.Graphics;
 public class DrawableGameComponent extends GameComponent implements IDrawable {
 	protected boolean visible;
 	
-	public DrawableGameComponent(Game game) {
+	public DrawableGameComponent(BaseGame game) {
 		super(game);
 		this.visible = true;
 	}

@@ -34,7 +34,7 @@ public class KeyboardState implements KeyListener {
 	 * @return true if the key is released otherewise return false
 	 */
 	public boolean isKeyUp(int key) {
-		return this.keys[key] == true;
+		return this.keys[key] == false;
 	}
 	
 	@Override
@@ -49,8 +49,21 @@ public class KeyboardState implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		this.keys[e.getKeyCode()] = true;
+	}
+	
+	public boolean[] getStates() {
+		return this.keys;
+	}
+	
+	public KeyboardState clone() {
+		KeyboardState keyboardState = new KeyboardState();
+	
+		for (int i = 0, l = this.keys.length; i < l; i++) {
+			keyboardState.keys[i] = this.keys[i];
+		}
 		
+		return keyboardState;
 	}
 
 }

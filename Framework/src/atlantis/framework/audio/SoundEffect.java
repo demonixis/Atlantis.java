@@ -20,8 +20,22 @@ public class SoundEffect implements IDisposable {
 	protected boolean muted;
 	protected Clip clip;
 	
+	/**
+	 * Create a new sound effect. It is loaded from external folder
+	 * @param path the file path
+	 */
 	public SoundEffect(String path) {
-		this.clip = this.loadSound(path);
+		this.clip = this.loadSound(path, 1);
+		this.muted = false;
+	}
+	
+	/**
+	 * Create a new sound effect
+	 * @param path the file path
+	 * @param loadType the type of loading, internal = 0 (for applet), external = 1
+	 */
+	public SoundEffect(String path, int loadType) {
+		this.clip = this.loadSound(path, loadType);
 		this.muted = false;
 	}
 	
@@ -74,14 +88,23 @@ public class SoundEffect implements IDisposable {
 	
 	/**
 	 * Load a sound
-	 * @param path
+	 * @param path the file path of the sound
+	 * @param loadType the type of loading, internal = 0 (for applet), external = 1
 	 * @return a sound
 	 */
-	public Clip loadSound(String path) {
+	public Clip loadSound(String path, int loadType) {
 		Clip clip = null;
 		
 		try {
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path));
+			AudioInputStream audioStream = null;
+			
+			if (loadType == 0) {
+				audioStream = AudioSystem.getAudioInputStream(this.getClass().getResource(path));
+			}
+			else {
+				audioStream = AudioSystem.getAudioInputStream(new File(path));
+			}
+			
 			clip = AudioSystem.getClip();
 			clip.open(audioStream);
 		}

@@ -1,17 +1,19 @@
 package atlantis.framework.content;
 
 import java.util.HashMap;
-
 import atlantis.framework.audio.SoundEffect;
 import atlantis.framework.graphics.Texture2D;
+
 
 public class ContentManager {
 	protected HashMap<String, Object> assets;
 	protected String rootDirectory;
+	protected int loadType;
 	
 	public ContentManager() {
 		this.assets = new HashMap<String, Object>();
 		this.rootDirectory = "Content";
+		this.loadType = 1;
 	}
 	
 	/**
@@ -25,7 +27,7 @@ public class ContentManager {
 		
 		image = (Texture2D) this.assets.get(assetName);
 		if (image == null) {
-			image = new Texture2D(this.rootDirectory + "/" + assetName);
+			image = new Texture2D(this.rootDirectory + "/" + assetName, this.loadType);
 			this.assets.put(assetName, image);
 		}
 		
@@ -79,5 +81,13 @@ public class ContentManager {
 	
 	public String getRootDirectory() {
 		return this.rootDirectory;
+	}
+	
+	/**
+	 * Sets the load type.
+	 * @param loadType the type of loading, internal = 0 (for applet), external = 1
+	 */
+	public void setLoadType(int loadType) {
+		this.loadType = loadType;
 	}
 }

@@ -3,14 +3,11 @@ package atlantis.framework.platform;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JPanel;
-
-import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.IDrawable;
 
 public class JPanelRenderer extends JPanel {
+	private static final long serialVersionUID = 9202978237731998998L;
 	protected Color clearColor;
 	private ArrayList<IDrawable> drawableCollection;
 	

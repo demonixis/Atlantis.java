@@ -12,7 +12,7 @@ import atlantis.framework.Point;
  * A mouse state controller
  * @author Yann
  */
-public class MouseState  implements MouseListener, MouseMotionListener, MouseWheelListener {
+public class MouseManager  implements MouseListener, MouseMotionListener, MouseWheelListener {
 	
 	protected int x;
 	protected int y;
@@ -21,7 +21,7 @@ public class MouseState  implements MouseListener, MouseMotionListener, MouseWhe
 	protected boolean drag;
 	protected boolean justClicked;
 	
-	public MouseState() {
+	public MouseManager() {
 		this.buttons = new boolean[4];
 		this.x = 0;
 		this.y = 0;

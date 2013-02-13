@@ -5,6 +5,7 @@ import java.awt.GraphicsDevice;
 import javax.swing.JFrame;
 
 public class DesktopPlatform extends JFrame implements IGamePlatform {
+	private static final long serialVersionUID = -417120026570767131L;
 	protected JPanelRenderer renderer;
 	protected boolean isFullscreen;
 	

@@ -1,4 +1,4 @@
-package atlantis.samples;
+package atlantis.samples.sprite;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;

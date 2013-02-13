@@ -7,11 +7,11 @@ import java.awt.event.KeyListener;
  * A keyboard state manager
  * @author Yann
  */
-public class KeyboardState implements KeyListener {
+public class KeyboardManager implements KeyListener {
 
 	protected boolean [] keys;
 	
-	public KeyboardState() {
+	public KeyboardManager() {
 		this.keys = new boolean[KeyEvent.KEY_LAST];
 		
 		for (int i = 0; i < KeyEvent.KEY_LAST; i++) {
@@ -56,8 +56,8 @@ public class KeyboardState implements KeyListener {
 		return this.keys;
 	}
 	
-	public KeyboardState clone() {
-		KeyboardState keyboardState = new KeyboardState();
+	public KeyboardManager clone() {
+		KeyboardManager keyboardState = new KeyboardManager();
 	
 		for (int i = 0, l = this.keys.length; i < l; i++) {
 			keyboardState.keys[i] = this.keys[i];

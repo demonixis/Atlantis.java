@@ -3,6 +3,8 @@ package atlantis.framework.graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 
 import atlantis.framework.IDisposable;
@@ -19,7 +21,7 @@ public class Texture2D implements IDisposable {
 	 * @param path the path of the image
 	 */
 	public Texture2D(String path) {
-		this.texture = this.loadTexture(path, 1);
+		this(path, 1);
 	}
 	
 	/**
@@ -42,7 +44,8 @@ public class Texture2D implements IDisposable {
 
 		try {
 			if (loadType == 0) {
-				image = ImageIO.read(this.getClass().getClassLoader().getResource(path)); 
+				URL url = this.getClass().getClassLoader().getResource(path);
+				image = ImageIO.read(url); 
 			}
 			else {
 				image = ImageIO.read(new File(path));

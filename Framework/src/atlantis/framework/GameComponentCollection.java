@@ -132,7 +132,8 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 	 */
 	public <T> GameComponent get(int index) {
 		if (index >= 0) {
-			T type = null;
+			@SuppressWarnings("unchecked")
+			T type = (T)new Object();
 			
 			if (type.getClass().getName().equals(GameComponent.class.getName())) {
 				return this.components.get(index);

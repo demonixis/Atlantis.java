@@ -4,12 +4,18 @@ import java.util.HashMap;
 import atlantis.framework.audio.SoundEffect;
 import atlantis.framework.graphics.Texture2D;
 
-
+/**
+ * A content manager for load images and sounds
+ * @author Yann
+ */
 public class ContentManager {
 	protected HashMap<String, Object> assets;
 	protected String rootDirectory;
 	protected int loadType;
 	
+	/**
+	 * Create a new content manager who will load asset from an external folder named Content
+	 */
 	public ContentManager() {
 		this.assets = new HashMap<String, Object>();
 		this.rootDirectory = "Content";
@@ -23,9 +29,8 @@ public class ContentManager {
 	 * @return an image
 	 */
 	public Texture2D loadTexture(String assetName) {
-		Texture2D image;
+		Texture2D image = (Texture2D) this.assets.get(assetName);
 		
-		image = (Texture2D) this.assets.get(assetName);
 		if (image == null) {
 			image = new Texture2D(this.rootDirectory + "/" + assetName, this.loadType);
 			this.assets.put(assetName, image);
@@ -58,12 +63,14 @@ public class ContentManager {
 	 * @param assetName
 	 * @return 
 	 */
+	@SuppressWarnings("unchecked")
 	public <T> T load(String assetName) {
 		T asset = null;
 		
 		asset = (T)this.assets.get(assetName);
 		
 		if (asset == null) {
+			asset = (T) new Object();
 			if (asset.getClass().equals(Texture2D.class)) {
 				asset = (T) loadTexture(assetName);
 			}
@@ -75,10 +82,19 @@ public class ContentManager {
 		return asset;
 	}
 	
+	/**
+	 * Sets the root directory used to load assets. If you're using interal loading
+	 * you must use the path of the package where you load the asset.
+	 * @param rootDirectory
+	 */
 	public void setRootDirectory(String rootDirectory) {
 		this.rootDirectory = rootDirectory;
 	}
 	
+	/**
+	 * Gets the root directory where assets are loaded
+	 * @return
+	 */
 	public String getRootDirectory() {
 		return this.rootDirectory;
 	}
@@ -89,5 +105,15 @@ public class ContentManager {
 	 */
 	public void setLoadType(int loadType) {
 		this.loadType = loadType;
+	}
+	
+	/**
+	 * Gets the load type used by the content manager.
+	 * 0 for an internal loading (in package)
+	 * 1 for an external loading (out of package)
+	 * @return
+	 */
+	public int getLoadType() {
+		return this.loadType;
 	}
 }

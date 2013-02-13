@@ -3,8 +3,8 @@ package atlantis.framework;
 import java.awt.Graphics;
 
 import atlantis.framework.content.ContentManager;
-import atlantis.framework.input.KeyboardState;
-import atlantis.framework.input.MouseState;
+import atlantis.framework.input.KeyboardManager;
+import atlantis.framework.input.MouseManager;
 import atlantis.framework.platform.IGamePlatform;
 import atlantis.framework.platform.JPanelRenderer;
 
@@ -15,8 +15,8 @@ import atlantis.framework.platform.JPanelRenderer;
  *
  */
 public abstract class BaseGame implements IDrawable, IUpdateable {
-	protected KeyboardState keyboardState;
-	protected MouseState mouseState;
+	protected KeyboardManager keyboardState;
+	protected MouseManager mouseState;
 	protected GameTime gameTime;
 	protected IGamePlatform window;
 	protected JPanelRenderer renderer;
@@ -33,8 +33,8 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	public BaseGame(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
-		this.keyboardState = new KeyboardState();
-		this.mouseState = new MouseState();
+		this.keyboardState = new KeyboardManager();
+		this.mouseState = new MouseManager();
 		this.gameTime = new GameTime();
 		this.components = new GameComponentCollection();
 		this.content = new ContentManager();
@@ -46,36 +46,7 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 		this.renderer = null;
 
 		// Thread for rendering
-		this.gameThread = new Thread(new MainLoop(this));
-	}
-	
-	private class MainLoop implements Runnable {
-		private BaseGame game;
-		
-		public MainLoop(BaseGame game) {
-			this.game = game;
-		}
-		
-		@Override
-		public void run() {
-			while(isRunning) {
-				this.game.gameTime.update();
-				
-				for (int i = 0; i < 2; i++) {
-					this.game.update(this.game.gameTime);
-				}
-			
-				this.game.renderer.repaint();
-				
-				// TODO : Use a correct value
-				try {
-					Thread.sleep(10);
-				}
-				catch (InterruptedException ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+		this.gameThread = new Thread(new GameLoop(this));
 	}
 	
 	/**
@@ -133,6 +104,10 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 		System.exit(0);
 	}
 	
+	public void setWindow(IGamePlatform window) {
+		this.window = window;
+	}
+	
 	/**
 	 * Toggle on fullscreen mode
 	 */
@@ -155,6 +130,14 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	}
 	
 	/**
+	 * Gets the renderer
+	 * @return
+	 */
+	public JPanelRenderer getRenderer() {
+		return this.renderer;
+	}
+	
+	/**
 	 * Retrieve the game components
 	 * @return Game components
 	 */
@@ -166,7 +149,7 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 * Retrieve the keyboard state
 	 * @return A KeyboardState object
 	 */
-	public KeyboardState getKeyboardState() {
+	public KeyboardManager getKeyboardState() {
 		return this.keyboardState;
 	}
 	
@@ -174,7 +157,7 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 * Retrieve the mouse state
 	 * @return A MouseState object
 	 */
-	public MouseState getMouseState() {
+	public MouseManager getMouseState() {
 		return this.mouseState;
 	}
 	

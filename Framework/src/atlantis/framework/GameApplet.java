@@ -2,6 +2,8 @@ package atlantis.framework;
 
 import java.awt.Dimension;
 import javax.swing.JApplet;
+
+import atlantis.framework.Game;
 import atlantis.framework.platform.IGamePlatform;
 import atlantis.framework.platform.JPanelRenderer;
 
@@ -11,6 +13,7 @@ import atlantis.framework.platform.JPanelRenderer;
  * @author Yannick
  */
 public class GameApplet extends JApplet implements IGamePlatform {
+	private static final long serialVersionUID = -8225847872331207419L;
 	protected JPanelRenderer renderer;
 	protected Game game;
 	
@@ -20,7 +23,6 @@ public class GameApplet extends JApplet implements IGamePlatform {
 		this.setVisible(true);
 		this.game = new Game(dim.width, dim.height, "Atlantis Applet");
 		this.game.window = this;
-		this.setRenderer(this.game.renderer);
 	}
 	
 	public void start() {

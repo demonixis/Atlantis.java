@@ -1,8 +1,8 @@
 package atlantis.samples.shooter;
 
-import atlantis.engine.AtlantisEngine;
+import atlantis.engine.GameApplication;
 
-public class ShooterGame extends AtlantisEngine {
+public class ShooterGame extends GameApplication {
 	private MenuScreen menuScreen;
 	private GameScreen gameScreen;
 	

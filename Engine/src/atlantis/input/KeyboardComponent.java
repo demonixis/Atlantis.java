@@ -3,7 +3,6 @@ package atlantis.input;
 import atlantis.framework.BaseGame;
 import atlantis.framework.GameComponent;
 import atlantis.framework.GameTime;
-import atlantis.framework.input.KeyboardState;
 
 public class KeyboardComponent extends GameComponent {
 	protected boolean [] keysState;

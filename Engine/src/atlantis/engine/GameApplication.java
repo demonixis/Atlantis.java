@@ -6,10 +6,10 @@ import atlantis.framework.Game;
  * AtlantisEngine is the bootstrap class that create the game and prepare
  * all objects used for the game
  */
-public class AtlantisEngine extends Game {
+public class GameApplication extends Game {
 	protected StateManager stateManager;
 	
-	public AtlantisEngine(int width, int height, String title) {
+	public GameApplication(int width, int height, String title) {
 		super(width, height, title);
 		
 		this.stateManager = new StateManager(this);
@@ -24,7 +24,7 @@ public class AtlantisEngine extends Game {
 		Atlantis.height = this.height;
 	}
 	
-	public AtlantisEngine(int width, int height) {
+	public GameApplication(int width, int height) {
 		this(width, height, "Atlantis Game");
 	}
 	

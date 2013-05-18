@@ -51,11 +51,11 @@ public class Sprite extends Entity {
 	
 	public void addAnimation(String name, int[] framesIndex, int frameRate) {
 		this.spriteAnimator.add(name, framesIndex, frameRate);
-		this.sourceRectangle = this.spriteAnimator.getAnimation(name).getRectangle(0);
+		this.sourceRectangle = this.spriteAnimator.getAnimations().get(name).getRectangle(0);
 	}
 	
 	public void play(String name) {
-		this.sourceRectangle = this.spriteAnimator.getAnimation(name).next(this.elapsedTime);
+		this.sourceRectangle = this.spriteAnimator.play(name);
 	}
 	
 	public void update(GameTime gameTime) {
@@ -81,7 +81,11 @@ public class Sprite extends Entity {
 
             // Update animation
             if (this.hasAnimation) {
-                this.spriteAnimator.update(gameTime.getElapsedTime(), this.lastDistance);
+                this.spriteAnimator.update(gameTime);
+                
+                if (this.lastDistance.getX() == 0 && this.lastDistance.getY() == 0 && this.spriteAnimator.getCurrentAnimationName() != "") {
+                	this.sourceRectangle = this.spriteAnimator.getCurrentAnimation().getRectangle(0);
+                }
             }
         }
 	}

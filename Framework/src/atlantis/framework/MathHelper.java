@@ -28,7 +28,7 @@ public class MathHelper {
 		return value1 + (value2 - value1) * amount;
 	}
 	
-	public static double toDegress (double radians) {
+	public static double toDegrees (double radians) {
 		return (radians * (180 / Math.PI));
 	}
 	

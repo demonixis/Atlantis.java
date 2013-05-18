@@ -2,6 +2,7 @@ package atlantis.engine.graphics;
 
 import java.util.HashMap;
 
+import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
 
@@ -14,6 +15,7 @@ public class SpriteAnimator {
 	protected int nbSpriteX;
 	protected int nbSpriteY;
 	protected int spritesheetLength;
+	protected String currentAnimationName;
 	
 	public SpriteAnimator() {
 		this.animations = new HashMap<String, SpriteAnimation>();
@@ -24,6 +26,7 @@ public class SpriteAnimator {
         this.nbSpriteX = 0;
         this.nbSpriteY = 0;
         this.spritesheetLength = 0;
+        this.currentAnimationName = "";
 	}
 	
 	public void initialize(int animationWidth, int animationHeight, int textureWidth, int textureHeight) {
@@ -35,6 +38,7 @@ public class SpriteAnimator {
         this.nbSpriteX = this.textureWidth / this.spriteWidth;
         this.nbSpriteY = this.textureHeight / this.spriteHeight;
         this.spritesheetLength = this.nbSpriteX * this.nbSpriteY;
+        this.currentAnimationName = "";
 	}
 	
 	public void add(String name, int[] framesIndex, int frameRate) {
@@ -68,12 +72,36 @@ public class SpriteAnimator {
         this.animations.put(name, animation);
 	}
 	
-	public void update(long elapsedTime, Vector2 lastDistance) {
-		
+	public Rectangle play(String animationName) {
+		this.currentAnimationName = animationName;
+		return this.animations.get(animationName).next();
 	}
 	
-	public SpriteAnimation getAnimation(String name) {
-		return this.animations.get(name);
+	public void update(GameTime gameTime) {
+		if (this.currentAnimationName != "") {
+			this.animations.get(this.currentAnimationName).update(gameTime);
+		}
 	}
-
+	
+	public Rectangle checkForIDLEAnimation(Vector2 lastDirection) {
+		if (this.currentAnimationName != "" && lastDirection.getX() == 0 && lastDirection.getY() == 0) {
+			return this.animations.get(this.currentAnimationName).getRectangle(0);
+		}
+		return null;
+	}
+	
+	public SpriteAnimation getCurrentAnimation() {
+		if (this.currentAnimationName != "") {
+			return this.animations.get(this.currentAnimationName);
+		}
+		return null;
+	}
+	
+	public HashMap<String, SpriteAnimation> getAnimations() {
+		return this.animations;
+	}
+	
+	public String getCurrentAnimationName() {
+		return this.currentAnimationName;
+	}
 }

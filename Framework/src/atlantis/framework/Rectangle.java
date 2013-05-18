@@ -75,6 +75,10 @@ public class Rectangle {
 		return (rectangle.getLeft() < this.getRight()) && (this.getLeft() < rectangle.getRight()) && (rectangle.getTop() < this.getBottom()) && (this.getTop() < rectangle.getBottom());  
 	}
 
+	public String toString() {
+		return "x: " + this.x + " y: " + this.y + " width: " + this.width + " height: " + this.height;
+	}
+	
 	public int getX() {
 		return x;
 	}

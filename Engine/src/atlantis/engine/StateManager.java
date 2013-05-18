@@ -43,30 +43,31 @@ public class StateManager extends DrawableGameComponent {
 	@Override
 	public void update(GameTime gameTime) {
 		for (State state : this.states) {
-			state.update(gameTime);
+			if (state.isEnabled()) {
+				state.update(gameTime);
+			}
 		}
 	}
 
 	@Override
 	public void draw(Graphics graphics) {
 		for (State state : this.states) {
-			state.draw(graphics);
+			if (state.isVisible()) {
+				state.draw(graphics);
+			}
 		}
 	}
 	
 	public void setStateActive(String name, boolean desactiveOtherStates) {
-		if (desactiveOtherStates) {
-			this.disableStates();
-		}
-		
 		int i = 0;
-		int index = -1;
         int size = this.states.size();
 
-		while (i < size && index == -1) {
+		while (i < size) {
 			if (this.states.get(i).getName() == name) {
                 this.states.get(i).setActive(true);
-                index = i;
+			}
+			else if (desactiveOtherStates) {
+				this.states.get(i).setActive(false);
 			}
 			i++;
 		}

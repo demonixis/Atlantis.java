@@ -103,6 +103,10 @@ public class GameScreen extends State {
 		// Test if a laser touching an alien
 		if (this.alienGroup.getCount() > 0) {
 			for (Entity alien : this.alienGroup.getEntities()) {
+				if (!alien.isActive()) {
+					continue;
+				}
+				
 				for (Entity laser : this.laserGroup.getEntities()) {
 					// Laser with alien
 					if (laser.getRectangle().intersects(alien.getRectangle())) {
@@ -115,6 +119,7 @@ public class GameScreen extends State {
 				if (this.ship.getRectangle().intersects(alien.getRectangle())) {
 					alien.setActive(false);
 					this.stateManager.setStateActive("menu", true);
+					System.out.println("\nShip: " + this.ship.getRectangle().toString() + "\nAlien: " + alien.getRectangle().toString());
 				}
 			}
 		}

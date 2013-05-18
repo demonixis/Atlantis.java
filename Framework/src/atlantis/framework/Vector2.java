@@ -111,6 +111,10 @@ public class Vector2 {
 		
 		return Math.sqrt((dx * dx) + (dy * dy));
 	}
+	
+	public String toString() {
+		return "x: " + this.x + " y: " + this.y;
+	}
 
 	public float getX() {
 		return x;

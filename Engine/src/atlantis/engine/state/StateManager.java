@@ -1,4 +1,4 @@
-package atlantis.engine;
+package atlantis.engine.state;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -13,17 +13,17 @@ import atlantis.framework.GameTime;
  */
 public class StateManager extends DrawableGameComponent {
 
-	protected ArrayList<State> states;
+	protected ArrayList<BaseState> states;
 	
 	public StateManager(BaseGame game) {
 		super(game);
-		this.states = new ArrayList<State>();
+		this.states = new ArrayList<BaseState>();
 	}
 	
 	@Override
 	public void initialize() {
 		if (!this.initialized) {
-			for (State state : this.states) {
+			for (BaseState state : this.states) {
 				state.initialize();
 			}
 			this.initialized = true;
@@ -33,7 +33,7 @@ public class StateManager extends DrawableGameComponent {
 	@Override
 	public void loadContent() {
 		if (!this.assetsLoaded) {
-			for (State state : this.states) {
+			for (BaseState state : this.states) {
 				state.loadContent(this.game.getContentManager());
 			}
 			this.assetsLoaded = true;
@@ -42,7 +42,7 @@ public class StateManager extends DrawableGameComponent {
 
 	@Override
 	public void update(GameTime gameTime) {
-		for (State state : this.states) {
+		for (BaseState state : this.states) {
 			if (state.isEnabled()) {
 				state.update(gameTime);
 			}
@@ -51,7 +51,7 @@ public class StateManager extends DrawableGameComponent {
 
 	@Override
 	public void draw(Graphics graphics) {
-		for (State state : this.states) {
+		for (BaseState state : this.states) {
 			if (state.isVisible()) {
 				state.draw(graphics);
 			}
@@ -78,7 +78,7 @@ public class StateManager extends DrawableGameComponent {
 			disableStates();
 		}
 		
-		State state = this.states.get(position);
+		BaseState state = this.states.get(position);
 		
 		if (state != null) {
 			state.setActive(true);
@@ -86,17 +86,17 @@ public class StateManager extends DrawableGameComponent {
 	}
 	
 	public void disableStates() {
-		for (State state : this.states) {
+		for (BaseState state : this.states) {
 			state.setActive(false);
 		}
 	}
 	
-	public void switchState(State newState) {
+	public void switchState(BaseState newState) {
 		this.states.clear();
 		this.states.add(newState);
 	}
 	
-	public void add(State state, boolean isActive, boolean desactiveOtherStates) {
+	public void add(BaseState state, boolean isActive, boolean desactiveOtherStates) {
 		if (desactiveOtherStates) {
 			disableStates();
 		}
@@ -112,20 +112,20 @@ public class StateManager extends DrawableGameComponent {
 		this.states.add(state);
 	}
 	
-	public void remove(State state) {
+	public void remove(BaseState state) {
 		this.states.remove(state);
 	}
 	
 	public void remove(String name) {
-		State state = this.get(name);
+		BaseState state = this.get(name);
 		
 		if (state != null) {
 			this.remove(state);
 		}
 	}
 	
-	public State get(String name) {
-		State state = null;
+	public BaseState get(String name) {
+		BaseState state = null;
 		
 		int i = 0;
 		int index = -1;
@@ -142,7 +142,7 @@ public class StateManager extends DrawableGameComponent {
 		return state;
 	}
 	
-	public State get(int position) {
+	public BaseState get(int position) {
 		return this.states.get(position);
 	}
 }

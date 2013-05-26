@@ -1,5 +1,6 @@
 package atlantis.engine;
 
+import atlantis.engine.state.StateManager;
 import atlantis.framework.Game;
 
 /**

@@ -3,11 +3,11 @@ package atlantis.samples.shooter;
 import java.awt.event.KeyEvent;
 
 import atlantis.engine.Atlantis;
-import atlantis.engine.State;
 import atlantis.engine.graphics.Entity;
+import atlantis.engine.state.BaseState;
 import atlantis.framework.GameTime;
 
-public class MenuScreen extends State {
+public class MenuScreen extends BaseState {
 	Entity background;
 	
 	public MenuScreen(String name) {

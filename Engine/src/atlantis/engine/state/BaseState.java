@@ -1,4 +1,4 @@
-package atlantis.engine;
+package atlantis.engine.state;
 
 import java.awt.Graphics;
 
@@ -7,17 +7,17 @@ import atlantis.engine.graphics.SpriteGroup;
 import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
 
-public class State extends BaseEntity {
+public class BaseState extends BaseEntity {
 	protected SpriteGroup scene;
 	protected StateManager stateManager;
 	
-	public State() {
+	public BaseState() {
 		super();
 		this.scene = new SpriteGroup();
 		this.stateManager = null;
 	}
 	
-	public State(String name) {
+	public BaseState(String name) {
 		this();
 		this.name = name;
 	}

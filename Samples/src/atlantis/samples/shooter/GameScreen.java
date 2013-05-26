@@ -3,15 +3,15 @@ package atlantis.samples.shooter;
 import java.awt.event.KeyEvent;
 
 import atlantis.engine.Atlantis;
-import atlantis.engine.State;
 import atlantis.engine.Timer;
 import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.graphics.SpriteGroup;
+import atlantis.engine.state.BaseState;
 import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
 
-public class GameScreen extends State {
+public class GameScreen extends BaseState {
 	private Starfield starfield;
 	private Sprite ship;
 	private SpriteGroup laserGroup;

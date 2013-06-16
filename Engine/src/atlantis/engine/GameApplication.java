@@ -19,8 +19,8 @@ public class GameApplication extends Game {
 		Atlantis.game = this;
 		Atlantis.content = this.content;
 		Atlantis.components = this.components;
-		Atlantis.keyboard = this.keyboardState;
-		Atlantis.mouse = this.mouseState;
+		Atlantis.keyboard = this.keyboardManager;
+		Atlantis.mouse = this.mouseManager;
 		Atlantis.width = this.width;
 		Atlantis.height = this.height;
 	}

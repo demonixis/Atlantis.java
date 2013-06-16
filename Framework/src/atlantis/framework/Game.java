@@ -23,9 +23,9 @@ public class Game extends BaseGame {
 		// The window container
 		DesktopPlatform desktopPlatform = new DesktopPlatform(width, height, title);
 		desktopPlatform.setRenderer(this.renderer);
-		desktopPlatform.addKeyListener((KeyboardManager)this.keyboardState);
-		desktopPlatform.addMouseListener((MouseManager)this.mouseState);
-		desktopPlatform.addMouseMotionListener((MouseManager)this.mouseState);
-		desktopPlatform.addMouseWheelListener((MouseManager)this.mouseState);
+		desktopPlatform.addKeyListener((KeyboardManager)this.keyboardManager);
+		desktopPlatform.addMouseListener((MouseManager)this.mouseManager);
+		desktopPlatform.addMouseMotionListener((MouseManager)this.mouseManager);
+		desktopPlatform.addMouseWheelListener((MouseManager)this.mouseManager);
 	}
 }

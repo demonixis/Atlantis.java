@@ -57,18 +57,33 @@ public class Texture2D implements IDisposable {
 		return image;
 	}
 	
+	/**
+	 * Gets the raw texture.
+	 * @return
+	 */
 	public BufferedImage getTexture() {
 		return this.texture;
 	}
 	
+	/**
+	 * Remove this texture.
+	 */
 	public void dispose() {
 		this.texture = null;
 	}
 	
+	/**
+	 * Gets the width of the texture.
+	 * @return Return the width of the texture.
+	 */
 	public int getWidth() {
 		return texture.getWidth();
 	}
 	
+	/**
+	 * Gets the height of the texture.
+	 * @return Return the height of the texture.
+	 */
 	public int getHeight() {
 		return texture.getHeight();
 	}

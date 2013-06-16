@@ -57,25 +57,25 @@ public class SpriteGame extends Game {
 		
 		this.femaleSprite.update(gameTime);
 		
-		if (this.keyboardState.isKeyDown(KeyEvent.VK_UP)) {
+		if (this.keyboardManager.isKeyDown(KeyEvent.VK_UP)) {
 			this.femaleSprite.play("up");
 			this.femaleSprite.setY(this.femaleSprite.getY() - 1);
 		}
-		else if (this.keyboardState.isKeyDown(KeyEvent.VK_DOWN)) {
+		else if (this.keyboardManager.isKeyDown(KeyEvent.VK_DOWN)) {
 			this.femaleSprite.play("down");
 			this.femaleSprite.setY(this.femaleSprite.getY() + 1);
 		}
 		
-		if (this.keyboardState.isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (this.keyboardManager.isKeyDown(KeyEvent.VK_RIGHT)) {
 			this.femaleSprite.play("right");
 			this.femaleSprite.setX(this.femaleSprite.getX() + 1);
 		}
-		else if (this.keyboardState.isKeyDown(KeyEvent.VK_LEFT)) {
+		else if (this.keyboardManager.isKeyDown(KeyEvent.VK_LEFT)) {
 			this.femaleSprite.play("left");
 			this.femaleSprite.setX(this.femaleSprite.getX() - 1);
 		}
 		
-		if (this.keyboardState.isKeyDown(KeyEvent.VK_ESCAPE)) {
+		if (this.keyboardManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			this.exit();
 		}
 		

@@ -8,7 +8,7 @@ import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.Texture2D;
 
 /**
- * Define a basic entity who is updated and drawn on each frame
+ * Define a basic entity who is updated and drawn on each frame if enabled and/or visible.
  * @author Yannick
  */
 public class Entity extends BaseEntity {

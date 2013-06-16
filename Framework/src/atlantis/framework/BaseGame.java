@@ -15,8 +15,8 @@ import atlantis.framework.platform.JPanelRenderer;
  *
  */
 public abstract class BaseGame implements IDrawable, IUpdateable {
-	protected KeyboardManager keyboardState;
-	protected MouseManager mouseState;
+	protected KeyboardManager keyboardManager;
+	protected MouseManager mouseManager;
 	protected GameTime gameTime;
 	protected IGamePlatform window;
 	protected JPanelRenderer renderer;
@@ -27,21 +27,17 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	protected int height;
 	protected boolean isRunning;
 	protected boolean initialized;
-	protected boolean assetsLoaded;
 	protected Thread gameThread;
 	
 	public BaseGame(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
-		this.keyboardState = new KeyboardManager();
-		this.mouseState = new MouseManager();
+		this.keyboardManager = new KeyboardManager();
+		this.mouseManager = new MouseManager();
 		this.gameTime = new GameTime();
 		this.components = new GameComponentCollection();
 		this.content = new ContentManager();
-		
 		this.initialized = false;
-		this.assetsLoaded = false;
-		
 		// The renderer
 		this.renderer = null;
 
@@ -56,6 +52,7 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 		if (!this.isRunning) {
 			this.loadContent();
 			this.initialize();
+			this.initialized = true;
 			this.gameThread.start();
 			this.isRunning = true;
 		}
@@ -66,7 +63,6 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 */
 	protected void initialize() {
 		this.components.initialize();
-		this.initialized = true;
 	}
 	
 	/**
@@ -74,7 +70,6 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 */
 	protected void loadContent() {
 		this.components.loadContent();
-		this.assetsLoaded = true;
 	}
 	
 	/**
@@ -82,7 +77,6 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 */
 	protected void unloadContent() {
 		this.components.unloadContent();
-		this.assetsLoaded = false;
 	}
 	
 	/**
@@ -95,7 +89,9 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	/**
 	 * Draw game graphics
 	 */
-	public void draw(Graphics graphics) { }
+	public void draw(Graphics graphics) { 
+		this.components.draw(graphics);
+	}
 	
 	/**
 	 * Exit the game
@@ -150,7 +146,7 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 * @return A KeyboardState object
 	 */
 	public KeyboardManager getKeyboardState() {
-		return this.keyboardState;
+		return this.keyboardManager;
 	}
 	
 	/**
@@ -158,7 +154,7 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 * @return A MouseState object
 	 */
 	public MouseManager getMouseState() {
-		return this.mouseState;
+		return this.mouseManager;
 	}
 	
 	/**

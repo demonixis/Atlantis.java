@@ -23,23 +23,7 @@ public class Rectangle {
 		this.width = width;
 		this.height = height;
 	}
-	
-	public int getTop() {
-		return this.y;
-	}
-	
-	public int getBottom() {
-		return this.y + this.height;
-	}
-	
-	public int getLeft() {
-		return this.x;
-	}
-	
-	public int getRight() {
-		return this.x + this.width;
-	}
-	
+
 	/**
 	 * Gets the center of the rectangle
 	 * @return
@@ -49,18 +33,37 @@ public class Rectangle {
 	}
 	
 	/**
+	 * Check if the coordinates is inside the rectangle.
+	 * @param x
+	 * @param y
+	 * @return Return true if the coordinates are inside the rectangle, otherwise false
+	 */
+	public boolean contains(int x, int y) {
+		return (this.x <= x) && (x < this.getRight()) && (this.y <= y) && (y < this.getBottom());
+	}
+	
+	/**
 	 * Check if the specified point is inside rectangle
 	 * @param point
-	 * @return true if the point is inside rectangle, otherwise false
+	 * @return true if the point is inside the rectangle, otherwise false
 	 */
 	public boolean contains(Point point) {
 		return (this.x <= point.x) && (point.x < this.getRight()) && (this.y <= point.y) && (point.y < this.getBottom());
 	}
 	
 	/**
+	 * Check if the specified point is inside rectangle
+	 * @param vector
+	 * @return true if the vector is inside the rectangle, otherwise false
+	 */
+	public boolean contains(Vector2 vector) {
+		return this.contains((int)vector.getX(), (int)vector.getY());
+	}
+	
+	/**
 	 * Check if the specified rectangle is inside rectangle
 	 * @param rectangle
-	 * @return true if the rectangle is inside rectangle, otherwise false
+	 * @return true if the rectangle is inside the rectangle, otherwise false
 	 */
 	public boolean contains(Rectangle rectangle) {
 		return (this.x <= rectangle.x) && (rectangle.x < this.getRight()) && (this.y <= rectangle.y) && (rectangle.y < this.getBottom());
@@ -77,6 +80,58 @@ public class Rectangle {
 
 	public String toString() {
 		return "x: " + this.x + " y: " + this.y + " width: " + this.width + " height: " + this.height;
+	}
+	
+	/**
+	 * Sets the position of the rectangle
+	 * @param x
+	 * @param y
+	 */
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	/**
+	 * Sets the size of the rectangle.
+	 * @param width
+	 * @param height
+	 */
+	public void setSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
+	
+	/**
+	 * Gets the top position.
+	 * @return Return the Y position.
+	 */
+	public int getTop() {
+		return this.y;
+	}
+	
+	/**
+	 * Gets the bottom position.
+	 * @return Return the bottom position of the rectangle.
+	 */
+	public int getBottom() {
+		return this.y + this.height;
+	}
+	
+	/**
+	 * Gets the left position.
+	 * @return Return the X position.
+	 */
+	public int getLeft() {
+		return this.x;
+	}
+	
+	/**
+	 * Gets the right position.
+	 * @return Return the right position of the rectangle.
+	 */
+	public int getRight() {
+		return this.x + this.width;
 	}
 	
 	public int getX() {

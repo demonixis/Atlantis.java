@@ -7,6 +7,10 @@ import atlantis.engine.graphics.SpriteGroup;
 import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
 
+/**
+ * A class that define a game state.
+ * @author Yannick
+ */
 public class BaseState extends BaseEntity {
 	protected SpriteGroup scene;
 	protected StateManager stateManager;

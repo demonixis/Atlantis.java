@@ -6,6 +6,10 @@ import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
 
+/**
+ * A class that represent a sprite object that can be have animations and some physics.
+ * @author Yannick
+ */
 public class Sprite extends Entity {
 	protected Rectangle sourceRectangle;
 	protected Vector2 direction;

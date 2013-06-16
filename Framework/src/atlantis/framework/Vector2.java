@@ -125,11 +125,11 @@ public class Vector2 {
 		return Math.sqrt((dx * dx) + (dy * dy));
 	}
 	
-	public float dot(Vector2 vec1, Vector2 vec2) {
+	public static float dot(Vector2 vec1, Vector2 vec2) {
 		return (vec1.x * vec2.x) + (vec1.y * vec2.y);
 	}
 	
-	public Vector2 lerp(Vector2 vec1, Vector2 vec2, float amount) {
+	public static Vector2 lerp(Vector2 vec1, Vector2 vec2, float amount) {
 		Vector2 vector2 = new Vector2(MathHelper.lerp(vec1.x, vec2.x, amount), MathHelper.lerp(vec2.y, vec2.y, amount));
 		return vector2;
 	}
@@ -153,7 +153,7 @@ public class Vector2 {
 	 * @param vec2
 	 * @return Return a vector that correspond of the maximum of the two vectors.
 	 */
-	public Vector2 max(Vector2 vec1, Vector2 vec2) {
+	public static Vector2 max(Vector2 vec1, Vector2 vec2) {
 		Vector2 vector2 = new Vector2();
 		vector2.x = (vec1.x > vec2.x) ? vec1.x : vec2.x;
 		vector2.y = (vec1.y > vec2.y) ? vec1.y : vec2.y;

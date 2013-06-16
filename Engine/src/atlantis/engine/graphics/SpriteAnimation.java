@@ -11,12 +11,12 @@ public class SpriteAnimation {
 	protected int length;
 	protected Rectangle[] rectangles;
 	
-	public SpriteAnimation(int length, int frameRate) {
+	public SpriteAnimation(int length, int framerate) {
 		this.rectangles = new Rectangle[length];
-		this.frameRate = frameRate;
 		this.index = 0;
 		this.elapsedTime = 0;
-		this.length = 0;
+		this.length = length;
+		this.setFramerate(framerate);
 	}
 	
 	public Rectangle next() {

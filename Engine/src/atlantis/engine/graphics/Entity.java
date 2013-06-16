@@ -59,10 +59,8 @@ public class Entity extends BaseEntity {
 	 * @param y Y coordinate
 	 */
 	public void setPosition(int x, int y) {
-		this.position.setX(x);
-		this.position.setY(y);
-		this.rectangle.setX(x);
-		this.rectangle.setY(y);
+		this.position.setPosition((float)x, (float)y);
+		this.rectangle.setPosition(x, y);
 	}
 	
 	/**
@@ -71,8 +69,7 @@ public class Entity extends BaseEntity {
 	 * @param height
 	 */
 	public void setSize(int width, int height) {
-		this.rectangle.setWidth(width);
-		this.rectangle.setHeight(height);
+		this.rectangle.setSize(width, height);
 	}
 	
 	/**

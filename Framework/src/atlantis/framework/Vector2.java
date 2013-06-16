@@ -204,7 +204,7 @@ public class Vector2 {
 	 * @param x
 	 * @param y
 	 */
-	public void setValues(float x, float y) {
+	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}

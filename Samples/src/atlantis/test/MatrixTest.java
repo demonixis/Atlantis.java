@@ -54,7 +54,7 @@ public class MatrixTest {
 		P("Three Multiplications", Matrix.multiply(m2, m3, m4));
 		P("----------", "----------");
 		P("PerspectifFOV", Matrix.createPerspectiveFieldOfView((float)(Math.PI / 4), 1.33f, 0.1f, 1.0f));
-		P("LookAt", Matrix.createLookAt(new Vector3(25, 0, 0), new Vector3(), Vector3.getUnitY()));
+		//P("LookAt", Matrix.createLookAt(new Vector3(25, 0, 0), new Vector3(), Vector3.getUnitY()));
 	}
 
 	public static void P(String title, Object o) {

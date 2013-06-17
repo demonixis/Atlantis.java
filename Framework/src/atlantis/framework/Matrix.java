@@ -284,30 +284,31 @@ public class Matrix {
 	 * @return Return a view camera.
 	 */
 	public static Matrix createLookAt(Vector3 position, Vector3 target, Vector3 upVector) {
-		Vector3 vector3_1 = Vector3.normalize(Vector3.subtract(position, target));
-		Vector3 vector3_2 = Vector3.normalize(Vector3.cross(upVector, vector3_1));
-		Vector3 vector1 = Vector3.cross(vector3_1, vector3_2);
+		Vector3 zAxis = Vector3.subtract(target, position);
+		zAxis.normalize();
+		Vector3 xAxis = Vector3.cross(upVector, zAxis);
+		xAxis.normalize();
+		Vector3 yAxis = Vector3.cross(zAxis, xAxis);
+		yAxis.normalize();
 		
-		Matrix matrix = new Matrix();
-		matrix.M11 = vector3_2.x; 
-		matrix.M12 = vector1.x;
-		matrix.M13 = vector3_1.x;
-		matrix.M14 = 0.0f;
+		Matrix matrix = getMatrixIdentity();
 		
-		matrix.M21 = vector3_2.y;
-		matrix.M22 = vector1.y;
-		matrix.M23 = vector3_1.y;
-		matrix.M24 = 0.0f;
+		matrix.M11 = xAxis.x;
+		matrix.M21 = xAxis.y;
+		matrix.M31 = xAxis.z;
 		
-		matrix.M31 = vector3_2.z;
-		matrix.M32 = vector1.z;
-		matrix.M33 = vector3_1.z;
-		matrix.M34 = 0.0f;
+		matrix.M12 = yAxis.x;
+		matrix.M22 = yAxis.y;
+		matrix.M32 = yAxis.z;
 		
-		matrix.M41 = -Vector3.dot(vector3_2, position);
-		matrix.M42 = -Vector3.dot(vector1, position);
-		matrix.M43 = -Vector3.dot(vector3_1, position);
-		matrix.M44 = 1.0f;
+		matrix.M13 = zAxis.x;
+		matrix.M23 = zAxis.y;
+		matrix.M33 = zAxis.z;
+		
+		matrix.M41 = -Vector3.dot(xAxis, position);
+		matrix.M42 = -Vector3.dot(yAxis, position);
+		matrix.M43 = -Vector3.dot(zAxis, position);
+		
 		return matrix;
 	}
 	
@@ -319,28 +320,27 @@ public class Matrix {
 	 * @param far Far clip
 	 * @return Return a matrix of this type of perspective.
 	 */
-	public static Matrix createPerspectiveFieldOfView(float fov, float aspect, float near, float far) {
-		Matrix matrix = new Matrix();
+	public static Matrix createPerspectiveFieldOfView(float fov, float aspect, float zNear, float zFar) {
+		float yScale = (float)(1.0f / Math.tan(fov * 0.5f));
+		float xScale = yScale / aspect;
 		
-		if (fov > 0 && aspect > 0 && near > 0 && far > 0) {
-			float num = 1.0f / (float)Math.tan((double)(fov * 0.5f));
-			float num9 = num / aspect;
-			matrix.M11 = num9;
-		    matrix.M12 = matrix.M13 = 0.0f;
-		    matrix.M14 = 0.0f;
-		    matrix.M22 = num;
-		    matrix.M21 = 0.0f;
-		    matrix.M23 = 0.0f;
-		    matrix.M24 = 0.0f;
-		    matrix.M31 = 0.0f;
-		    matrix.M32 = 0.0f;
-		    matrix.M33 = far / (near - far);
-		    matrix.M34 = -1.0f;
-		    matrix.M41 = 0.0f;
-		    matrix.M42 = 0.0f;
-		    matrix.M44 = 0.0f;
-		    matrix.M43 = (near * far) / (near - far);
-		}
+		float halfWidth = zNear / xScale;
+		float halfHeight = zNear / yScale;
+		
+		return createPerspectiveOffCenter(-halfWidth, halfWidth, -halfHeight, halfHeight, zNear, zFar);
+	}
+	
+	public static Matrix createPerspectiveOffCenter(float left, float right, float bottom, float top, float zNear, float zFar) {
+		float zRange = zFar / (zFar - zNear);
+		
+		Matrix matrix = new Matrix();
+		matrix.M11 = 2.0f * zNear / (right - left);
+		matrix.M22 = 2.0f * zNear / (top - bottom);
+		matrix.M31 = (left + right) / (left - right);
+		matrix.M32 = (top + bottom) / (bottom - top);
+		matrix.M33 = zRange;
+		matrix.M34 = 1.0f;
+		matrix.M43 = -zNear * zRange;
 		return matrix;
 	}
 	

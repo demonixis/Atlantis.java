@@ -4,9 +4,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
+import atlantis.engine.input.KeyboardComponent;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
-import atlantis.input.KeyboardComponent;
 
 public class SpriteGame extends Game {
 	private Entity background;

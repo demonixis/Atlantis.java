@@ -67,27 +67,27 @@ public class Sprite extends Entity {
             this.elapsedTime += gameTime.getElapsedTime();
 
             // Determine the last distance and direction
-            this.lastDistance.setX(this.position.getX() - this.lastPosition.getX());
-            this.lastDistance.setY(this.position.getY() - this.lastPosition.getY());   
+            this.lastDistance.x = (this.position.x - this.lastPosition.x);
+            this.lastDistance.y = (this.position.y - this.lastPosition.y);   
 
             // Determine the last position
-            this.lastPosition.setX((int)this.position.getX());
-            this.lastPosition.setY((int)this.position.getY());
+            this.lastPosition.x = ((int)this.position.x);
+            this.lastPosition.y = ((int)this.position.y);
 
             // Update physics
-            this.position.setX(this.position.getX() + this.velocity.getX() * this.acceleration.getX());
-            this.position.setY(this.position.getY() + this.velocity.getY() * this.acceleration.getY());
+            this.position.x = (this.position.x + this.velocity.x * this.acceleration.x);
+            this.position.y = (this.position.y + this.velocity.y * this.acceleration.y);
             this.velocity.multiply(this.maxVelocity);
 
             // Update the rectangle position
-            this.rectangle.setX((int)this.position.getX());
-            this.rectangle.setY((int)this.position.getY());
+            this.rectangle.setX((int)this.position.x);
+            this.rectangle.setY((int)this.position.y);
 
             // Update animation
             if (this.hasAnimation) {
                 this.spriteAnimator.update(gameTime);
                 
-                if (this.lastDistance.getX() == 0 && this.lastDistance.getY() == 0 && this.spriteAnimator.getCurrentAnimationName() != "") {
+                if (this.lastDistance.x == 0 && this.lastDistance.y == 0 && this.spriteAnimator.getCurrentAnimationName() != "") {
                 	this.sourceRectangle = this.spriteAnimator.getCurrentAnimation().getRectangle(0);
                 }
             }
@@ -96,26 +96,26 @@ public class Sprite extends Entity {
 	
 	protected void postUpdate() {
 		if (this.enabled) {
-            this.direction.setX(this.position.getX() - this.lastPosition.getX());
-            this.direction.setY(this.position.getY() - this.lastPosition.getY());
+            this.direction.x = this.position.x - this.lastPosition.x;
+            this.direction.y = this.position.y - this.lastPosition.y;
 
             // Force the sprite to stay inside screen
             if (this.insideScreen) {
-                if (this.position.getX() < this.viewport.getX()) {
-                    this.position.setX(this.viewport.getX());
+                if (this.position.x < this.viewport.getX()) {
+                    this.position.x = this.viewport.getX();
                     this.velocity.multiply(0);
                 }
                 else if (this.rectangle.getRight() > this.viewport.getWidth()) {
-                    this.position.setX(this.viewport.getWidth() - this.rectangle.getWidth());
+                    this.position.x = this.viewport.getWidth() - this.rectangle.getWidth();
                     this.velocity.multiply(0);
                 }
 
-                if (this.position.getY() < this.viewport.getY()) {
-                    this.position.setY(this.viewport.getY());
+                if (this.position.y < this.viewport.getY()) {
+                    this.position.y = this.viewport.getY();
                     this.velocity.multiply(0);
                 }
                 else if (this.rectangle.getBottom() > this.viewport.getHeight()) {
-                    this.position.setY(this.viewport.getHeight() - this.rectangle.getHeight());
+                    this.position.y = this.viewport.getHeight() - this.rectangle.getHeight();
                     this.velocity.multiply(0);
                 }
             }
@@ -123,17 +123,17 @@ public class Sprite extends Entity {
             // The sprite move throw the screen
             else if (this.acrossScreen) {
                 if (this.rectangle.getRight() < this.viewport.getX()) {
-                    this.position.setX(this.viewport.getWidth());
+                    this.position.x = this.viewport.getWidth();
                 }
-                else if (this.position.getX() > this.viewport.getWidth()) {
-                    this.position.setX(this.viewport.getX());
+                else if (this.position.x > this.viewport.getWidth()) {
+                    this.position.x = this.viewport.getX();
                 }
 
                 if (this.rectangle.getBottom() < this.viewport.getY()) { 
-                    this.position.setY(this.viewport.getHeight());
+                    this.position.y = this.viewport.getHeight();
                 }
-                else if (this.position.getY() > this.viewport.getHeight()) {
-                    this.position.setY(this.viewport.getY());
+                else if (this.position.y > this.viewport.getHeight()) {
+                    this.position.y = this.viewport.getY();
                 }
             }
         }

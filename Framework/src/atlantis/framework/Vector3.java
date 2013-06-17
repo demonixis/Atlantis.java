@@ -18,9 +18,9 @@ public class Vector3 {
     public static final Vector3 Forward = new Vector3(0.0f, 0.0f, -1.0f);
     public static final Vector3 Backward = new Vector3(0.0f, 0.0f, 1.0f);
 	
-	protected float x;
-	protected float y;
-	protected float z;
+	public float x;
+	public float y;
+	public float z;
 	
 	// ---
 	// --- Constructors
@@ -420,7 +420,7 @@ public class Vector3 {
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	public String toString() {
 		return "x: " + this.x + " y: " + this.y + " z: " + this.z;
 	}

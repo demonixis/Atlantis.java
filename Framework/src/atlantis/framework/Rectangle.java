@@ -57,7 +57,7 @@ public class Rectangle {
 	 * @return true if the vector is inside the rectangle, otherwise false
 	 */
 	public boolean contains(Vector2 vector) {
-		return this.contains((int)vector.getX(), (int)vector.getY());
+		return this.contains((int)vector.x, (int)vector.y);
 	}
 	
 	/**

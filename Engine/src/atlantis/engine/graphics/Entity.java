@@ -77,7 +77,7 @@ public class Entity extends BaseEntity {
 	 * @param x
 	 */
 	public void setX(int x) {
-		this.position.setX(x);
+		this.position.x = x;
 		this.rectangle.setX(x);
 	}
 	
@@ -86,7 +86,7 @@ public class Entity extends BaseEntity {
 	 * @param y
 	 */
 	public void setY(int y) {
-		this.position.setY(y);
+		this.position.y = y;
 		this.rectangle.setY(y);
 	}
 	

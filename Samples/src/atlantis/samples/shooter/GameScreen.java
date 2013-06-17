@@ -174,7 +174,7 @@ class Laser extends Entity {
 			this.setActive(false);
 		}
 		else {
-			this.setX((int)(this.position.getX() + 3));
+			this.setX((int)(this.position.x + 3));
 		}
 	}
 }
@@ -205,7 +205,7 @@ class Alien extends Sprite {
 		}
 		else {
 			this.play("normal");
-			this.setX((int)(this.position.getX() - 1));
+			this.setX((int)(this.position.x - 1));
 		}
 	}
 }

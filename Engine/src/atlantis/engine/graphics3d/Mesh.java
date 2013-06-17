@@ -39,4 +39,20 @@ public class Mesh {
 		this.faces = geometry.getFaces();
 		this.color = Color.YELLOW;
 	}
+	
+	public Vector3[] getVertices() {
+		return this.vertices;
+	}
+	
+	public Vector3 getVertex(int index) {
+		return this.vertices[index];
+	}
+	
+	public Face3[] getFaces() {
+		return this.faces;
+	}
+	
+	public Face3 getFace(int index) {
+		return this.faces[index];
+	}
 }

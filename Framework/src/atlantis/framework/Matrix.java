@@ -22,8 +22,19 @@ public class Matrix {
 	public float M43;
 	public float M44;
 	
+	/**
+	 * Create an identity matrix.
+	 */
 	public Matrix() {
-		setIdentity();
+		this.setIdentity();
+	}
+	
+	/**
+	 * Create a matrix with an existing matrix. Values are copied.
+	 * @param matrix A matrix.
+	 */
+	public Matrix(Matrix matrix) {
+		this.setValues(matrix.toArray());
 	}
 	
 	/**
@@ -306,6 +317,52 @@ public class Matrix {
 		    matrix.M41 = matrix.M42 = matrix.M44 = 0f;
 		    matrix.M43 = (near * far) / (near - far);
 		}
+		return matrix;
+	}
+	
+	/**
+	 * Multiply a two matrix.
+	 * @param matrixA A matrix.
+	 * @param matrixB Another matrix.
+	 * @return Return a new matrix.
+	 */
+	public static Matrix multiply(Matrix matrixA, Matrix matrixB) {
+		Matrix matrix = new Matrix(matrixA);
+		
+		float m11 = (((matrixA.M11 * matrixB.M11) + (matrixA.M12 * matrixB.M21)) + (matrixA.M13 * matrixB.M31)) + (matrixA.M14 * matrixB.M41);
+        float m12 = (((matrixA.M11 * matrixB.M12) + (matrixA.M12 * matrixB.M22)) + (matrixA.M13 * matrixB.M32)) + (matrixA.M14 * matrixB.M42);
+        float m13 = (((matrixA.M11 * matrixB.M13) + (matrixA.M12 * matrixB.M23)) + (matrixA.M13 * matrixB.M33)) + (matrixA.M14 * matrixB.M43);
+        float m14 = (((matrixA.M11 * matrixB.M14) + (matrixA.M12 * matrixB.M24)) + (matrixA.M13 * matrixB.M34)) + (matrixA.M14 * matrixB.M44);
+        float m21 = (((matrixA.M21 * matrixB.M11) + (matrixA.M22 * matrixB.M21)) + (matrixA.M23 * matrixB.M31)) + (matrixA.M24 * matrixB.M41);
+        float m22 = (((matrixA.M21 * matrixB.M12) + (matrixA.M22 * matrixB.M22)) + (matrixA.M23 * matrixB.M32)) + (matrixA.M24 * matrixB.M42);
+        float m23 = (((matrixA.M21 * matrixB.M13) + (matrixA.M22 * matrixB.M23)) + (matrixA.M23 * matrixB.M33)) + (matrixA.M24 * matrixB.M43);
+        float m24 = (((matrixA.M21 * matrixB.M14) + (matrixA.M22 * matrixB.M24)) + (matrixA.M23 * matrixB.M34)) + (matrixA.M24 * matrixB.M44);
+        float m31 = (((matrixA.M31 * matrixB.M11) + (matrixA.M32 * matrixB.M21)) + (matrixA.M33 * matrixB.M31)) + (matrixA.M34 * matrixB.M41);
+        float m32 = (((matrixA.M31 * matrixB.M12) + (matrixA.M32 * matrixB.M22)) + (matrixA.M33 * matrixB.M32)) + (matrixA.M34 * matrixB.M42);
+        float m33 = (((matrixA.M31 * matrixB.M13) + (matrixA.M32 * matrixB.M23)) + (matrixA.M33 * matrixB.M33)) + (matrixA.M34 * matrixB.M43);
+        float m34 = (((matrixA.M31 * matrixB.M14) + (matrixA.M32 * matrixB.M24)) + (matrixA.M33 * matrixB.M34)) + (matrixA.M34 * matrixB.M44);
+        float m41 = (((matrixA.M41 * matrixB.M11) + (matrixA.M42 * matrixB.M21)) + (matrixA.M43 * matrixB.M31)) + (matrixA.M44 * matrixB.M41);
+        float m42 = (((matrixA.M41 * matrixB.M12) + (matrixA.M42 * matrixB.M22)) + (matrixA.M43 * matrixB.M32)) + (matrixA.M44 * matrixB.M42);
+        float m43 = (((matrixA.M41 * matrixB.M13) + (matrixA.M42 * matrixB.M23)) + (matrixA.M43 * matrixB.M33)) + (matrixA.M44 * matrixB.M43);
+       	float m44 = (((matrixA.M41 * matrixB.M14) + (matrixA.M42 * matrixB.M24)) + (matrixA.M43 * matrixB.M34)) + (matrixA.M44 * matrixB.M44);
+       	
+       	matrix.M11 = m11;
+       	matrix.M12 = m12;
+       	matrix.M13 = m13;
+       	matrix.M14 = m14;
+       	matrix.M21 = m21;
+       	matrix.M22 = m22;
+       	matrix.M23 = m23;
+       	matrix.M24 = m24;
+		matrix.M31 = m31;
+		matrix.M32 = m32;
+		matrix.M33 = m33;
+		matrix.M34 = m34;
+		matrix.M41 = m41;
+		matrix.M42 = m42;
+		matrix.M43 = m43;
+		matrix.M44 = m44;
+		
 		return matrix;
 	}
 }

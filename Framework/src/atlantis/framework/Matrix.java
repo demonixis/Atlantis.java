@@ -1,9 +1,9 @@
 package atlantis.framework;
 
-import java.io.ObjectInputStream.GetField;
-
 /**
  * A matrix 4x4 
+ * Some methods has been taken from SharpDX. Thanks to the open source community.
+ * @see https://github.com/sharpdx/SharpDX
  * @author Yannick
  */
 public class Matrix {
@@ -150,13 +150,13 @@ public class Matrix {
 	public static Matrix createRotationX(float rotation) {
 		Matrix matrix = getMatrixIdentity();
 		
-		float t1 = (float)Math.cos(rotation);
-		float t2 = (float)Math.sin(rotation);
+		float cos = (float)Math.cos(rotation);
+		float sin = (float)Math.sin(rotation);
 		
-		matrix.M22 = t1;
-		matrix.M23 = t2;
-		matrix.M32 = -t2;
-		matrix.M33 = t1;
+		matrix.M22 = cos;
+		matrix.M23 = sin;
+		matrix.M32 = -sin;
+		matrix.M33 = cos;
 		
 		return matrix;
 	}
@@ -169,13 +169,13 @@ public class Matrix {
 	public static Matrix createRotationY(float rotation) {
 		Matrix matrix = getMatrixIdentity();
 		
-		float t1 = (float)Math.cos(rotation);
-		float t2 = (float)Math.sin(rotation);
+		float cos = (float)Math.cos(rotation);
+		float sin = (float)Math.sin(rotation);
 		
-		matrix.M11 = t1;
-		matrix.M13 = -t2;
-		matrix.M31 = t2;
-		matrix.M33 = t1;
+		matrix.M11 = cos;
+		matrix.M13 = -sin;
+		matrix.M31 = sin;
+		matrix.M33 = cos;
 		
 		return matrix;
 	}
@@ -183,13 +183,13 @@ public class Matrix {
 	public static Matrix createRotationZ(float rotation) {
 		Matrix matrix = getMatrixIdentity();
 		
-		float t1 = (float)Math.cos(rotation);
-		float t2 = (float)Math.sin(rotation);
+		float cos = (float)Math.cos(rotation);
+		float sin = (float)Math.sin(rotation);
 		
-		matrix.M11 = t1;
-		matrix.M13 = t2;
-		matrix.M31 = -t2;
-		matrix.M33 = t1;
+		matrix.M11 = cos;
+		matrix.M13 = sin;
+		matrix.M31 = -sin;
+		matrix.M33 = cos;
 		
 		return matrix;
 	}

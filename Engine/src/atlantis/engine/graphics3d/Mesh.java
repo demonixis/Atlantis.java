@@ -21,7 +21,7 @@ public class Mesh {
 	private Mesh() {
 		this.position = new Vector3();
 		this.rotation = new Vector3();
-		this.scale = Vector3.One;
+		this.scale = new Vector3(1.0f);
 	}
 	
 	public Mesh(String name, Vector3 [] vertices, Face3 [] faces) {

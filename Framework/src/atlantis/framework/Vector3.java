@@ -7,20 +7,20 @@ package atlantis.framework;
  */
 public class Vector3 {
 	//public static final Vector3 Zero = new Vector3(0, 0, 0);
-	public static final Vector3 One = new Vector3(1.0f, 1.0f, 1.0f);
-	public static final Vector3 UnitX = new Vector3(1.0f, 0.0f, 0.0f);
+	//public static final Vector3 One = new Vector3(1.0f, 1.0f, 1.0f);
+	//public static final Vector3 UnitX = new Vector3(1.0f, 0.0f, 0.0f);
 	
 	public static final Vector3 getUnitY() {
 		return new Vector3(0.0f, 1.0f, 0.0f);
 	}
 	
-	public static final Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
-	public static final Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
-	public static final Vector3 Down = new Vector3(0.0f, -1.0f, 0.0f);
-	public static final Vector3 Right = new Vector3(1.0f, 0.0f, 0.0f);
-	public static final Vector3 Left = new Vector3(-1.0f, 0.0f, 0.0f);
-    public static final Vector3 Forward = new Vector3(0.0f, 0.0f, -1.0f);
-    public static final Vector3 Backward = new Vector3(0.0f, 0.0f, 1.0f);
+	//public static final Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
+	//public static final Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
+	//public static final Vector3 Down = new Vector3(0.0f, -1.0f, 0.0f);
+	//public static final Vector3 Right = new Vector3(1.0f, 0.0f, 0.0f);
+	//public static final Vector3 Left = new Vector3(-1.0f, 0.0f, 0.0f);
+    //public static final Vector3 Forward = new Vector3(0.0f, 0.0f, -1.0f);
+    //public static final Vector3 Backward = new Vector3(0.0f, 0.0f, 1.0f);
 	
 	public float x;
 	public float y;
@@ -410,6 +410,15 @@ public class Vector3 {
 		);
 		
 		return vector;
+	}
+	
+	public static Vector3 transformCoordinate(Vector3 position, Matrix transform) {
+		 Vector4 vector = new Vector4();
+         vector.x = (position.x * transform.M11) + (position.y * transform.M21) + (position.z * transform.M31) + transform.M41;
+         vector.y = (position.x * transform.M12) + (position.y * transform.M22) + (position.z * transform.M32) + transform.M42;
+         vector.z = (position.x * transform.M13) + (position.y * transform.M23) + (position.z * transform.M33) + transform.M43;
+         vector.w = 1.0f / ((position.x * transform.M14) + (position.y * transform.M24) + (position.z * transform.M34) + transform.M44);
+         return new Vector3(vector.x * vector.w, vector.y * vector.w, vector.z * vector.w);
 	}
 	
 	/**

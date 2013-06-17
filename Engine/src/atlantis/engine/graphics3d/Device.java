@@ -1,14 +1,8 @@
 package atlantis.engine.graphics3d;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-
-import javax.imageio.ImageTypeSpecifier;
-
 import atlantis.framework.MathHelper;
 import atlantis.framework.Matrix;
 import atlantis.framework.Vector2;
@@ -28,7 +22,7 @@ public class Device {
 	public Device(int width, int height) {
 		this.width = width;
 		this.height = height;
-		// Alpha Green Blue Red
+		// Alpha Blue Green Red
 		this.backBuffer = new int[this.width * this.height * 4];
 		this.createFrontBuffer(this.width, this.height);
 	}
@@ -58,8 +52,8 @@ public class Device {
 	public void clear(Color color) {
 		for (int i = 0, l = this.backBuffer.length; i < l; i += 4) {
 			this.backBuffer[i] = color.getAlpha();
-			this.backBuffer[i + 1] = color.getGreen();
-			this.backBuffer[i + 2] = color.getBlue();
+			this.backBuffer[i + 1] = color.getBlue();
+			this.backBuffer[i + 2] = color.getGreen();
 			this.backBuffer[i + 3] = color.getRed();
 		}
 	}
@@ -69,8 +63,8 @@ public class Device {
 	 */
 	public void present() {
 		DataBufferByte buffer = (DataBufferByte)this.frontBuffer.getRaster().getDataBuffer();
-		
-		for (int i = 0, l = backBuffer.length; i < l; i += 4) {
+
+		for (int i = 0, l = backBuffer.length; i < l; i += 4) { 
 			buffer.setElem(i, backBuffer[i]);
 			buffer.setElem(i + 1, backBuffer[i + 1]);
 			buffer.setElem(i + 2, backBuffer[i + 2]);
@@ -85,8 +79,9 @@ public class Device {
 	 */
 	public void drawPoint(int x, int y) {
 		// Show only if it visible.
-        if (x >= 0 && x < this.width && y >= 0 && y < this.height)
+        if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
             drawPixel(x, y, this.pixelColor);
+        }
 	}
 	
 	/**
@@ -96,10 +91,10 @@ public class Device {
 	 * @param color Desired pixel color for this pixel.
 	 */
 	public void drawPixel(int x, int y, Color color) {
-		int index = (x + y + this.width) * 4;
+		int index = (x + y * this.width) * 4;
 		this.backBuffer[index] = color.getAlpha();
-		this.backBuffer[index + 1] = color.getGreen();
-		this.backBuffer[index + 2] = color.getBlue();
+		this.backBuffer[index + 1] = color.getBlue();
+		this.backBuffer[index + 2] = color.getGreen();
 		this.backBuffer[index + 3] = color.getRed();
 	}
 	
@@ -151,8 +146,11 @@ public class Device {
 	 * @return Return 2D coordinates.
 	 */
 	public Vector2 project(Vector3 coordinates, Matrix transformMatrix) {
-		Vector3 point = Vector3.transform(coordinates, transformMatrix);
-		return new Vector2(point.x * (this.width / 2), -point.y * this.height + (this.height / 2));
+		Vector3 point = Vector3.transformCoordinate(coordinates, transformMatrix);
+		Vector2 projection = new Vector2();
+		projection.x = point.x * this.width + (this.width / 2);
+		projection.y = -point.y * this.height + (this.height / 2);
+		return projection;
 	}
 	
 	/**
@@ -167,10 +165,14 @@ public class Device {
 		//Matrix rotationMatrix = Matrix.multiply(Matrix.createRotationX(camera.rotation.x), Matrix.createRotationY(camera.rotation.y));
 		//Matrix world = Matrix.multiply(rotationMatrix, Matrix.createTranslation(camera.position));
 		
-		for (int i = 0, l = meshes.length; i < l; i++) { 
-			Matrix rotationMeshMatrix = Matrix.multiply(Matrix.createRotationX(meshes[i].rotation.x), Matrix.createRotationY(meshes[i].rotation.y));
-			Matrix worldMesh = Matrix.multiply(rotationMeshMatrix, Matrix.createTranslation(meshes[i].position));
-			Matrix worldViewProjection = Matrix.multiply(Matrix.multiply(worldMesh, view), projection);
+		for (int i = 0, l = meshes.length; i < l; i++) {
+			Matrix rotation = Matrix.multiply(Matrix.createRotationX(meshes[i].rotation.x), Matrix.createRotationY(meshes[i].rotation.y));
+			Matrix translation = Matrix.createTranslation(meshes[i].position);
+			Matrix transform = Matrix.multiply(rotation, translation);
+			Matrix scale = Matrix.createScale(meshes[i].scale);
+			Matrix world = Matrix.multiply(scale, rotation, transform);
+			
+			Matrix worldViewProject = Matrix.multiply(world, view, projection);
 			
 			this.pixelColor = meshes[i].color;
 			
@@ -179,10 +181,10 @@ public class Device {
                  Vector3 vecB = meshes[i].getVertex(meshes[i].faces[j].b);
                  Vector3 vecC = meshes[i].getVertex(meshes[i].faces[j].c);
 
-                 Vector2 pointA = project(vecA, worldViewProjection);
-                 Vector2 pointB = project(vecB, worldViewProjection);
-                 Vector2 pointC = project(vecC, worldViewProjection);
-
+                 Vector2 pointA = project(vecA, worldViewProject);
+                 Vector2 pointB = project(vecB, worldViewProject);
+                 Vector2 pointC = project(vecC, worldViewProject);
+                 
                  drawLine(pointA, pointB);
                  drawLine(pointB, pointC);
                  drawLine(pointC, pointA);

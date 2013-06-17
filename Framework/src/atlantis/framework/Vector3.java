@@ -22,29 +22,55 @@ public class Vector3 {
 	protected float y;
 	protected float z;
 	
+	// ---
+	// --- Constructors
+	// ---
+	
+	/**
+	 * Create a new vector with x, y, z = 0, 0, 0
+	 */
 	public Vector3() {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
 	}
 	
+	/**
+	 * Create a new vector with x, y, z = value, value, value
+	 * @param value A value to sets to each coordinates.
+	 */
 	public Vector3(float value) {
 		this.x = value;
 		this.y = value;
 		this.z = value;
 	}
 	
+	/**
+	 * Create a new vector with a specified position.
+	 * @param x The X coordinate.
+	 * @param y The Y coordinate.
+	 * @param z The Z coordinate.
+	 */
 	public Vector3(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 	
+	/**
+	 * Create a new vector with an existing vector. Values of existing vector are
+	 * copied to the new vector.
+	 * @param vector A vector to use.
+	 */
 	public Vector3(Vector3 vector) {
 		this.x = vector.x;
 		this.y = vector.y;
 		this.z = vector.z;
 	}
+	
+	// ---
+	// --- Basic operations
+	// ---
 	
 	/**
 	 * Add a value to the current vector.
@@ -75,6 +101,12 @@ public class Vector3 {
 		this.z += vector.z;
 	}
 	
+	/**
+	 * Add two vectors.
+	 * @param vec1
+	 * @param vec2
+	 * @return Return a new Vector3
+	 */
 	public static Vector3 add(Vector3 vec1, Vector3 vec2) {
 		Vector3 result = new Vector3(vec1);
 		result.add(vec2);
@@ -110,6 +142,12 @@ public class Vector3 {
 		this.z -= vector.z;
 	}
 	
+	/**
+	 * Subtract two vetors.
+	 * @param vec1
+	 * @param vec2
+	 * @return Return a news Vector3.
+	 */
 	public static Vector3 subtract(Vector3 vec1, Vector3 vec2) {
 		Vector3 result = new Vector3(vec1);
 		result.subtract(vec2);
@@ -157,6 +195,12 @@ public class Vector3 {
 		}
 	}
 	
+	/**
+	 * Divide two vectors.
+	 * @param vec1
+	 * @param vec2
+	 * @return Return a new Vector3.
+	 */
 	public static Vector3 divide(Vector3 vec1, Vector3 vec2) {
 		Vector3 vec = new Vector3(vec1);
 		vec.divide(vec2);
@@ -196,7 +240,7 @@ public class Vector3 {
 	 * Multiply two vectors.
 	 * @param vec1
 	 * @param vec2
-	 * @return Return the multiplication for the two vectors.
+	 * @return Return a new Vector3.
 	 */
 	public static Vector3 multiply(Vector3 vec1, Vector3 vec2) {
 		Vector3 vec = new Vector3(vec1);
@@ -204,62 +248,73 @@ public class Vector3 {
 		return vec;
 	}
 	
-	/**
-	 * Normalize vector
-	 */
-	public void normalize() {
-		double denominator = (Math.sqrt(this.x * this.x) + (this.y * this.y) + (this.z * this.z));
-		if (denominator != 0) {
-			double value = 1 / denominator;
-			this.x *= value;
-			this.y *= value;
-			this.z *= value;
-		}
-	}
+	// ---
+	// --- Advanced methods
+	// ---
 	
 	/**
-	 * Normalize a vector.
-	 * @param vector A vector to normalize.
+	 * Calculates the cross products of two vectors.
+	 * @param vec1 Fist vector to use.
+	 * @param vec2 Second vector to use.
+	 * @return Return the cross products of the two vectors.
 	 */
-	public static Vector3 normalize(Vector3 vector) {
-		Vector3 result = new Vector3();
-		float factor = (float)distance(vector, Vector3.Zero);
-		
-		if (factor != 0) {
-			factor = 1.0f / factor;
-			result.setValues(vector.x * factor, vector.y * factor, vector.z * factor);
-		}
-		
-		return result;
-	}
-	
-	public void cross(Vector3 vector) {
-		float x = (this.y * vector.z) - (vector.y * this.z);
-		float y = -((this.x * vector.z) - (vector.x * this.z));
-		float z = (this.x * vector.y) - (vector.x * this.y);
-		this.setValues(x, y, z);
-	}
-	
 	public static Vector3 cross(Vector3 vec1, Vector3 vec2) {
 		Vector3 vector = new Vector3(vec1);
-		vector.cross(vec2);
+		float x = (vec1.y * vec2.z) - (vec2.y * vec1.z);
+		float y = -((vec1.x * vec2.z) - (vec2.x * vec1.z));
+		float z = (vec1.x * vec2.y) - (vec2.x * vec1.y);
+		vector.setValues(x, y, z);
 		return vector;
 	}
 	
-	public float dot(Vector3 vector) {
-		return (this.x * vector.x) + (this.y * vector.y) + (this.z * vector.z);
+	/**
+	 * Gets the distance between two vectors.
+	 * @param vector
+	 * @return Return the distance between two vectors.
+	 */
+	public static double distance(Vector3 vec1, Vector3 vec2) {
+		double dx = vec1.x - vec2.x;
+		double dy = vec1.y - vec2.y;
+		double dz = vec1.z - vec2.z;
+		return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
 	}
 	
+	/**
+	 * Calculates the dot product of two vectors.
+	 * @param vec1 First vector to use.
+	 * @param vec2 Second vector to use.
+	 * @return Return the dot product of two vectors.
+	 */
 	public static float dot(Vector3 vec1, Vector3 vec2) {
 		return (vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z);
 	}
 	
+	/**
+	 * Gets the length of the vector.
+	 * @return Return the length of the vector.
+	 */
+	public double length() {
+		return Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
+	}
+	
+	/**
+	 * Linear interpolation between this vector and the vector passed in parameter.
+	 * @param vector A vector to use for interpolation
+	 * @param amount Value between 0 and 1 indicating the weight of vector.
+	 */
 	public void lerp(Vector3 vector, float amount) {
 		this.x = MathHelper.lerp(this.x, vector.x, amount);
 		this.y = MathHelper.lerp(this.y, vector.y, amount);
 		this.z = MathHelper.lerp(this.z, vector.z, amount);
 	}
-	
+
+	/**
+	 * Linearly interpolates between two vectors.
+	 * @param vec1 First vector
+	 * @param vec2 Second vector
+	 * @param amount Value between 0 and 1 indicating the weight of vec2.
+	 * @return Return a interpolated Vector3.
+	 */
 	public static Vector3 lerp(Vector3 vec1, Vector3 vec2, float amount) {
 		Vector3 vector = new Vector3(
 				MathHelper.lerp(vec1.x, vec2.x, amount), 
@@ -317,35 +372,25 @@ public class Vector3 {
 	}
 	
 	/**
-	 * Gets the length of the vector.
-	 * @return Return the length of the vector.
+	 * Normalize vector
 	 */
-	public double length() {
-		return Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
+	public void normalize() {
+		float factor = (float)distance(this, Vector3.Zero);
+		
+		if (factor != 0) {
+			factor = 1.0f / factor;
+			this.setValues(this.x * factor, this.y * factor, this.z * factor);
+		}
 	}
 	
 	/**
-	 * Gets the distance between another vector.
-	 * @param vector
-	 * @return Return the distance between this vector and the vector passed in parameter.
+	 * Normalize a vector.
+	 * @param vector A vector to normalize.
 	 */
-	public double distance(Vector3 vector) {
-		double dx = this.x - vector.x;
-		double dy = this.y - vector.y;
-		double dz = this.z - vector.z;
-		return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
-	}
-	
-	/**
-	 * Gets the distance between two vectors.
-	 * @param vector
-	 * @return Return the distance between two vectors.
-	 */
-	public static double distance(Vector3 vec1, Vector3 vec2) {
-		double dx = vec1.x - vec2.x;
-		double dy = vec1.y - vec2.y;
-		double dz = vec1.z - vec2.z;
-		return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+	public static Vector3 normalize(Vector3 vector) {
+		Vector3 result = new Vector3(vector);
+		result.normalize();
+		return result;
 	}
 	
 	/**
@@ -364,6 +409,12 @@ public class Vector3 {
 		return vector;
 	}
 	
+	/**
+	 * Changes the 3 coordinates
+	 * @param x The new X coordinate.
+	 * @param y The new Y coordinate.
+	 * @param z The new Z coordinate.
+	 */
 	public void setValues(float x, float y, float z) {
 		this.x = x;
 		this.y = y;

@@ -2,7 +2,7 @@
 [Bb]in
 [Dd]oc
 *.DS_Store
-.metadata
+.metadata/
 
 
 

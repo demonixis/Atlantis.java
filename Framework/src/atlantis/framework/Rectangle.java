@@ -5,11 +5,15 @@ package atlantis.framework;
  * @author Yannick
  */
 public class Rectangle {
+	public static final Rectangle Empty = new Rectangle();
 	public int x;
 	public int y;
 	public int width;
 	public int height;
 	
+	/**
+	 * Create an empty rectangle.
+	 */
 	public Rectangle() {
 		this.x = 0;
 		this.y = 0;
@@ -17,6 +21,13 @@ public class Rectangle {
 		this.height = 0;
 	}
 	
+	/**
+	 * Create a rectangle with coordinates and size.
+	 * @param x Value of X coordinate.
+	 * @param y Value of Y coordinate.
+	 * @param width Value for width.
+	 * @param height Value for height.
+	 */
 	public Rectangle(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
@@ -24,6 +35,10 @@ public class Rectangle {
 		this.height = height;
 	}
 	
+	/**
+	 * Create a rectangle with an existing rectangle. Values are copied.
+	 * @param rectangle A rectangle.
+	 */
 	public Rectangle(Rectangle rectangle) {
 		this.x = rectangle.x;
 		this.y = rectangle.y;

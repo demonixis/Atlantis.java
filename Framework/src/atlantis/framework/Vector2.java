@@ -14,26 +14,46 @@ public class Vector2 {
 	public float x;
 	public float y;
 	
+	/**
+	 * Create a default vector with X and Y equal 0.
+	 */
 	public Vector2() {
 		this.x = 0;
 		this.y = 0;
 	}
 	
+	/**
+	 * Create a vector with the same value for X and Y.
+	 * @param value The value to use for X and Y coordinates.
+	 */
 	public Vector2(float value) {
 		this.x = value;
 		this.y = value;
 	}
 	
+	/**
+	 * Create a vector with x and y coordinates.
+	 * @param x Value of X coordinate.
+	 * @param y Value of Y coordinate.
+	 */
 	public Vector2(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
 	
+	/**
+	 * Create a vector with an existing point. Values are copied.
+	 * @param point
+	 */
 	public Vector2(Point point) {
 		this.x = point.x;
 		this.y = point.y;
 	}
 	
+	/**
+	 * Create a vector with an existing vector. Values are copied.
+	 * @param vector A vector.
+	 */
 	public Vector2(Vector2 vector) {
 		this.x = vector.x;
 		this.y = vector.y;
@@ -62,6 +82,18 @@ public class Vector2 {
 	}
 	
 	/**
+	 * Add two vectors.
+	 * @param vec1 A vector 
+	 * @param vec2 Another vector
+	 * @return Return a new vector.
+	 */
+	public static Vector2 add(Vector2 vec1, Vector2 vec2) {
+		Vector2 vec = new Vector2(vec1);
+		vec.add(vec2);
+		return vec;
+	}
+	
+	/**
 	 * Subtract a value to vector
 	 * @param value
 	 */
@@ -80,7 +112,19 @@ public class Vector2 {
 	}
 	
 	/**
-	 * Mutiply (scalar) a value to vector
+	 * Subtract two vectors.
+	 * @param vec1 A vector 
+	 * @param vec2 Another vector
+	 * @return Return a new vector.
+	 */
+	public static Vector2 subtract(Vector2 vec1, Vector2 vec2) {
+		Vector2 vec = new Vector2(vec1);
+		vec.subtract(vec2);
+		return vec;
+	}
+	
+	/**
+	 * Multiply (scalar) a value to vector
 	 * @param value
 	 */
 	public void multiply(float value) {
@@ -89,7 +133,7 @@ public class Vector2 {
 	}
 	
 	/**
-	 * Mutiply (scalar) a vector to vector
+	 * Multiply (scalar) a vector to vector
 	 * @param vector
 	 */
 	public void multiply(Vector2 vector) {
@@ -98,21 +142,51 @@ public class Vector2 {
 	}
 	
 	/**
+	 * Multiply two vectors.
+	 * @param vec1 A vector 
+	 * @param vec2 Another vector
+	 * @return Return a new vector.
+	 */
+	public static Vector2 multiply(Vector2 vec1, Vector2 vec2) {
+		Vector2 vec = new Vector2(vec1);
+		vec.multiply(vec2);
+		return vec;
+	}
+	
+	/**
 	 * Divide a value to vector
 	 * @param value
 	 */
 	public void divide(float value) {
-		this.x /= value;
-		this.y /= value;
+		if (value != 0) {
+			this.x /= value;
+			this.y /= value;
+		}
 	}
 	
 	/**
 	 * Divide a vector to vector
-	 * @param vector
+	 * @param vector A vector.
 	 */
 	public void divide(Vector2 vector) {
-		this.x /= vector.x;
-		this.y /= vector.y;
+		if (vector.x != 0) {
+			this.x /= vector.x;
+		}
+		if (vector.y != 0) {
+			this.y /= vector.y;
+		}
+	}
+	
+	/**
+	 * Divide two vectors.
+	 * @param vec1 A vector 
+	 * @param vec2 Another vector
+	 * @return Return a new vector.
+	 */
+	public static Vector2 divide(Vector2 vec1, Vector2 vec2) {
+		Vector2 vec = new Vector2(vec1);
+		vec.divide(vec2);
+		return vec;
 	}
 	
 	// ---
@@ -128,6 +202,17 @@ public class Vector2 {
 		double dx = this.x - vector.x;
 		double dy = this.y - vector.y;
 		return Math.sqrt((dx * dx) + (dy * dy));
+	}
+	
+	/**
+	 * Gets the distance between two vectors.
+	 * @param vec1 A vector
+	 * @param vec2 Another vector
+	 * @return Return a new vector.
+	 */
+	public double distance(Vector2 vec1, Vector2 vec2) {
+		Vector2 vec = new Vector2(vec1);
+		return vec.distance(vec2);
 	}
 	
 	/**

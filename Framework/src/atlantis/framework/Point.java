@@ -5,59 +5,43 @@ package atlantis.framework;
  * @author Yannick
  */
 public class Point {
-	protected int x;
-	protected int y;
+	public int x;
+	public int y;
 	
+	/**
+	 * Create a default point with X and Y equal 0.
+	 */
 	public Point() {
 		this.x = 0;
 		this.y = 0;
 	}
 	
+	/**
+	 * Create a point with coordinates.
+	 * @param x Value of X coordinate.
+	 * @param y Value of Y coordinate.
+	 */
 	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Create a point with an existing point. Values are copied.
+	 * @param point An existing point.
+	 */
 	public Point(Point point) {
 		this.x = point.x;
 		this.y = point.y;
 	}
 	
+	/**
+	 * Create a point with an existing Vector2. Values are copied.
+	 * @param vector An existing Vector2
+	 */
 	public Point(Vector2 vector) {
 		this.x = (int)vector.x;
 		this.y = (int)vector.y;
-	}
-	
-	/**
-	 * Gets X value.
-	 * @return Return X value.
-	 */
-	public int getX() {
-		return x;
-	}
-
-	/**
-	 * Sets X value.
-	 * @param x
-	 */
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	/**
-	 * Gets Y value.
-	 * @return Return Y value.
-	 */
-	public int getY() {
-		return y;
-	}
-
-	/**
-	 * Sets Y value.
-	 * @param y
-	 */
-	public void setY(int y) {
-		this.y = y;
 	}
 	
 	/**

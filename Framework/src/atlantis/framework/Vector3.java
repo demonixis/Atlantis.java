@@ -27,7 +27,7 @@ public class Vector3 {
 	// ---
 	
 	/**
-	 * Create a new vector with x, y, z = 0, 0, 0
+	 * Create a vector with x, y, z = 0, 0, 0
 	 */
 	public Vector3() {
 		this.x = 0;
@@ -36,7 +36,7 @@ public class Vector3 {
 	}
 	
 	/**
-	 * Create a new vector with x, y, z = value, value, value
+	 * Create a vector with x, y, z = value, value, value
 	 * @param value A value to sets to each coordinates.
 	 */
 	public Vector3(float value) {
@@ -46,7 +46,7 @@ public class Vector3 {
 	}
 	
 	/**
-	 * Create a new vector with a specified position.
+	 * Create a vector with a specified position.
 	 * @param x The X coordinate.
 	 * @param y The Y coordinate.
 	 * @param z The Z coordinate.
@@ -58,7 +58,7 @@ public class Vector3 {
 	}
 	
 	/**
-	 * Create a new vector with an existing vector. Values of existing vector are
+	 * Create a vector with an existing vector. Values of existing vector are
 	 * copied to the new vector.
 	 * @param vector A vector to use.
 	 */

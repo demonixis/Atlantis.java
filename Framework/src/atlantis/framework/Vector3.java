@@ -6,10 +6,14 @@ package atlantis.framework;
  * @see Inspired by MonoGame Vector3.cs class.
  */
 public class Vector3 {
-	public static final Vector3 Zero = new Vector3();
+	//public static final Vector3 Zero = new Vector3(0, 0, 0);
 	public static final Vector3 One = new Vector3(1.0f, 1.0f, 1.0f);
 	public static final Vector3 UnitX = new Vector3(1.0f, 0.0f, 0.0f);
-	public static final Vector3 UnitY = new Vector3(0.0f, 1.0f, 0.0f);
+	
+	public static final Vector3 getUnitY() {
+		return new Vector3(0.0f, 1.0f, 0.0f);
+	}
+	
 	public static final Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
 	public static final Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
 	public static final Vector3 Down = new Vector3(0.0f, -1.0f, 0.0f);
@@ -143,7 +147,7 @@ public class Vector3 {
 	}
 	
 	/**
-	 * Subtract two vetors.
+	 * Subtract two vectors.
 	 * @param vec1
 	 * @param vec2
 	 * @return Return a news Vector3.
@@ -259,11 +263,10 @@ public class Vector3 {
 	 * @return Return the cross products of the two vectors.
 	 */
 	public static Vector3 cross(Vector3 vec1, Vector3 vec2) {
-		Vector3 vector = new Vector3(vec1);
-		float x = (vec1.y * vec2.z) - (vec2.y * vec1.z);
-		float y = -((vec1.x * vec2.z) - (vec2.x * vec1.z));
-		float z = (vec1.x * vec2.y) - (vec2.x * vec1.y);
-		vector.setValues(x, y, z);
+		Vector3 vector = new Vector3();
+		vector.x = (vec1.y * vec2.z) - (vec2.y * vec1.z);
+		vector.y = -((vec1.x * vec2.z) - (vec2.x * vec1.z));
+		vector.z = (vec1.x * vec2.y) - (vec2.x * vec1.y);
 		return vector;
 	}
 	
@@ -375,7 +378,7 @@ public class Vector3 {
 	 * Normalize vector
 	 */
 	public void normalize() {
-		float factor = (float)distance(this, Vector3.Zero);
+		float factor = (float)distance(this, new Vector3());
 		
 		if (factor != 0) {
 			factor = 1.0f / factor;

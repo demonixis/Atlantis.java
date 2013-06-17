@@ -17,7 +17,7 @@ public class Camera {
 	 */
 	public Camera() {
 		this.position = new Vector3(0.0f, 0.0f, 10.0f);
-		this.rotation = Vector3.Zero;
-		this.target = Vector3.Zero;
+		this.rotation = new Vector3();
+		this.target = new Vector3();
 	}
 }

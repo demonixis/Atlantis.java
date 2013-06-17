@@ -3,6 +3,9 @@ package atlantis.engine.graphics3d;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
 
 import javax.imageio.ImageTypeSpecifier;
 
@@ -17,21 +20,35 @@ import atlantis.framework.Vector3;
  */
 public class Device {
 	private BufferedImage frontBuffer;
-	private byte[] backBuffer;
+	private int[] backBuffer;
 	protected int width;
 	protected int height;
 	protected Color pixelColor;
 	
-	public Device(BufferedImage frontBuffer) {
-		this.frontBuffer = frontBuffer;
-		this.width = frontBuffer.getWidth();
-		this.height = frontBuffer.getHeight();
+	public Device(int width, int height) {
+		this.width = width;
+		this.height = height;
 		// Alpha Green Blue Red
-		this.backBuffer = new byte[this.width * this.height * 4];
+		this.backBuffer = new int[this.width * this.height * 4];
+		this.createFrontBuffer(this.width, this.height);
 	}
 	
 	protected void createFrontBuffer(int width, int height) {
 		BufferedImage frontBuffer = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		DataBufferByte buffer = (DataBufferByte)frontBuffer.getRaster().getDataBuffer();
+		
+		for (int i = 0, l = buffer.getSize(); i < l; i += 4) {
+			buffer.setElem(i, 255);
+			buffer.setElem(i + 1, 0);
+			buffer.setElem(i + 2, 0);
+			buffer.setElem(i + 3, 0);
+		}
+		
+		this.frontBuffer = frontBuffer;
+	}
+	
+	public BufferedImage getFrontBuffer() {
+		return this.frontBuffer;
 	}
 	
 	/**
@@ -40,10 +57,10 @@ public class Device {
 	 */
 	public void clear(Color color) {
 		for (int i = 0, l = this.backBuffer.length; i < l; i += 4) {
-			this.backBuffer[i] = (byte)color.getAlpha();
-			this.backBuffer[i + 1] = (byte)color.getGreen();
-			this.backBuffer[i + 2] = (byte)color.getBlue();
-			this.backBuffer[i + 3] = (byte)color.getRed();
+			this.backBuffer[i] = color.getAlpha();
+			this.backBuffer[i + 1] = color.getGreen();
+			this.backBuffer[i + 2] = color.getBlue();
+			this.backBuffer[i + 3] = color.getRed();
 		}
 	}
 	
@@ -51,7 +68,14 @@ public class Device {
 	 * Flush the backBuffer to frontBuffer.
 	 */
 	public void present() {
+		DataBufferByte buffer = (DataBufferByte)this.frontBuffer.getRaster().getDataBuffer();
 		
+		for (int i = 0, l = backBuffer.length; i < l; i += 4) {
+			buffer.setElem(i, backBuffer[i]);
+			buffer.setElem(i + 1, backBuffer[i + 1]);
+			buffer.setElem(i + 2, backBuffer[i + 2]);
+			buffer.setElem(i + 3, backBuffer[i + 3]);
+		}
 	}
 	
 	/**
@@ -73,10 +97,10 @@ public class Device {
 	 */
 	public void drawPixel(int x, int y, Color color) {
 		int index = (x + y + this.width) * 4;
-		this.backBuffer[index] = (byte)color.getAlpha();
-		this.backBuffer[index + 1] = (byte)color.getGreen();
-		this.backBuffer[index + 2] = (byte)color.getBlue();
-		this.backBuffer[index + 3] = (byte)color.getRed();
+		this.backBuffer[index] = color.getAlpha();
+		this.backBuffer[index + 1] = color.getGreen();
+		this.backBuffer[index + 2] = color.getBlue();
+		this.backBuffer[index + 3] = color.getRed();
 	}
 	
 	/**
@@ -137,10 +161,10 @@ public class Device {
 	 * @param meshes A collection of 3D objects. (will be a scene later)
 	 */
 	public void render(Camera camera, Mesh[] meshes) {
-		Matrix view = Matrix.createLookAt(camera.position, camera.target, Vector3.UnitY);
-		Matrix projection = Matrix.createPerspectiveFieldOfView((float)(MathHelper.Pi / 4), this.width / this.height, 0.01f, 1.0f);
+		Matrix view = Matrix.createLookAt(camera.position, camera.target, Vector3.getUnitY());
+		Matrix projection = Matrix.createPerspectiveFieldOfView((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
-		Matrix rotationMatrix = Matrix.multiply(Matrix.createRotationX(camera.rotation.x), Matrix.createRotationY(camera.rotation.y));
+		//Matrix rotationMatrix = Matrix.multiply(Matrix.createRotationX(camera.rotation.x), Matrix.createRotationY(camera.rotation.y));
 		//Matrix world = Matrix.multiply(rotationMatrix, Matrix.createTranslation(camera.position));
 		
 		for (int i = 0, l = meshes.length; i < l; i++) { 

@@ -19,8 +19,8 @@ public class Mesh {
 	public Vector3 scale;
 	
 	private Mesh() {
-		this.position = Vector3.Zero;
-		this.rotation = Vector3.Zero;
+		this.position = new Vector3();
+		this.rotation = new Vector3();
 		this.scale = Vector3.One;
 	}
 	

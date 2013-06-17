@@ -5,10 +5,10 @@ package atlantis.framework;
  * @author Yannick
  */
 public class Rectangle {
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
+	public int x;
+	public int y;
+	public int width;
+	public int height;
 	
 	public Rectangle() {
 		this.x = 0;
@@ -22,6 +22,13 @@ public class Rectangle {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+	}
+	
+	public Rectangle(Rectangle rectangle) {
+		this.x = rectangle.x;
+		this.y = rectangle.y;
+		this.width = rectangle.width;
+		this.height = rectangle.height;
 	}
 
 	/**
@@ -132,37 +139,5 @@ public class Rectangle {
 	 */
 	public int getRight() {
 		return this.x + this.width;
-	}
-	
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
 	}
 }

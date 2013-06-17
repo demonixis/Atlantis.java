@@ -44,7 +44,7 @@ public class GameScreen extends BaseState {
 		this.ship.addAnimation("move", new int[] { 1, 2 }, 50);
 		this.ship.play("idle");
 		this.ship.setPosition(50, Atlantis.height / 2 - this.ship.getHeight() / 2);
-		this.ship.setInsideScreen(true);
+		this.ship.forceInsideScreen(true);
 	}
 	
 	public void update(GameTime gameTime) {

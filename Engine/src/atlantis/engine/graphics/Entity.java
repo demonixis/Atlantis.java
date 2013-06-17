@@ -36,8 +36,8 @@ public class Entity extends BaseEntity {
 	public void loadContent(ContentManager content) {
 		if (this.textureName != "" && this.assetLoaded == false) {
 			this.texture = content.loadTexture(this.textureName);
-			this.rectangle.setWidth(this.texture.getWidth());
-			this.rectangle.setHeight(this.texture.getHeight());
+			this.rectangle.width = this.texture.getWidth();
+			this.rectangle.height = this.texture.getHeight();
 			this.assetLoaded = true;
 		}
 	}
@@ -49,7 +49,7 @@ public class Entity extends BaseEntity {
 	@Override
 	public void draw(Graphics graphics) {
         if (this.visible && this.assetLoaded) {
-            graphics.drawImage(this.texture.getTexture(), this.rectangle.getX(), this.rectangle.getY(), this.rectangle.getWidth(), this.rectangle.getHeight(), null);
+            graphics.drawImage(this.texture.getTexture(), this.rectangle.x, this.rectangle.y, this.rectangle.width, this.rectangle.height, null);
         }
 	}
 	
@@ -78,7 +78,7 @@ public class Entity extends BaseEntity {
 	 */
 	public void setX(int x) {
 		this.position.x = x;
-		this.rectangle.setX(x);
+		this.rectangle.x = x;
 	}
 	
 	/**
@@ -87,31 +87,31 @@ public class Entity extends BaseEntity {
 	 */
 	public void setY(int y) {
 		this.position.y = y;
-		this.rectangle.setY(y);
+		this.rectangle.y = y;
 	}
 	
 	public void setWidth(int width) {
-		this.rectangle.setWidth(width);
+		this.rectangle.width = width;
 	}
 	
 	public void setHeight(int height) {
-		this.rectangle.setHeight(height);
+		this.rectangle.height = height;
 	}
 
 	public int getX() {
-		return this.rectangle.getX();
+		return this.rectangle.x;
 	}
 	
 	public int getY() {
-		return this.rectangle.getY();
+		return this.rectangle.y;
 	}
 	
 	public int getWidth() {
-		return this.rectangle.getWidth();
+		return this.rectangle.width;
 	}
 	
 	public int getHeight() {
-		return this.rectangle.getHeight();
+		return this.rectangle.height;
 	}
 	
 	public Rectangle getRectangle() {

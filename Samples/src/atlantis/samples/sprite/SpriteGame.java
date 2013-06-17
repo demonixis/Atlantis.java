@@ -22,7 +22,7 @@ public class SpriteGame extends Game {
 		this.tree2 = new Entity("Tree2.png");
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
 		this.femaleSprite.setViewport(0, 0, this.width, this.height);
-		this.femaleSprite.setInsideScreen(true);
+		this.femaleSprite.forceInsideScreen(true);
 		k = new KeyboardComponent(this);
 		this.components.add(k);
 	}

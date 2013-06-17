@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
-import atlantis.framework.Vector2;
 
 /**
  * A sprite animator that work with a collection of source rectangle
@@ -35,7 +34,7 @@ public class SpriteAnimator {
 	}
 	
 	/**
-	 * Initiliaze the animation process.
+	 * Initialize the animation process.
 	 * @param animationWidth
 	 * @param animationHeight
 	 * @param textureWidth

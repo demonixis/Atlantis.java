@@ -22,7 +22,7 @@ public class SpriteComponent extends DrawableGameComponent {
 		this.tree2 = new Entity("Tree2.png");
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
 		this.femaleSprite.setViewport(0, 0, Atlantis.width, Atlantis.height);
-		this.femaleSprite.setInsideScreen(true);
+		this.femaleSprite.forceInsideScreen(true);
 	}
 		
 	public void loadContent() {

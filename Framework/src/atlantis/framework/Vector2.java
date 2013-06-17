@@ -29,6 +29,11 @@ public class Vector2 {
 		this.y = y;
 	}
 	
+	public Vector2(Point point) {
+		this.x = point.x;
+		this.y = point.y;
+	}
+	
 	public Vector2(Vector2 vector) {
 		this.x = vector.x;
 		this.y = vector.y;

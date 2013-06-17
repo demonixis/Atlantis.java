@@ -18,6 +18,16 @@ public class Point {
 		this.y = y;
 	}
 
+	public Point(Point point) {
+		this.x = point.x;
+		this.y = point.y;
+	}
+	
+	public Point(Vector2 vector) {
+		this.x = (int)vector.x;
+		this.y = (int)vector.y;
+	}
+	
 	/**
 	 * Gets X value.
 	 * @return Return X value.

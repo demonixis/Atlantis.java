@@ -23,7 +23,7 @@ public class Soft3DRendering extends Game {
 	public Soft3DRendering() {
 		super(1024, 768, "Atlantis Game Engine for Java - Software 3D rendering");
 		camera = new Camera();
-		camera.position = new Vector3(0, 0, 40);
+		camera.position = new Vector3(20, 5, 20);
 		device = new Device(this.width, this.height);
 		frontBuffer = device.getFrontBuffer();
 	}

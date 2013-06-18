@@ -7,8 +7,9 @@ public class Vector3Test {
 
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Vector3 v1 = new Vector3();
 		Vector3 v2 = new Vector3(45, 15, 35);
 		Vector3 v3 = new Vector3(55, -15, 0.5f);

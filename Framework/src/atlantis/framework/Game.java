@@ -1,9 +1,9 @@
 package atlantis.framework;
 
+import atlantis.framework.graphics.JPanelRenderer;
 import atlantis.framework.input.KeyboardManager;
 import atlantis.framework.input.MouseManager;
 import atlantis.framework.platform.DesktopPlatform;
-import atlantis.framework.platform.JPanelRenderer;
 
 /**
  * The Game class provide basic initialization and game logic. 

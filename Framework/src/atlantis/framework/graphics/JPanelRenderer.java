@@ -1,4 +1,4 @@
-package atlantis.framework.platform;
+package atlantis.framework.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;

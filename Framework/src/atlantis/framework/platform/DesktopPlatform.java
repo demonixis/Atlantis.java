@@ -4,6 +4,8 @@ import java.awt.GraphicsDevice;
 
 import javax.swing.JFrame;
 
+import atlantis.framework.graphics.JPanelRenderer;
+
 /**
  * Define a class for use the desktop platform of the JRE.
  * It use AWT/Swing for rendering.

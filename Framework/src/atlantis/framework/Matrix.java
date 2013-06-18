@@ -25,7 +25,7 @@ public class Matrix {
 	public float M44;
 	
 	/**
-	 * Create an empty matrix.
+	 * Create an empty matrix with all field at 0.0f.
 	 */
 	public Matrix() {
 		float[] values = {
@@ -45,7 +45,15 @@ public class Matrix {
 		this.setValues(matrix.toArray());
 	}
 	
-	public Matrix(float[] values) {
+	/**
+	 * Create a matrix with an array of 16 values.
+	 * @param values An array of 16 float values.
+	 * @throws Exception Thrown if the array hasn't 16 values.
+	 */
+	public Matrix(float[] values) throws Exception {
+		if (values.length != 16) {
+			throw new Exception("The array of values must contains 16 float values");
+		}
 		this.setValues(values);
 	}
 	
@@ -61,6 +69,10 @@ public class Matrix {
 			this.M41 = values[12]; this.M42 = values[13]; this.M43 = values[14]; this.M44 = values[15];
 		}
 	}
+	
+	// ---
+	// --- Getters and setters
+	// ---
 	
 	/**
 	 * Sets the matrix to identity
@@ -83,54 +95,162 @@ public class Matrix {
 		return values;
 	}
 	
+	/**
+	 * Gets an identity matrix.
+	 * @return Return an identity matrix.
+	 */
 	public static Matrix getMatrixIdentity() {
 		Matrix matrix = new Matrix();
 		matrix.setIdentity();
 		return matrix;
 	}
 	
+	/**
+	 * Sets the left of the matrix.
+	 * @param vector
+	 */
 	public void setLeft(Vector3 vector) {
 		this.M11 = -vector.x;
 		this.M12 = -vector.y;
 		this.M13 = -vector.z;
 	}
 	
+	/**
+	 * Gets the left of the matrix.
+	 * @return Return a the left vector of the matrix.
+	 */
+	public Vector3 getLeft() {
+		Vector3 vector = new Vector3();
+		vector.x = -this.M11;
+		vector.y = -this.M12;
+		vector.z = -this.M13;
+		return vector;
+	}
+	
+	/**
+	 * Sets the right of the matrix.
+	 * @param vector
+	 */
 	public void setRight(Vector3 vector) {
 		this.M11 = vector.x;
 		this.M12 = vector.y;
 		this.M13 = vector.z;
 	}
 	
+	/**
+	 * Gets the right of the matrix.
+	 * @return Return a the right vector of the matrix.
+	 */
+	public Vector3 getRight() {
+		Vector3 vector = new Vector3();
+		vector.x = this.M11;
+		vector.y = this.M12;
+		vector.z = this.M13;
+		return vector;
+	}
+	
+	/**
+	 * Sets the up of the matrix.
+	 * @param vector
+	 */
 	public void setUp(Vector3 vector) {
 		this.M21 = vector.x;
 		this.M22 = vector.y;
 		this.M23 = vector.z;
 	}
 	
+	/**
+	 * Gets the up of the matrix.
+	 * @return Return a the up vector of the matrix.
+	 */
+	public Vector3 getUp() {
+		Vector3 vector = new Vector3();
+		vector.x = this.M21;
+		vector.y = this.M22;
+		vector.z = this.M23;
+		return vector;
+	}
+	
+	/**
+	 * Sets the down of the matrix.
+	 * @param vector
+	 */
 	public void setDown(Vector3 vector) {
 		this.M21 = -vector.x;
 		this.M22 = -vector.y;
 		this.M23 = -vector.z;
 	}
 	
+	/**
+	 * Gets the down of the matrix.
+	 * @return Return a the down vector of the matrix.
+	 */
+	public Vector3 getDown() {
+		Vector3 vector = new Vector3();
+		vector.x = -this.M21;
+		vector.y = -this.M22;
+		vector.z = -this.M23;
+		return vector;
+	}
+	
+	/**
+	 * Sets the backward of the matrix.
+	 * @param vector
+	 */
 	public void setBackward(Vector3 vector) {
 		this.M31 = vector.x;
 		this.M32 = vector.y;
 		this.M33 = vector.z;
 	}
 	
+	/**
+	 * Gets the backward of the matrix.
+	 * @return Return a the backward vector of the matrix.
+	 */
+	public Vector3 getBackward() {
+		Vector3 vector = new Vector3();
+		vector.x = this.M31;
+		vector.y = this.M32;
+		vector.z = this.M33;
+		return vector;
+	}
+	
+	/**
+	 * Sets the forward of the matrix.
+	 * @param vector
+	 */
 	public void setForward(Vector3 vector) {
 		this.M31 = -vector.x;
         this.M32 = -vector.y;
         this.M33 = -vector.z;
 	}
 	
+	/**
+	 * Gets the forward of the matrix.
+	 * @return Return a the forward vector of the matrix.
+	 */
+	public Vector3 getForward() {
+		Vector3 vector = new Vector3();
+		vector.x = -this.M31;
+		vector.y = -this.M32;
+		vector.z = -this.M33;
+		return vector;
+	}
+	
+	/**
+	 * Sets translation
+	 * @param position The position to set.
+	 */
 	public void setTranslation(Vector3 position) {
 		this.M41 = position.x;
 		this.M42 = position.y;
 		this.M43 = position.z;
 	}
 	
+	/**
+	 * Gets values of matrix in array. Start at M11 to M44.
+	 * @return An array of values.
+	 */
 	public float[] toArray() {
 		float[] values = 
 		{
@@ -140,6 +260,36 @@ public class Matrix {
 			M41, M42, M43, M44,
 		};
 		return values;
+	}
+	
+	// ---
+	// --- Methods declaration
+	// ---
+	
+	/**
+	 * Add a matrix to this matrix.
+	 * @param matrix A matrix to add.
+	 */
+	public void add(Matrix matrix) {
+		float [] mValues = this.toArray();
+		float [] eValues = matrix.toArray();
+		
+		for(int i = 0; i < 16; i++) {
+			mValues[i] += eValues[i];
+		}
+		this.setValues(mValues);
+	}
+	
+	/**
+	 * Add two matrix.
+	 * @param matA A matrix
+	 * @param matB Another matrix to add with the first
+	 * @return Return a new matrix.
+	 */
+	public static Matrix add(Matrix matA, Matrix matB) {
+		Matrix matrix = new Matrix(matA);
+		matrix.add(matB);
+		return matrix;
 	}
 	
 	/**
@@ -313,7 +463,7 @@ public class Matrix {
 	}
 	
 	/**
-	 * Create a perspective field of view matrix.
+	 * Create a perspective field of view matrix with Left hand notation.
 	 * @param fov Desired field of view (Math.PI / 4 is a good value)
 	 * @param aspect Desired aspect ratio (Screen width / height)
 	 * @param near Near clip
@@ -323,13 +473,39 @@ public class Matrix {
 	public static Matrix createPerspectiveFieldOfView(float fov, float aspect, float zNear, float zFar) {
 		float yScale = (float)(1.0f / Math.tan(fov * 0.5f));
 		float xScale = yScale / aspect;
-		
 		float halfWidth = zNear / xScale;
 		float halfHeight = zNear / yScale;
 		
 		return createPerspectiveOffCenter(-halfWidth, halfWidth, -halfHeight, halfHeight, zNear, zFar);
 	}
 	
+	/**
+	 * Create a perspective field of view matrix with Right hand notation.
+	 * @param fov Desired field of view (Math.PI / 4 is a good value)
+	 * @param aspect Desired aspect ratio (Screen width / height)
+	 * @param near Near clip
+	 * @param far Far clip
+	 * @return Return a matrix of this type of perspective.
+	 */
+	public static Matrix createPerspetiveFieldOfViewRightHand(float fov, float aspect, float zNear, float zFar) {
+		Matrix matrix = createPerspectiveFieldOfView(fov, aspect, zNear, zFar);
+		matrix.M31 *= -1.0f;
+		matrix.M32 *= -1.0f;
+		matrix.M33 *= -1.0f;
+		matrix.M34 *= -1.0f;
+		return matrix;
+	}
+	
+	/**
+	 * Create a custom perspective matrix.
+	 * @param left Minimum X value of the viewing volume.
+	 * @param right Maximum X value of the viewing volume.
+	 * @param bottom Minimum Y value of the viewing volume.
+	 * @param top Maximum Y value of the viewing volume.
+	 * @param zNear Minimum Z value of the viewing volume.
+	 * @param zFar Maximum Z value of the viewing volume.
+	 * @return Return a new custom perspective matrix.
+	 */
 	public static Matrix createPerspectiveOffCenter(float left, float right, float bottom, float top, float zNear, float zFar) {
 		float zRange = zFar / (zFar - zNear);
 		
@@ -408,6 +584,32 @@ public class Matrix {
 		multMatrix.multiply(matrixB);
 		multMatrix.multiply(matrixC);
 		return multMatrix;
+	}
+	
+	/**
+	 * Subtract a matrix to this matrix.
+	 * @param matrix A matrix to add.
+	 */
+	public void subtract(Matrix matrix) {
+		float [] mValues = this.toArray();
+		float [] eValues = matrix.toArray();
+		
+		for(int i = 0; i < 16; i++) {
+			mValues[i] -= eValues[i];
+		}
+		this.setValues(mValues);
+	}
+	
+	/**
+	 * Subtract two matrix.
+	 * @param matA A matrix.
+	 * @param matB Another matrix to use to subtract with the first matrix.
+	 * @return Return a new matrix.
+	 */
+	public static Matrix subtract(Matrix matA, Matrix matB) {
+		Matrix mat = new Matrix(matA);
+		mat.subtract(matB);
+		return mat;
 	}
 	
 	public String toString() {

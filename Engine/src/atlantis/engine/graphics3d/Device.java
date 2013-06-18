@@ -159,18 +159,14 @@ public class Device {
 	 * @param meshes A collection of 3D objects. (will be a scene later)
 	 */
 	public void render(Camera camera, Mesh[] meshes) {
-		Matrix view = Matrix.createLookAt(camera.position, camera.target, Vector3.getUnitY());
+		Matrix view = camera.getViewMatrix();
 		Matrix projection = Matrix.createPerspectiveFieldOfView((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
-		//Matrix rotationMatrix = Matrix.multiply(Matrix.createRotationX(camera.rotation.x), Matrix.createRotationY(camera.rotation.y));
-		//Matrix world = Matrix.multiply(rotationMatrix, Matrix.createTranslation(camera.position));
-		
 		for (int i = 0, l = meshes.length; i < l; i++) {
+			Matrix scale = Matrix.createScale(meshes[i].scale);
 			Matrix rotation = Matrix.multiply(Matrix.createRotationX(meshes[i].rotation.x), Matrix.createRotationY(meshes[i].rotation.y));
 			Matrix translation = Matrix.createTranslation(meshes[i].position);
-			Matrix transform = Matrix.multiply(rotation, translation);
-			Matrix scale = Matrix.createScale(meshes[i].scale);
-			Matrix world = Matrix.multiply(scale, rotation, transform);
+			Matrix world = Matrix.multiply(scale, rotation, translation);
 			
 			Matrix worldViewProject = Matrix.multiply(world, view, projection);
 			

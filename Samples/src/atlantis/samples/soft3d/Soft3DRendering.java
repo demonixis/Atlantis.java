@@ -2,8 +2,11 @@ package atlantis.samples.soft3d;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.RenderingHints.Key;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
+import atlantis.engine.Atlantis;
 import atlantis.engine.graphics3d.Camera;
 import atlantis.engine.graphics3d.Device;
 import atlantis.engine.graphics3d.Mesh;
@@ -23,7 +26,7 @@ public class Soft3DRendering extends Game {
 	public Soft3DRendering() {
 		super(1024, 768, "Atlantis Game Engine for Java - Software 3D rendering");
 		camera = new Camera();
-		camera.position = new Vector3(20, 5, 20);
+		camera.position = new Vector3(0, 0, 30);
 		device = new Device(this.width, this.height);
 		frontBuffer = device.getFrontBuffer();
 	}
@@ -66,6 +69,39 @@ public class Soft3DRendering extends Game {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		
+		if (keyboardManager.isKeyDown(KeyEvent.VK_UP))
+            camera.translate(0.0f, 0.0f, -1.0f);
+        
+        else if (keyboardManager.isKeyDown(KeyEvent.VK_DOWN))
+            camera.translate(0.0f, 0.0f, 1.0f);
+
+        if (keyboardManager.isKeyDown(KeyEvent.VK_LEFT))
+            camera.rotate(0.0f, -0.01f, 0.0f);
+
+        else if (keyboardManager.isKeyDown(KeyEvent.VK_RIGHT))
+            camera.rotate(0.0f, 0.01f, 0.0f);
+
+        if (keyboardManager.isKeyDown(KeyEvent.VK_Q))
+            camera.translate(0.1f, 0.0f, 0.0f);
+
+        if (keyboardManager.isKeyDown(KeyEvent.VK_D))
+            camera.translate(-0.1f, 0.0f, 0.0f);
+
+        if (keyboardManager.isKeyDown(KeyEvent.VK_PAGE_UP))
+            camera.rotate(0.0f, 0.0f, -0.01f);
+
+        else if (keyboardManager.isKeyDown(KeyEvent.VK_PAGE_DOWN))
+            camera.rotate(0.0f, 0.0f, 0.01f);
+
+        if (keyboardManager.isKeyDown(KeyEvent.VK_A))
+            camera.translate(0.0f, -0.01f, 0.0f);
+
+        else if (keyboardManager.isKeyDown(KeyEvent.VK_E))
+            camera.translate(0.0f, 0.01f, 0.0f);
+		
+		if (keyboardManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+			Atlantis.game.exit();
+		}
 	}
 	
 	public void draw(Graphics graphics) {

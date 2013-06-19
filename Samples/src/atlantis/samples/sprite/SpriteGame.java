@@ -4,16 +4,15 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
-import atlantis.engine.input.KeyboardComponent;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
+import atlantis.framework.input.KeyboardState;
 
 public class SpriteGame extends Game {
 	private Entity background;
 	private Entity tree;
 	private Entity tree2;
 	private Sprite femaleSprite;
-	private KeyboardComponent k;
 	
 	public SpriteGame() {
 		super(1024, 600, "Atlantis Game Engine for Java - Sprite Sample");
@@ -23,8 +22,6 @@ public class SpriteGame extends Game {
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
 		this.femaleSprite.setViewport(0, 0, this.width, this.height);
 		this.femaleSprite.forceInsideScreen(true);
-		k = new KeyboardComponent(this);
-		this.components.add(k);
 	}
 	
 	public void loadContent() {
@@ -57,30 +54,28 @@ public class SpriteGame extends Game {
 		
 		this.femaleSprite.update(gameTime);
 		
-		if (this.keyboardManager.isKeyDown(KeyEvent.VK_UP)) {
+		KeyboardState state = this.keyboardManager.getState();
+		
+		if (state.isKeyDown(KeyEvent.VK_UP)) {
 			this.femaleSprite.play("up");
 			this.femaleSprite.setY(this.femaleSprite.getY() - 1);
 		}
-		else if (this.keyboardManager.isKeyDown(KeyEvent.VK_DOWN)) {
+		else if (state.isKeyDown(KeyEvent.VK_DOWN)) {
 			this.femaleSprite.play("down");
 			this.femaleSprite.setY(this.femaleSprite.getY() + 1);
 		}
 		
-		if (this.keyboardManager.isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (state.isKeyDown(KeyEvent.VK_RIGHT)) {
 			this.femaleSprite.play("right");
 			this.femaleSprite.setX(this.femaleSprite.getX() + 1);
 		}
-		else if (this.keyboardManager.isKeyDown(KeyEvent.VK_LEFT)) {
+		else if (state.isKeyDown(KeyEvent.VK_LEFT)) {
 			this.femaleSprite.play("left");
 			this.femaleSprite.setX(this.femaleSprite.getX() - 1);
 		}
 		
-		if (this.keyboardManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+		if (state.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			this.exit();
-		}
-		
-		if (k.justPressed(KeyEvent.VK_SPACE)) {
-			System.out.println("OK ça marche");
 		}
 	}
 	

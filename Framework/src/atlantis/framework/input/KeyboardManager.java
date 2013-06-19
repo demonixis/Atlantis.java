@@ -27,16 +27,6 @@ public class KeyboardManager implements KeyListener {
 		return new KeyboardState(this.keys);
 	}
 	
-	@Deprecated
-	public boolean isKeyDown(int key) {
-		return this.keys[key] == true;
-	}
-	
-	@Deprecated
-	public boolean isKeyUp(int key) {
-		return this.keys[key] == false;
-	}
-	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		this.keys[e.getKeyCode()] = true;
@@ -51,20 +41,4 @@ public class KeyboardManager implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		this.keys[e.getKeyCode()] = true;
 	}
-	
-	public boolean[] getStates() {
-		return this.keys;
-	}
-	
-	@Deprecated
-	public KeyboardManager clone() {
-		KeyboardManager keyboardState = new KeyboardManager();
-	
-		for (int i = 0, l = this.keys.length; i < l; i++) {
-			keyboardState.keys[i] = this.keys[i];
-		}
-		
-		return keyboardState;
-	}
-
 }

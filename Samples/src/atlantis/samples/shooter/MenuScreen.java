@@ -4,10 +4,11 @@ import java.awt.event.KeyEvent;
 
 import atlantis.engine.Atlantis;
 import atlantis.engine.graphics.Entity;
-import atlantis.engine.state.BaseState;
+import atlantis.engine.state.State;
 import atlantis.framework.GameTime;
+import atlantis.framework.input.KeyboardState;
 
-public class MenuScreen extends BaseState {
+public class MenuScreen extends State {
 	Entity background;
 	
 	public MenuScreen(String name) {
@@ -19,10 +20,12 @@ public class MenuScreen extends BaseState {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		
-		if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_ENTER)) {
+		KeyboardState state = Atlantis.keyboard.getState();
+		
+		if (state.isKeyDown(KeyEvent.VK_ENTER)) {
 			this.stateManager.setStateActive("game", true);
 		}
-		else if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_ESCAPE)) {
+		else if (state.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			Atlantis.game.exit();
 		}
 	}

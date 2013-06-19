@@ -11,17 +11,17 @@ import atlantis.framework.content.ContentManager;
  * A class that define a game state.
  * @author Yannick
  */
-public class BaseState extends BaseEntity {
+public class State extends BaseEntity {
 	protected SpriteGroup scene;
 	protected StateManager stateManager;
 	
-	public BaseState() {
+	public State() {
 		super();
 		this.scene = new SpriteGroup();
 		this.stateManager = null;
 	}
 	
-	public BaseState(String name) {
+	public State(String name) {
 		this();
 		this.name = name;
 	}

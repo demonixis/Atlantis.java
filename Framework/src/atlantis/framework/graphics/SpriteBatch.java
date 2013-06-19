@@ -1,6 +1,6 @@
 package atlantis.framework.graphics;
 
-import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
 
@@ -9,14 +9,31 @@ import atlantis.framework.Vector2;
  * @author Yannick
  */
 public class SpriteBatch {
-	protected Graphics graphics;
+	protected GraphicsDevice graphics;
 	
 	/**
 	 * Create a spriteBatch.
 	 * @param graphics A graphics context.
 	 */
-	public SpriteBatch(Graphics graphics) {
+	public SpriteBatch(GraphicsDevice graphics) {
 		this.graphics = graphics;
+	}
+	
+
+	/**
+	 * Draw a texture2D to screen.
+	 * @param texture The texture2D to use.
+	 * @param x The position on X axis.
+	 * @param y The position on Y axis.
+	 */
+	public void draw(Texture2D texture, float x, float y) {
+		this.graphics.getGraphics().drawImage(texture.getTexture(), (int)x, (int)y, texture.getWidth(), texture.getHeight(), null);
+	}
+	
+
+	@Deprecated
+	public void draw(BufferedImage texture, float x, float y) {
+		this.graphics.getGraphics().drawImage(texture, (int)x, (int)y, texture.getWidth(), texture.getHeight(), null);
 	}
 	
 	/**
@@ -25,7 +42,16 @@ public class SpriteBatch {
 	 * @param position The position of the texture on screen.
 	 */
 	public void draw(Texture2D texture, Vector2 position) {
-		graphics.drawImage(texture.getTexture(), (int)position.x, (int)position.y, texture.getWidth(), texture.getHeight(), null);
+		this.draw(texture, position.x, position.y);
+	}
+	
+	/**
+	 * Draw a texture2D on screen.
+	 * @param texture
+	 * @param destRectangle
+	 */
+	public void draw(Texture2D texture, Rectangle destRectangle) {
+		this.graphics.getGraphics().drawImage(texture.getTexture(), destRectangle.x, destRectangle.y, destRectangle.getRight(), destRectangle.getBottom(), null);
 	}
 	
 	/**
@@ -35,7 +61,7 @@ public class SpriteBatch {
 	 * @param sourceRectangle The source rectangle.
 	 */
 	public void draw(Texture2D texture, Rectangle destRectangle, Rectangle sourceRectangle) {
-		 graphics.drawImage(texture.getTexture(), destRectangle.x, destRectangle.y, destRectangle.getRight(), destRectangle.getBottom(), sourceRectangle.x, sourceRectangle.y, sourceRectangle.getRight(), sourceRectangle.getBottom(), null);
+		this.graphics.getGraphics().drawImage(texture.getTexture(), destRectangle.x, destRectangle.y, destRectangle.getRight(), destRectangle.getBottom(), sourceRectangle.x, sourceRectangle.y, sourceRectangle.getRight(), sourceRectangle.getBottom(), null);
 	}
 	
 	/**
@@ -44,6 +70,6 @@ public class SpriteBatch {
 	 * @param position The position of the text.
 	 */
 	public void drawString(SpriteFont spriteFont, Vector2 position) {
-		this.graphics.drawString(spriteFont.getText(), (int)position.x, (int)position.y);
+		this.graphics.getGraphics().drawString(spriteFont.getText(), (int)position.x, (int)position.y);
 	}
 }

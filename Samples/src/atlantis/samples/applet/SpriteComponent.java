@@ -8,6 +8,7 @@ import atlantis.engine.graphics.Sprite;
 import atlantis.framework.BaseGame;
 import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.GameTime;
+import atlantis.framework.input.KeyboardState;
 
 public class SpriteComponent extends DrawableGameComponent {
 	private Entity background;
@@ -53,20 +54,22 @@ public class SpriteComponent extends DrawableGameComponent {
 		
 		this.femaleSprite.update(gameTime);
 		
-		if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_UP)) {
+		KeyboardState state = Atlantis.keyboard.getState();
+		
+		if (state.isKeyDown(KeyEvent.VK_UP)) {
 			this.femaleSprite.play("up");
 			this.femaleSprite.setY(this.femaleSprite.getY() - 1);
 		}
-		else if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_DOWN)) {
+		else if (state.isKeyDown(KeyEvent.VK_DOWN)) {
 			this.femaleSprite.play("down");
 			this.femaleSprite.setY(this.femaleSprite.getY() + 1);
 		}
 		
-		if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (state.isKeyDown(KeyEvent.VK_RIGHT)) {
 			this.femaleSprite.play("right");
 			this.femaleSprite.setX(this.femaleSprite.getX() + 1);
 		}
-		else if (Atlantis.keyboard.isKeyDown(KeyEvent.VK_LEFT)) {
+		else if (state.isKeyDown(KeyEvent.VK_LEFT)) {
 			this.femaleSprite.play("left");
 			this.femaleSprite.setX(this.femaleSprite.getX() - 1);
 		}

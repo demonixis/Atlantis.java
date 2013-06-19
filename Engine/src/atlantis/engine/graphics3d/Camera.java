@@ -32,8 +32,8 @@ public class Camera {
 	 */
 	public void translate(float x, float y, float z) {
 		Vector3 move = new Vector3(x, y, z);
-		Matrix forwardMovement = Matrix.createRotationX(this.rotation.y);
-		Vector3 v = Vector3.transform(move, forwardMovement);
+		Matrix forwardMovement = Matrix.createRotationY(this.rotation.y);
+		Vector3 v = Vector3.transformCoordinate(move, forwardMovement);
 		this.position.x += v.x;
 		this.position.y += v.y;
 		this.position.z += v.z;

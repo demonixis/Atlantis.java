@@ -160,7 +160,7 @@ public class Device {
 	 */
 	public void render(Camera camera, Mesh[] meshes) {
 		Matrix view = camera.getViewMatrix();
-		Matrix projection = Matrix.createPerspectiveFieldOfView((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
+		Matrix projection = Matrix.createPerspetiveFieldOfViewRightHand((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			Matrix scale = Matrix.createScale(meshes[i].scale);

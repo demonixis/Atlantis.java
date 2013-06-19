@@ -2,10 +2,8 @@ package atlantis.samples.soft3d;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.RenderingHints.Key;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-
 import atlantis.engine.Atlantis;
 import atlantis.engine.graphics3d.Camera;
 import atlantis.engine.graphics3d.Device;
@@ -16,6 +14,7 @@ import atlantis.engine.graphics3d.geometry.PyramidGeometry;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
 import atlantis.framework.Vector3;
+import atlantis.framework.input.KeyboardState;
 
 public class Soft3DRendering extends Game {
 	Device device;
@@ -69,37 +68,39 @@ public class Soft3DRendering extends Game {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		
-		if (keyboardManager.isKeyDown(KeyEvent.VK_UP))
+		KeyboardState state = keyboardManager.getState();
+		
+		if (state.isKeyDown(KeyEvent.VK_UP))
             camera.translate(0.0f, 0.0f, -1.0f);
         
-        else if (keyboardManager.isKeyDown(KeyEvent.VK_DOWN))
+        else if (state.isKeyDown(KeyEvent.VK_DOWN))
             camera.translate(0.0f, 0.0f, 1.0f);
 
-        if (keyboardManager.isKeyDown(KeyEvent.VK_LEFT))
+        if (state.isKeyDown(KeyEvent.VK_LEFT))
             camera.rotate(0.0f, -0.01f, 0.0f);
 
-        else if (keyboardManager.isKeyDown(KeyEvent.VK_RIGHT))
+        else if (state.isKeyDown(KeyEvent.VK_RIGHT))
             camera.rotate(0.0f, 0.01f, 0.0f);
 
-        if (keyboardManager.isKeyDown(KeyEvent.VK_Q))
+        if (state.isKeyDown(KeyEvent.VK_Q))
             camera.translate(0.1f, 0.0f, 0.0f);
 
-        if (keyboardManager.isKeyDown(KeyEvent.VK_D))
+        if (state.isKeyDown(KeyEvent.VK_D))
             camera.translate(-0.1f, 0.0f, 0.0f);
 
-        if (keyboardManager.isKeyDown(KeyEvent.VK_PAGE_UP))
+        if (state.isKeyDown(KeyEvent.VK_PAGE_UP))
             camera.rotate(0.0f, 0.0f, -0.01f);
 
-        else if (keyboardManager.isKeyDown(KeyEvent.VK_PAGE_DOWN))
+        else if (state.isKeyDown(KeyEvent.VK_PAGE_DOWN))
             camera.rotate(0.0f, 0.0f, 0.01f);
 
-        if (keyboardManager.isKeyDown(KeyEvent.VK_A))
+        if (state.isKeyDown(KeyEvent.VK_A))
             camera.translate(0.0f, -0.01f, 0.0f);
 
-        else if (keyboardManager.isKeyDown(KeyEvent.VK_E))
+        else if (state.isKeyDown(KeyEvent.VK_E))
             camera.translate(0.0f, 0.01f, 0.0f);
 		
-		if (keyboardManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+		if (state.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			Atlantis.game.exit();
 		}
 	}

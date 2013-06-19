@@ -7,53 +7,53 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import atlantis.framework.Point;
+import atlantis.framework.Vector2;
 
 /**
  * A mouse controller
  * @author Yann
  */
 public class MouseManager  implements MouseListener, MouseMotionListener, MouseWheelListener {
+	// Not yet used.
+	protected Vector2 position;
+	protected Vector2 positionOnScreen;
+	protected boolean drag;
 	
 	protected int x;
 	protected int y;
 	protected int wheel;
 	protected boolean [] buttons;
-	protected boolean drag;
-	protected boolean justClicked;
 	
 	public MouseManager() {
 		this.buttons = new boolean[4];
 		this.x = 0;
 		this.y = 0;
 		this.wheel = 0;
-		this.drag = false;
-		this.justClicked = false;
 		
 		for (int i = 0; i < 4; i++) {
 			this.buttons[i] = false;
 		}
 	}
 	
+	public MouseState getState() {
+		return new MouseState(this.buttons, this.x, this.y, this.wheel);
+	}
+	
+	
 	@Override
 	public void mouseClicked(MouseEvent mouseEvent) {
-		this.justClicked = true;
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent mouseEvent) {
-		this.justClicked = false;
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent mouseEvent) {
-		this.justClicked = false;
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent mouseEvent) {
-		this.justClicked = false;
 		this.buttons[mouseEvent.getButton()] = true;
 		this.updateMousePosition(mouseEvent);
 	}
@@ -78,8 +78,6 @@ public class MouseManager  implements MouseListener, MouseMotionListener, MouseW
 
 	@Override
 	public void mouseMoved(MouseEvent mouseEvent) {
-		this.justClicked = false;
-		
 	}
 	
 	private void updateMousePosition(MouseEvent mouseEvent) {
@@ -87,19 +85,12 @@ public class MouseManager  implements MouseListener, MouseMotionListener, MouseW
 		this.y = mouseEvent.getY();
 	}
 	
-	/**
-	 * Get the current position of the mouse
-	 * @return position of the mouse
-	 */
+	@Deprecated
 	public Point getPosition() {
 		return new Point(this.x, this.y);
 	}
 	
-	/**
-	 * Gets the state of a mouse button
-	 * @param buttonId
-	 * @return true if clicked otherwise return false
-	 */
+	@Deprecated
 	public boolean click(int buttonId) {
 		if (buttonId < this.buttons.length) {
 			return this.buttons[buttonId];

@@ -1,34 +1,23 @@
-AtlantisGameEngine4Java
-=======================
+AtlantisEngine.java
+===================
 
 ### Summary
-Atlantis Engine is a work in progress Java 2D Game Engine. It is mainly inspired by XNA and Flixel.
-This is a port of AtantisEngine.js
+Atlantis Engine is an experimental game engine for make 2D games (not that a 3D software renderer is implemented). It's available in Java and JavaScript and the goal is to provide the same API for each language.
+The engine is composed of two main modules, the Framework who's close to XNA/MonoGame Framework and the Engine who's close to YnaEngine.
 
-### Features
-* Content manager 
+### Some features
+* Content manager
+* Desktop and Applet 
 * Game component system
 * Input management (Keyboard, Mouse)
-* Sprite with easy animation and a bit of physics
+* Sprite, Animated Sprite (Flixel like), Text
 * SpriteGroup
-* State and state manager
+* State management
+* 3D Software renderer (work in progress but working)
 
-### The next
-* Basic and isometric tilemap
-* Scene camera
-* More utilities (Inerpolator, etc.)
-
-### Example
+### Example of a 2D demo
 
 ```java
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import atlantis.engine.graphics.Entity;
-import atlantis.engine.graphics.Sprite;
-import atlantis.framework.Game;
-import atlantis.framework.GameDesktop;
-import atlantis.framework.GameTime;
-
 public class SpriteGame extends GameDesktop {
 	private Entity background;
 	private Sprite sprite;
@@ -101,3 +90,70 @@ public class SpriteGame extends GameDesktop {
 	}
 }
 ```
+
+### Example of a 3D demo
+
+```java
+public class Soft3DRendering extends Game {
+	Device device;
+	Camera camera;
+	Mesh [] meshes;
+	BufferedImage frontBuffer;
+	
+	public Soft3DRendering() {
+		super(1024, 768, "Atlantis Game Engine for Java - Software 3D rendering");
+		camera = new Camera();
+		camera.position = new Vector3(0, 0, 30);
+		device = new Device(this.width, this.height);
+		frontBuffer = device.getFrontBuffer();
+	}
+	
+	public void loadContent() {
+		super.loadContent();
+		meshes = new Mesh[2];
+				
+		Mesh cube = new Mesh("cube", new CubeGeometry());
+		cube.color = Color.GREEN;
+		cube.position = new Vector3(-2.5f, -2.5f, 0);
+		meshes[0] = cube;
+		
+		Mesh pyramid = new Mesh("triangle", new PyramidGeometry());
+		pyramid.color = Color.YELLOW;
+		pyramid.position = new Vector3(2.5f, -2.5f, 0);
+		meshes[1] = pyramid;
+	}
+	
+	public void update(GameTime gameTime) {
+		super.update(gameTime);
+		
+		for (int i = 0, l = meshes.length; i < l; i++) {
+			meshes[i].rotation.x += 0.01f;
+			meshes[i].rotation.y += 0.01f;
+		}
+	}
+	
+	public void draw(Graphics graphics) {
+		super.draw(graphics);
+
+		for (int i = 0, l = meshes.length; i < l; i++) {
+			meshes[i].rotation.x += 0.01f;
+			meshes[i].rotation.y += 0.01f;
+		}
+		
+		device.clear(Color.black);
+		device.render(camera, meshes);
+		device.present();
+		
+		graphics.drawImage(frontBuffer, 0, 0, this.width, this.height, null);
+	}
+
+	public static void main(String [] args) {
+		Soft3DRendering game = new Soft3DRendering();
+		game.run();
+	}
+}
+```
+
+### License
+
+MIT License, take a look of LICENSE file for more informations.

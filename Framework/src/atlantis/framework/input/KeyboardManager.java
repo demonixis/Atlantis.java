@@ -20,19 +20,19 @@ public class KeyboardManager implements KeyListener {
 	}
 	
 	/**
-	 * Determine if a key is pressed
-	 * @param key
-	 * @return true if the key is pressed otherwise return false
+	 * Gets the state of the keys.
+	 * @return Return the states of the keys.
 	 */
+	public KeyboardState getState() {
+		return new KeyboardState(this.keys);
+	}
+	
+	@Deprecated
 	public boolean isKeyDown(int key) {
 		return this.keys[key] == true;
 	}
 	
-	/**
-	 * Determine if a key is released
-	 * @param key
-	 * @return true if the key is released otherewise return false
-	 */
+	@Deprecated
 	public boolean isKeyUp(int key) {
 		return this.keys[key] == false;
 	}
@@ -56,6 +56,7 @@ public class KeyboardManager implements KeyListener {
 		return this.keys;
 	}
 	
+	@Deprecated
 	public KeyboardManager clone() {
 		KeyboardManager keyboardState = new KeyboardManager();
 	

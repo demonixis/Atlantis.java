@@ -8,7 +8,7 @@ import atlantis.framework.BaseGame;
 import atlantis.framework.GameTime;
 
 /**
- * A State manager
+ * A State manager that is responsible to manage game states.
  * @author Yann
  */
 public class StateManager extends DrawableGameComponent {
@@ -32,11 +32,11 @@ public class StateManager extends DrawableGameComponent {
 	
 	@Override
 	public void loadContent() {
-		if (!this.assetsLoaded) {
+		if (!this.assetLoaded) {
 			for (BaseState state : this.states) {
 				state.loadContent(this.game.getContentManager());
 			}
-			this.assetsLoaded = true;
+			this.assetLoaded = true;
 		}
 	}
 
@@ -58,6 +58,11 @@ public class StateManager extends DrawableGameComponent {
 		}
 	}
 	
+	/**
+	 * Sets a state active.
+	 * @param name The name of the state to activate.
+	 * @param desactiveOtherStates Sets to true to desactive other active states.
+	 */
 	public void setStateActive(String name, boolean desactiveOtherStates) {
 		int i = 0;
         int size = this.states.size();
@@ -73,6 +78,11 @@ public class StateManager extends DrawableGameComponent {
 		}
 	}
 	
+	/**
+	 * Sets a state active.
+	 * @param position The index of the state to active.
+	 * @param desactiveOtherStates Sets to true to desactive other active states.
+	 */
 	public void setStateActive(int position, boolean desactiveOtherStates) {
 		if (desactiveOtherStates) {
 			disableStates();
@@ -85,17 +95,30 @@ public class StateManager extends DrawableGameComponent {
 		}
 	}
 	
+	/**
+	 * Disable all active states.
+	 */
 	public void disableStates() {
 		for (BaseState state : this.states) {
 			state.setActive(false);
 		}
 	}
 	
+	/**
+	 * Switch to a state and remove other from the state manager.
+	 * @param newState
+	 */
 	public void switchState(BaseState newState) {
 		this.states.clear();
 		this.states.add(newState);
 	}
 	
+	/**
+	 * Add a new state on the collection.
+	 * @param state The state to add.
+	 * @param isActive Define the activity of the new state.
+	 * @param desactiveOtherStates Sets to true to desactive ohter states.
+	 */
 	public void add(BaseState state, boolean isActive, boolean desactiveOtherStates) {
 		if (desactiveOtherStates) {
 			disableStates();
@@ -112,10 +135,18 @@ public class StateManager extends DrawableGameComponent {
 		this.states.add(state);
 	}
 	
+	/**
+	 * Remove a state from state manager.
+	 * @param state The state to remove.
+	 */
 	public void remove(BaseState state) {
 		this.states.remove(state);
 	}
 	
+	/**
+	 * Remove a state from state manager.
+	 * @param name The name of the state to remove.
+	 */
 	public void remove(String name) {
 		BaseState state = this.get(name);
 		
@@ -124,6 +155,11 @@ public class StateManager extends DrawableGameComponent {
 		}
 	}
 	
+	/**
+	 * Gets a state by its name.
+	 * @param name The name of the state to find.
+	 * @return Return the state with this name if exists, otherwise return null.
+	 */
 	public BaseState get(String name) {
 		BaseState state = null;
 		
@@ -142,6 +178,11 @@ public class StateManager extends DrawableGameComponent {
 		return state;
 	}
 	
+	/**
+	 * Gets a state by its index.
+	 * @param position The index of the state to find.
+	 * @return Return the state at the specified index if exists, otherwise return false.
+	 */
 	public BaseState get(int position) {
 		return this.states.get(position);
 	}

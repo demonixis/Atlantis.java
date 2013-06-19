@@ -9,12 +9,12 @@ import java.awt.Graphics;
  */
 public class DrawableGameComponent extends GameComponent implements IDrawable {
 	protected boolean visible;
-	protected boolean assetsLoaded;
+	protected boolean assetLoaded;
 	
 	public DrawableGameComponent(BaseGame game) {
 		super(game);
 		this.visible = true;
-		this.assetsLoaded = false;
+		this.assetLoaded = false;
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	}
 	
 	public boolean isAssetsLoaded() {
-		return this.assetsLoaded;
+		return this.assetLoaded;
 	}
 
 	/**
@@ -55,6 +55,6 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	}
 	
 	public void setAssetsLoaded(boolean loaded) {
-		this.assetsLoaded = loaded;
+		this.assetLoaded = loaded;
 	}
 }

@@ -9,7 +9,7 @@ import java.awt.event.MouseWheelListener;
 import atlantis.framework.Point;
 
 /**
- * A mouse state controller
+ * A mouse controller
  * @author Yann
  */
 public class MouseManager  implements MouseListener, MouseMotionListener, MouseWheelListener {

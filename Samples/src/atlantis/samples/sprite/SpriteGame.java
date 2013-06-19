@@ -4,9 +4,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
+import atlantis.engine.input.KeyboardComponent;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
-import atlantis.input.KeyboardComponent;
 
 public class SpriteGame extends Game {
 	private Entity background;
@@ -22,7 +22,7 @@ public class SpriteGame extends Game {
 		this.tree2 = new Entity("Tree2.png");
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
 		this.femaleSprite.setViewport(0, 0, this.width, this.height);
-		this.femaleSprite.setInsideScreen(true);
+		this.femaleSprite.forceInsideScreen(true);
 		k = new KeyboardComponent(this);
 		this.components.add(k);
 	}
@@ -41,10 +41,10 @@ public class SpriteGame extends Game {
 		
 		this.femaleSprite.loadContent(this.content);
 		this.femaleSprite.prepareAnimation(64, 64);
-		this.femaleSprite.addAnimation("up", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, 75);
-		this.femaleSprite.addAnimation("left", new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 17 }, 75);
-		this.femaleSprite.addAnimation("down", new int[] { 18, 19, 20, 21, 22, 23, 24, 25, 26 }, 75);
-		this.femaleSprite.addAnimation("right", new int[] { 27, 28, 29, 30, 31, 32, 33, 34, 35 }, 75);
+		this.femaleSprite.addAnimation("up", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, 15);
+		this.femaleSprite.addAnimation("left", new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 17 }, 15);
+		this.femaleSprite.addAnimation("down", new int[] { 18, 19, 20, 21, 22, 23, 24, 25, 26 }, 15);
+		this.femaleSprite.addAnimation("right", new int[] { 27, 28, 29, 30, 31, 32, 33, 34, 35 }, 15);
 	    
 	    this.femaleSprite.setSize(72, 72);
 	    this.femaleSprite.setPosition(
@@ -57,25 +57,25 @@ public class SpriteGame extends Game {
 		
 		this.femaleSprite.update(gameTime);
 		
-		if (this.keyboardState.isKeyDown(KeyEvent.VK_UP)) {
+		if (this.keyboardManager.isKeyDown(KeyEvent.VK_UP)) {
 			this.femaleSprite.play("up");
 			this.femaleSprite.setY(this.femaleSprite.getY() - 1);
 		}
-		else if (this.keyboardState.isKeyDown(KeyEvent.VK_DOWN)) {
+		else if (this.keyboardManager.isKeyDown(KeyEvent.VK_DOWN)) {
 			this.femaleSprite.play("down");
 			this.femaleSprite.setY(this.femaleSprite.getY() + 1);
 		}
 		
-		if (this.keyboardState.isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (this.keyboardManager.isKeyDown(KeyEvent.VK_RIGHT)) {
 			this.femaleSprite.play("right");
 			this.femaleSprite.setX(this.femaleSprite.getX() + 1);
 		}
-		else if (this.keyboardState.isKeyDown(KeyEvent.VK_LEFT)) {
+		else if (this.keyboardManager.isKeyDown(KeyEvent.VK_LEFT)) {
 			this.femaleSprite.play("left");
 			this.femaleSprite.setX(this.femaleSprite.getX() - 1);
 		}
 		
-		if (this.keyboardState.isKeyDown(KeyEvent.VK_ESCAPE)) {
+		if (this.keyboardManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			this.exit();
 		}
 		

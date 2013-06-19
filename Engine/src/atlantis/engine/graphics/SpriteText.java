@@ -31,7 +31,9 @@ public class SpriteText extends Entity {
 	}
 	
 	public void draw(Graphics graphics) {
-		graphics.drawString(this.text, (int)this.position.getX(), (int)this.position.getY());
+		if (this.visible) {
+			graphics.drawString(this.text, (int)this.position.x, (int)this.position.y);
+		}
 	}
 	
 	public void setText(String text) {

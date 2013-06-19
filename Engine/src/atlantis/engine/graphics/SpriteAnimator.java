@@ -4,8 +4,12 @@ import java.util.HashMap;
 
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
-import atlantis.framework.Vector2;
 
+/**
+ * A sprite animator that work with a collection of source rectangle
+ * to display the correct animation.
+ * @author Yannick
+ */
 public class SpriteAnimator {
 	protected HashMap<String, SpriteAnimation> animations;
 	protected int spriteWidth;
@@ -29,6 +33,13 @@ public class SpriteAnimator {
         this.currentAnimationName = "";
 	}
 	
+	/**
+	 * Initialize the animation process.
+	 * @param animationWidth
+	 * @param animationHeight
+	 * @param textureWidth
+	 * @param textureHeight
+	 */
 	public void initialize(int animationWidth, int animationHeight, int textureWidth, int textureHeight) {
 		this.animations.clear();
         this.spriteWidth = animationWidth;
@@ -41,6 +52,12 @@ public class SpriteAnimator {
         this.currentAnimationName = "";
 	}
 	
+	/**
+	 * Add an animation to the animator
+	 * @param name The name of the animation.
+	 * @param framesIndex An array of index.
+	 * @param frameRate Desired framerate.
+	 */
 	public void add(String name, int[] framesIndex, int frameRate) {
 		int animationLength = framesIndex.length;
 
@@ -63,6 +80,12 @@ public class SpriteAnimator {
         this.animations.put(name, animation);
 	}
 	
+	/**
+	 * Add an animation to the animator
+	 * @param name The name of the animation.
+	 * @param Rectangle An array of Rectangle.
+	 * @param frameRate Desired framerate.
+	 */
 	public void add(String name, Rectangle[] frames, int frameRate) {
 		int animationLength = frames.length;
 
@@ -72,24 +95,30 @@ public class SpriteAnimator {
         this.animations.put(name, animation);
 	}
 	
+	/**
+	 * Play an animation by its name
+	 * @param animationName The name of the animation to play.
+	 * @return Return the source rectangle of the animation.
+	 */
 	public Rectangle play(String animationName) {
 		this.currentAnimationName = animationName;
 		return this.animations.get(animationName).next();
 	}
 	
+	/**
+	 * Update animator.
+	 * @param gameTime
+	 */
 	public void update(GameTime gameTime) {
 		if (this.currentAnimationName != "") {
 			this.animations.get(this.currentAnimationName).update(gameTime);
 		}
 	}
-	
-	public Rectangle checkForIDLEAnimation(Vector2 lastDirection) {
-		if (this.currentAnimationName != "" && lastDirection.getX() == 0 && lastDirection.getY() == 0) {
-			return this.animations.get(this.currentAnimationName).getRectangle(0);
-		}
-		return null;
-	}
-	
+
+	/**
+	 * Gets the current animation if the sprite is currently animated.
+	 * @return Return the current animation otherwise return null.
+	 */
 	public SpriteAnimation getCurrentAnimation() {
 		if (this.currentAnimationName != "") {
 			return this.animations.get(this.currentAnimationName);
@@ -97,10 +126,18 @@ public class SpriteAnimator {
 		return null;
 	}
 	
+	/**
+	 * Retrieve animations
+	 * @return An HeashMap of animations.
+	 */
 	public HashMap<String, SpriteAnimation> getAnimations() {
 		return this.animations;
 	}
 	
+	/**
+	 * Gets the current animation name.
+	 * @return Return the current animation name.
+	 */
 	public String getCurrentAnimationName() {
 		return this.currentAnimationName;
 	}

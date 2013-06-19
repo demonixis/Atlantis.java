@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import javax.swing.JApplet;
 
 import atlantis.framework.Game;
+import atlantis.framework.graphics.JPanelRenderer;
 import atlantis.framework.platform.IGamePlatform;
-import atlantis.framework.platform.JPanelRenderer;
 
 /**
  * Provide basic initialization of an applet

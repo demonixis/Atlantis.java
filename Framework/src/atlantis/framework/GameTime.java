@@ -10,13 +10,11 @@ public class GameTime {
 	protected long totalGameTime;
 	
 	public GameTime() {
-		this.currentTime = System.currentTimeMillis();
-		this.elapsedTime = 0;
-		this.totalGameTime = 0;
+		this.reset();
 	}
 	
 	/**
-	 * Update elapsed time
+	 * Update time.
 	 */
 	public void update() {
 		long now = System.currentTimeMillis();
@@ -26,18 +24,24 @@ public class GameTime {
 	}
 
 	/**
-	 * Get the elapsed time since last call
-	 * @return 
+	 * Get the elapsed time since last update.
+	 * @return Return the elapsed time since last update.
 	 */
 	public long getElapsedTime() {
 		return (long)(this.elapsedTime);
 	}
 
 	/**
-	 * Get the total game time
-	 * @return
+	 * Get the total elapsed time since the begining.
+	 * @return Return the total elapsed time since the begining.
 	 */
 	public long getTotalGameTime() {
 		return (long)(this.totalGameTime);
+	}
+	
+	public void reset() {
+		this.elapsedTime = 0;
+		this.totalGameTime = 0;
+		this.currentTime = System.currentTimeMillis();
 	}
 }

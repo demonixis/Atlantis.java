@@ -1,5 +1,7 @@
 package atlantis.framework.platform;
 
+import atlantis.framework.graphics.JPanelRenderer;
+
 /**
  * An interface that define a game plateform window
  * @author Yannick

@@ -1,9 +1,9 @@
 package atlantis.framework;
 
+import atlantis.framework.graphics.JPanelRenderer;
 import atlantis.framework.input.KeyboardManager;
 import atlantis.framework.input.MouseManager;
 import atlantis.framework.platform.DesktopPlatform;
-import atlantis.framework.platform.JPanelRenderer;
 
 /**
  * The Game class provide basic initialization and game logic. 
@@ -23,9 +23,9 @@ public class Game extends BaseGame {
 		// The window container
 		DesktopPlatform desktopPlatform = new DesktopPlatform(width, height, title);
 		desktopPlatform.setRenderer(this.renderer);
-		desktopPlatform.addKeyListener((KeyboardManager)this.keyboardState);
-		desktopPlatform.addMouseListener((MouseManager)this.mouseState);
-		desktopPlatform.addMouseMotionListener((MouseManager)this.mouseState);
-		desktopPlatform.addMouseWheelListener((MouseManager)this.mouseState);
+		desktopPlatform.addKeyListener((KeyboardManager)this.keyboardManager);
+		desktopPlatform.addMouseListener((MouseManager)this.mouseManager);
+		desktopPlatform.addMouseMotionListener((MouseManager)this.mouseManager);
+		desktopPlatform.addMouseWheelListener((MouseManager)this.mouseManager);
 	}
 }

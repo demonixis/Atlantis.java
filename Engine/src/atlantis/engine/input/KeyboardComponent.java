@@ -1,4 +1,4 @@
-package atlantis.input;
+package atlantis.engine.input;
 
 import atlantis.framework.BaseGame;
 import atlantis.framework.GameComponent;

@@ -7,8 +7,8 @@ import atlantis.framework.Game;
 import atlantis.framework.GameTime;
 import atlantis.framework.IDrawable;
 import atlantis.framework.IUpdateable;
+import atlantis.framework.graphics.JPanelRenderer;
 import atlantis.framework.platform.IGamePlatform;
-import atlantis.framework.platform.JPanelRenderer;
 
 /**
  * Provide basic initialization of an applet

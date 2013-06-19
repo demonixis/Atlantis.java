@@ -95,7 +95,7 @@ public class Vector2 {
 	 * Normalize vector
 	 */
 	public void normalize() {
-		double value = 1 / (Math.sqrt(this.x * this.x) + (this.y * this.y));
+		double value = 1 / (Math.sqrt((this.x * this.x) + (this.y * this.y)));
 		this.x *= value;
 		this.y *= value;
 	}

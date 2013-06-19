@@ -2,7 +2,7 @@ AtlantisEngine.java
 ===================
 
 ### Summary
-Atlantis Engine is an experimental game engine for make 2D games (not that a 3D software renderer is implemented). It's available in Java and JavaScript and the goal is to provide the same API for each language.
+Atlantis Engine is an experimental game engine for make 2D games. It's available in Java and JavaScript and the goal is to provide the same API for each language.
 The engine is composed of two main modules, the Framework who's close to XNA/MonoGame Framework and the Engine who's close to YnaEngine.
 
 ### Some features

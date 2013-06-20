@@ -1,6 +1,7 @@
 package atlantis.engine.graphics3d;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import atlantis.framework.MathHelper;
@@ -12,21 +13,52 @@ import atlantis.framework.Vector3;
  * The graphics device. It's responsible to draw 3D object on screen. 
  * @author Yannick
  */
-public class Device {
+public class Renderer {
 	private BufferedImage frontBuffer;
 	private int[] backBuffer;
 	protected int width;
 	protected int height;
+	protected int backBufferWidth;
+	protected int backBufferHeight;
 	protected Color pixelColor;
+	protected Color autoClearColor;
+	protected boolean autoClear;
 	
-	public Device(int width, int height) {
-		this.width = width;
-		this.height = height;
-		// Alpha Blue Green Red
-		this.backBuffer = new int[this.width * this.height * 4];
-		this.createFrontBuffer(this.width, this.height);
+	/**
+	 * Create a software renderer. The front and back buffer have the same size.
+	 * The auto clear flags is disable so you must call clear method before each draw.
+	 * @param width Desired width.
+	 * @param height Desired height.
+	 */
+	public Renderer(int width, int height) {
+		this(width, height, width, height, false);
 	}
 	
+	/**
+	 * Create a software renderer. 
+	 * @param screenWidth Screen width.
+	 * @param screenHeight Screen height.
+	 * @param backBufferWidth Back buffer width.
+	 * @param backBufferHeight Back buffer height.
+	 * @param autoClear Enable or disable auto clear.
+	 */
+	public Renderer(int screenWidth, int screenHeight, int backBufferWidth, int backBufferHeight, boolean autoClear) {
+		this.width = screenWidth;
+		this.height = screenHeight;
+		this.backBufferWidth = backBufferWidth;
+		this.backBufferHeight = backBufferHeight;
+		// Alpha Blue Green Red
+		this.backBuffer = new int[this.backBufferWidth * this.backBufferHeight * 4];
+		this.createFrontBuffer(this.width, this.height);
+		this.autoClear = autoClear;
+		this.autoClearColor = Color.black;
+	}
+	
+	/**
+	 * Create the front buffer with the specified size.
+	 * @param width Desired width.
+	 * @param height Desired height.
+	 */
 	protected void createFrontBuffer(int width, int height) {
 		BufferedImage frontBuffer = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 		DataBufferByte buffer = (DataBufferByte)frontBuffer.getRaster().getDataBuffer();
@@ -39,10 +71,6 @@ public class Device {
 		}
 		
 		this.frontBuffer = frontBuffer;
-	}
-	
-	public BufferedImage getFrontBuffer() {
-		return this.frontBuffer;
 	}
 	
 	/**
@@ -61,7 +89,7 @@ public class Device {
 	/**
 	 * Flush the backBuffer to frontBuffer.
 	 */
-	public void present() {
+	protected void present() {
 		DataBufferByte buffer = (DataBufferByte)this.frontBuffer.getRaster().getDataBuffer();
 
 		for (int i = 0, l = backBuffer.length; i < l; i += 4) { 
@@ -77,7 +105,7 @@ public class Device {
 	 * @param x Value of X coordinate.
 	 * @param y Value of Y coordinate.
 	 */
-	public void drawPoint(int x, int y) {
+	protected void drawPoint(int x, int y) {
 		// Show only if it visible.
         if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
             drawPixel(x, y, this.pixelColor);
@@ -90,7 +118,7 @@ public class Device {
 	 * @param y Value of Y coordinate.
 	 * @param color Desired pixel color for this pixel.
 	 */
-	public void drawPixel(int x, int y, Color color) {
+	protected void drawPixel(int x, int y, Color color) {
 		int index = (x + y * this.width) * 4;
 		this.backBuffer[index] = color.getAlpha();
 		this.backBuffer[index + 1] = color.getBlue();
@@ -103,7 +131,7 @@ public class Device {
 	 * @param pointA Start point.
 	 * @param pointB End point.
 	 */
-	public void drawLine(Vector2 pointA, Vector2 pointB) {
+	protected void drawLine(Vector2 pointA, Vector2 pointB) {
         int x0 = (int)pointA.x;
         int x1 = (int)pointB.x;
         int y0 = (int)pointA.y;
@@ -145,7 +173,7 @@ public class Device {
 	 * @param transformMatrix
 	 * @return Return 2D coordinates.
 	 */
-	public Vector2 project(Vector3 coordinates, Matrix transformMatrix) {
+	protected Vector2 project(Vector3 coordinates, Matrix transformMatrix) {
 		Vector3 point = Vector3.transformCoordinate(coordinates, transformMatrix);
 		Vector2 projection = new Vector2();
 		projection.x = point.x * this.width + (this.width / 2);
@@ -158,7 +186,7 @@ public class Device {
 	 * @param camera The current camera.
 	 * @param meshes A collection of 3D objects. (will be a scene later)
 	 */
-	public void render(Camera camera, Mesh[] meshes) {
+	protected void internalRender(Camera camera, Mesh[] meshes) {
 		Matrix view = camera.getViewMatrix();
 		Matrix projection = Matrix.createPerspetiveFieldOfViewRightHand((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
@@ -186,6 +214,60 @@ public class Device {
                  drawLine(pointC, pointA);
 			}
 		}
-		
+	}
+	
+	/**
+	 * Render a scene to the screen.
+	 * @param graphics The graphics context.
+	 * @param camera The active camera to use.
+	 * @param meshes A collection of meshes. // TODO will be a scene object later.
+	 */
+	public void render(Graphics graphics, Camera camera, Mesh[] meshes) {
+		if (this.autoClear) {
+			this.clear(this.autoClearColor);
+		}
+		this.internalRender(camera, meshes);
+		this.present();
+		graphics.drawImage(this.frontBuffer, 0, 0, this.width, this.height, null);
+	}
+	
+	// ---
+	// --- Getters and setters
+	// ---
+	
+	/**
+	 * Gets the front buffer used by the renderer.
+	 * @return Return the buffered image used for front buffer. 
+	 */
+	public BufferedImage getFrontBuffer() {
+		return this.frontBuffer;
+	}
+	
+	/**
+	 * Enable or disable auto clear before each draw.
+	 * @param autoClear Sets to true to enable auto clear.
+	 */
+	public void setAutoClear(boolean autoClear) {
+		this.autoClear = autoClear;
+	}
+	
+	public boolean isAutoClear() {
+		return this.autoClear;
+	}
+	
+	/**
+	 * Sets the color used to auto clear the screen.
+	 * @param color Desired clear color.
+	 */
+	public void setAutoClearColor(Color color) {
+		this.autoClearColor = color;
+	}
+	
+	/**
+	 * Gets the color used to auto clear the screen.
+	 * @return Return the color used to clear the screen.
+	 */
+	public Color getAutoClearColor() {
+		return this.autoClearColor;
 	}
 }

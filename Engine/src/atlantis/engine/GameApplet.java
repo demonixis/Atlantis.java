@@ -32,7 +32,7 @@ public class GameApplet extends JApplet implements IGamePlatform, IUpdateable, I
 		Atlantis.game = this.game;
 		Atlantis.content = this.game.getContentManager();
 		Atlantis.components = this.game.getComponents();
-		Atlantis.keyboard = this.game.getKeyboardState();
+		Atlantis.keyboard = this.game.getKeyboardManager();
 		Atlantis.mouse = this.game.getMouseState();
 		Atlantis.width = this.getWidth();
 		Atlantis.height = this.getHeight();

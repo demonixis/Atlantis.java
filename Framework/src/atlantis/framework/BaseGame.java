@@ -145,7 +145,7 @@ public abstract class BaseGame implements IDrawable, IUpdateable {
 	 * Retrieve the keyboard state
 	 * @return A KeyboardState object
 	 */
-	public KeyboardManager getKeyboardState() {
+	public KeyboardManager getKeyboardManager() {
 		return this.keyboardManager;
 	}
 	

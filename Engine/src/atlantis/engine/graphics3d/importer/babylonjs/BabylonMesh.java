@@ -15,4 +15,21 @@ public class BabylonMesh {
     public float[] vertices;
     public float[] indices;
     public BabylonSubMesh[] subMeshes;
+    
+    public BabylonMesh() {
+    	this.name = "";
+    	this.id = "";
+    	this.materialId = "";
+    	this.position = new float[0];
+    	this.rotation = new float[0];
+    	this.scaling = new float[0];
+    	this.isVisible = true;
+    	this.isEnabled = true;
+    	this.checkCollisions = false;
+    	this.billboardMode = 0;
+    	this.uvCount = 0;
+    	this.vertices = new float[0];
+    	this.indices = new float[0];
+    	this.subMeshes = new BabylonSubMesh[0];
+    }
 }

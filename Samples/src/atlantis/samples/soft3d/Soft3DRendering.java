@@ -11,6 +11,7 @@ import atlantis.engine.graphics3d.Mesh;
 import atlantis.engine.graphics3d.geometry.CubeGeometry;
 import atlantis.engine.graphics3d.geometry.PlaneGeometry;
 import atlantis.engine.graphics3d.geometry.PyramidGeometry;
+import atlantis.engine.graphics3d.importer.babylonjs.BabylonImporter;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
 import atlantis.framework.Vector3;
@@ -32,6 +33,9 @@ public class Soft3DRendering extends Game {
 	
 	public void loadContent() {
 		super.loadContent();
+		
+		meshes = BabylonImporter.loadBabyonScene("Content/models/spaceship.babylon");
+		/*
 		meshes = new Mesh[6];
 				
 		Mesh cube = new Mesh("cube", new CubeGeometry());
@@ -62,7 +66,7 @@ public class Soft3DRendering extends Game {
 		Mesh plane2 = new Mesh("plane", new PlaneGeometry());
 		plane2.color = Color.RED;
 		plane2.position = new Vector3(-7.5f, 2.5f, 0.0f);
-		meshes[5] = plane2;
+		meshes[5] = plane2;*/
 	}
 	
 	public void update(GameTime gameTime) {
@@ -77,16 +81,16 @@ public class Soft3DRendering extends Game {
             camera.translate(0.0f, 0.0f, 1.0f);
 
         if (state.isKeyDown(KeyEvent.VK_LEFT))
-            camera.rotate(0.0f, -0.01f, 0.0f);
-
-        else if (state.isKeyDown(KeyEvent.VK_RIGHT))
             camera.rotate(0.0f, 0.01f, 0.0f);
 
+        else if (state.isKeyDown(KeyEvent.VK_RIGHT))
+            camera.rotate(0.0f, -0.01f, 0.0f);
+
         if (state.isKeyDown(KeyEvent.VK_Q))
-            camera.translate(0.1f, 0.0f, 0.0f);
+            camera.translate(-0.1f, 0.0f, 0.0f);
 
         if (state.isKeyDown(KeyEvent.VK_D))
-            camera.translate(-0.1f, 0.0f, 0.0f);
+            camera.translate(0.1f, 0.0f, 0.0f);
 
         if (state.isKeyDown(KeyEvent.VK_PAGE_UP))
             camera.rotate(0.0f, 0.0f, -0.01f);
@@ -109,7 +113,7 @@ public class Soft3DRendering extends Game {
 		super.draw(graphics);
 
 		for (int i = 0, l = meshes.length; i < l; i++) {
-			meshes[i].rotation.x += 0.01f;
+			//meshes[i].rotation.x += 0.01f;
 			meshes[i].rotation.y += 0.01f;
 		}
 		

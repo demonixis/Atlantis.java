@@ -1,18 +1,99 @@
 package atlantis.engine.graphics3d.importer.babylonjs;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import atlantis.engine.graphics3d.Face3;
 import atlantis.engine.graphics3d.Mesh;
 import atlantis.framework.Vector3;
 
 public class BabylonImporter {
 	public static Mesh[] loadBabyonScene(String filename) {
-		
-		// 1 - Open the file
-		// 2 - Parse the json and create instance
-		// 3 - Replace this line by something like : scene = JSON.deserialize<BabylonScene>(string);
-		BabylonScene scene = new BabylonScene();
+		Mesh[] mesh = null;
+		BufferedReader reader = null;
+		StringBuilder jsonString = new StringBuilder();
+
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+			String line;
+			while((line = reader.readLine()) != null) {
+				jsonString.append(line);
+			}
+			reader.close();
+			
+			return getMeshes(createBabylonScene(jsonString.toString()));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     
-        Mesh[] meshesCollection = new Mesh[scene.meshes.length];
+        return mesh;
+    }
+	
+	public static BabylonScene createBabylonScene(String jsonString) {
+		BabylonScene scene = new BabylonScene();
+		
+		JSONObject json = new JSONObject(jsonString);
+		JSONArray meshes = json.getJSONArray("meshes");
+		
+		int countMeshes = meshes.length();
+		
+		scene.meshes = new BabylonMesh[countMeshes];
+		
+		for (int i = 0; i < countMeshes; i++) {
+			scene.meshes[i] = new BabylonMesh();
+			
+			JSONObject jsonMesh = meshes.getJSONObject(i);
+			scene.meshes[i].name = jsonMesh.getString("name");
+			scene.meshes[i].id = jsonMesh.getString("id");
+			scene.meshes[i].materialId = jsonMesh.getString("materialId");
+			
+			scene.meshes[i].position = getFloat3Array(jsonMesh, "position");
+			scene.meshes[i].rotation = getFloat3Array(jsonMesh, "rotation");
+			scene.meshes[i].scaling = getFloat3Array(jsonMesh, "scaling");
+			
+			scene.meshes[i].isVisible = jsonMesh.getBoolean("isVisible");
+			scene.meshes[i].isEnabled = jsonMesh.getBoolean("isEnabled");
+			scene.meshes[i].checkCollisions = jsonMesh.getBoolean("checkCollisions");
+			scene.meshes[i].billboardMode = jsonMesh.getInt("billboardMode");
+			scene.meshes[i].uvCount = jsonMesh.getInt("uvCount");
+
+			scene.meshes[i].vertices = getFloatNArray(jsonMesh, "vertices");
+			scene.meshes[i].indices = getFloatNArray(jsonMesh, "indices");
+		}
+		
+		return scene;
+	}
+	
+	public static float[] getFloat3Array(JSONObject json, String key) {
+		float[] float3 = new float[3];
+
+		JSONArray jsonFloat3 = json.getJSONArray(key);
+		float3[0] = (float)jsonFloat3.getDouble(0);
+		float3[1] = (float)jsonFloat3.getDouble(1);
+		float3[2] = (float)jsonFloat3.getDouble(2);
+		
+		return float3;
+	}
+	
+	public static float[] getFloatNArray(JSONObject json, String key) {
+		JSONArray jsonFloatN = json.getJSONArray(key);
+		int countElem = jsonFloatN.length();
+		float[] floatN = new float[countElem];
+		
+		for (int i = 0; i < countElem; i++) {
+			floatN[i] = (float)jsonFloatN.getDouble(i);
+		}
+		
+		return floatN;
+	}
+	
+	public static Mesh[] getMeshes(BabylonScene scene) {
+		Mesh[] meshesCollection = new Mesh[scene.meshes.length];
 
         for (int i = 0, l = scene.meshes.length; i < l; i++)
         {
@@ -35,7 +116,7 @@ public class BabylonImporter {
                 float x = verticesArray[index * verticesStep];
                 float y = verticesArray[index * verticesStep + 1];
                 float z = verticesArray[index * verticesStep + 2];
-                mesh.setVertex(i, new Vector3(x, y, z));
+                mesh.setVertex(index, new Vector3(x, y, z));
             }
 
             for (int index = 0; index < facesCount; index++)
@@ -53,5 +134,5 @@ public class BabylonImporter {
         }
 
         return meshesCollection;
-    }
+	}
 }

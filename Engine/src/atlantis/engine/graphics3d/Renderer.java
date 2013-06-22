@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import atlantis.framework.MathHelper;
 import atlantis.framework.Matrix;
-import atlantis.framework.Vector2;
 import atlantis.framework.Vector3;
 
 /**
@@ -16,11 +15,11 @@ import atlantis.framework.Vector3;
 public class Renderer {
 	private BufferedImage frontBuffer;
 	private int[] backBuffer;
+	private float[] depthBuffer;
 	protected int width;
 	protected int height;
 	protected int backBufferWidth;
 	protected int backBufferHeight;
-	protected Color pixelColor;
 	protected Color autoClearColor;
 	protected boolean autoClear;
 	
@@ -49,10 +48,34 @@ public class Renderer {
 		this.backBufferHeight = backBufferHeight;
 		// Alpha Blue Green Red
 		this.backBuffer = new int[this.backBufferWidth * this.backBufferHeight * 4];
+		this.depthBuffer = new float[this.backBufferWidth * this.backBufferHeight];
 		this.createFrontBuffer(this.width, this.height);
 		this.autoClear = autoClear;
 		this.autoClearColor = Color.black;
+		this.clear(Color.black);
 	}
+	
+	// ---
+	// --- Helper methods
+	// ---
+	
+	protected float clamp(float value) {
+		return Math.max(0, Math.min(value, 1));
+	}
+	
+	protected float interpolate(float min, float max, float gradiant) {
+		return min + (max - min) * clamp(gradiant);
+	}
+	
+	protected void swap(Vector3 vectorA, Vector3 vectorB) {
+		Vector3 temp = new Vector3(vectorB);
+		vectorB.setValues(vectorA.x, vectorA.y, vectorA.z);
+		vectorB.setValues(temp.x, temp.y, temp.z); 
+	}
+	
+	// ---
+	// --- Draw methods
+	// ---
 	
 	/**
 	 * Create the front buffer with the specified size.
@@ -74,7 +97,7 @@ public class Renderer {
 	}
 	
 	/**
-	 * Clear the screen with a specified color.
+	 * Clear the screen with a specified color and reset the depth buffer.
 	 * @param color Desired color to clear the screen.
 	 */
 	public void clear(Color color) {
@@ -83,6 +106,10 @@ public class Renderer {
 			this.backBuffer[i + 1] = color.getBlue();
 			this.backBuffer[i + 2] = color.getGreen();
 			this.backBuffer[i + 3] = color.getRed();
+		}
+		
+		for (int i = 0, l = this.depthBuffer.length; i < l; i++) {
+			this.depthBuffer[i] = Float.MAX_VALUE;
 		}
 	}
 	
@@ -105,10 +132,10 @@ public class Renderer {
 	 * @param x Value of X coordinate.
 	 * @param y Value of Y coordinate.
 	 */
-	protected void drawPoint(int x, int y) {
+	protected void drawPoint(int x, int y, float z, Color color) {
 		// Show only if it visible.
-        if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-            drawPixel(x, y, this.pixelColor);
+        if (x >= 0 && x < this.backBufferWidth && y >= 0 && y < this.backBufferHeight) {
+            drawPixel(x, y, z, color);
         }
 	}
 	
@@ -118,12 +145,20 @@ public class Renderer {
 	 * @param y Value of Y coordinate.
 	 * @param color Desired pixel color for this pixel.
 	 */
-	protected void drawPixel(int x, int y, Color color) {
-		int index = (x + y * this.width) * 4;
-		this.backBuffer[index] = color.getAlpha();
-		this.backBuffer[index + 1] = color.getBlue();
-		this.backBuffer[index + 2] = color.getGreen();
-		this.backBuffer[index + 3] = color.getRed();
+	protected void drawPixel(int x, int y, float z, Color color) {
+		int index = (x + y * this.width);
+		int index4 = index * 4;
+		
+		if (this.depthBuffer[index] < z) {
+			return;
+		}
+		
+		this.depthBuffer[index] = z;
+		
+		this.backBuffer[index4] = color.getAlpha();
+		this.backBuffer[index4 + 1] = color.getBlue();
+		this.backBuffer[index4 + 2] = color.getGreen();
+		this.backBuffer[index4 + 3] = color.getRed();
 	}
 	
 	/**
@@ -131,7 +166,7 @@ public class Renderer {
 	 * @param pointA Start point.
 	 * @param pointB End point.
 	 */
-	protected void drawLine(Vector2 pointA, Vector2 pointB) {
+	protected void drawLine(Vector3 pointA, Vector3 pointB, Color color) {
         int x0 = (int)pointA.x;
         int x1 = (int)pointB.x;
         int y0 = (int)pointA.y;
@@ -147,7 +182,7 @@ public class Renderer {
         boolean drawing = true;
 
         while (drawing) {
-            drawPoint(x0, y0);
+            drawPoint(x0, y0, Float.MAX_VALUE, color);
 
             if ((x0 == x1) && (y0 == y1)) {
                 drawing = false;
@@ -168,16 +203,125 @@ public class Renderer {
     }
 	
 	/**
+	 * Sort points of a triangle to have PA -> PB -> PC (in this order)
+	 * @param pointA First point of the triangle.
+	 * @param pointB Second point of the triangle.
+	 * @param pointC Third point of the triangle.
+	 */
+	protected void sortPoints(Vector3 pointA, Vector3 pointB, Vector3 pointC) {
+		if (pointA.y > pointB.y) {
+		    Vector3 temp = pointB;
+		    pointB = pointA;
+		    pointA = temp;
+		}
+		
+		if (pointB.y > pointC.y) {
+			Vector3 temp = pointC;
+			pointC = pointB;
+			pointB = temp;
+		}
+		
+		if (pointA.y > pointB.y) {
+		    Vector3 temp = pointB;
+		    pointB = pointA;
+		    pointA = temp;
+		}
+	}
+	
+	/**
+	 * Draw a triangle in back buffer.
+	 * @param pointA First point of the triangle.
+	 * @param pointB Second point of the triangle.
+	 * @param pointC Third point of the triangle.
+	 * @param color The color that be used to fill the triangle on screen.
+	 */
+	protected void drawTriangle(Vector3 pointA, Vector3 pointB, Vector3 pointC, Color color) {
+		// Sorting points for having P1 -> P2 -> P3 
+		//this.sortPoints(pointA, pointB, pointC);
+		if (pointA.y > pointB.y) {
+		    Vector3 temp = pointB;
+		    pointB = pointA;
+		    pointA = temp;
+		}
+		
+		if (pointB.y > pointC.y) {
+			Vector3 temp = pointC;
+			pointC = pointB;
+			pointB = temp;
+		}
+		
+		if (pointA.y > pointB.y) {
+		    Vector3 temp = pointB;
+		    pointB = pointA;
+		    pointA = temp;
+		}
+
+		// Invert slopes
+		float dP1P2 = 0.0f;
+		float dP1P3 = 0.0f;
+
+		if (pointB.y - pointA.y > 0) {
+			dP1P2 = (pointB.x - pointA.x) / (pointB.y - pointA.y);
+		}
+
+		if (pointC.y - pointA.y > 0) {
+			dP1P3 = (pointC.x - pointA.x) / (pointC.y - pointA.y);
+		}
+
+		// First case P2 is on right
+		if (dP1P2 > dP1P3) {
+			for (int y = (int)pointA.y; y <= (int)pointC.y; y++) {
+				if (y < pointB.y) {
+					processScanLine(y, pointA, pointC, pointA, pointB, color);
+				}
+				else {
+					processScanLine(y, pointA, pointC, pointB, pointC, color);
+				}
+			}
+		}
+		else { // Second case P2 is on left
+			for (int y = (int)pointA.y; y < (int)pointC.y; y++) {
+				if (y < pointB.y) {
+					processScanLine(y, pointA, pointB, pointA, pointC, color);
+				}
+				else {
+					processScanLine(y, pointB, pointC, pointA, pointC, color);
+				}
+			}
+		} 
+	}
+	
+	protected void processScanLine(int y, Vector3 pointA, Vector3 pointB, Vector3 pointC, Vector3 pointD, Color color) {
+		float gradiant1 = pointA.y != pointB.y ? (y - pointA.y) / (pointB.y - pointA.y) : 1;
+		float gradiant2 = pointC.y != pointD.y ? (y - pointC.y) / (pointD.y - pointC.y) : 1;
+		
+		int startX = (int)interpolate(pointA.x, pointB.x, gradiant1);
+		int endX = (int)interpolate(pointC.x, pointD.x, gradiant2);
+		
+		float z1 = interpolate(pointA.z, pointB.z, gradiant1);
+		float z2 = interpolate(pointC.z, pointD.z, gradiant2);
+		float z = Float.MIN_VALUE;
+		float zGradiant = 0.0f;
+		
+		for (int x = startX; x < endX; x++) {
+			zGradiant = ((float)(x - startX) / (float)(endX - startX)); 
+			z = interpolate(z1, z2, zGradiant);
+			this.drawPoint(x, y, z, color);
+		}
+	}
+	
+	/**
 	 * Gets 2D coordinates from 3D coordinates.
 	 * @param coordinates 
 	 * @param transformMatrix
 	 * @return Return 2D coordinates.
 	 */
-	protected Vector2 project(Vector3 coordinates, Matrix transformMatrix) {
+	protected Vector3 project(Vector3 coordinates, Matrix transformMatrix) {
 		Vector3 point = Vector3.transformCoordinate(coordinates, transformMatrix);
-		Vector2 projection = new Vector2();
+		Vector3 projection = new Vector3();
 		projection.x = point.x * this.width + (this.width / 2);
 		projection.y = -point.y * this.height + (this.height / 2);
+		projection.z = point.z;
 		return projection;
 	}
 	
@@ -198,20 +342,23 @@ public class Renderer {
 			
 			Matrix worldViewProject = Matrix.multiply(world, view, projection);
 			
-			this.pixelColor = meshes[i].color;
-			
 			for (int j = 0, m = meshes[i].faces.length; j < m; j++) {
 				 Vector3 vecA = meshes[i].getVertex(meshes[i].faces[j].a);
                  Vector3 vecB = meshes[i].getVertex(meshes[i].faces[j].b);
                  Vector3 vecC = meshes[i].getVertex(meshes[i].faces[j].c);
 
-                 Vector2 pointA = project(vecA, worldViewProject);
-                 Vector2 pointB = project(vecB, worldViewProject);
-                 Vector2 pointC = project(vecC, worldViewProject);
+                 Vector3 pointA = project(vecA, worldViewProject);
+                 Vector3 pointB = project(vecB, worldViewProject);
+                 Vector3 pointC = project(vecC, worldViewProject);
                  
-                 drawLine(pointA, pointB);
-                 drawLine(pointB, pointC);
-                 drawLine(pointC, pointA);
+                 if (meshes[i].isWireframe()) {
+		             drawLine(pointA, pointB, meshes[i].vertexColor);
+		             drawLine(pointB, pointC, meshes[i].vertexColor);
+		             drawLine(pointC, pointA, meshes[i].vertexColor);
+                 }
+                 else {
+                	 this.drawTriangle(pointA, pointB, pointC, meshes[i].vertexColor);
+                 }
 			}
 		}
 	}

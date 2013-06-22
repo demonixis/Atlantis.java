@@ -13,16 +13,18 @@ public class Mesh {
 	protected String name;
 	protected Vector3[] vertices;
 	protected Face3[] faces;
-	public Color color;
+	public Color vertexColor;
 	public Vector3 position;
 	public Vector3 rotation;
 	public Vector3 scale;
+	protected boolean wireframe;
 	
 	private Mesh() {
 		this.position = new Vector3();
 		this.rotation = new Vector3();
 		this.scale = new Vector3(1.0f);
-		this.color = Color.yellow;
+		this.vertexColor = Color.yellow;
+		this.wireframe = false;
 	}
 	
 	public Mesh(String name, int verticesCount, int facesCount) {
@@ -92,5 +94,13 @@ public class Mesh {
 	
 	public void setScale(Vector3 scale) {
 		this.scale = scale;
+	}
+	
+	public void setWireframeMode(boolean isWireframe) {
+		this.wireframe = isWireframe;
+	}
+	
+	public boolean isWireframe() {
+		return this.wireframe;
 	}
 }

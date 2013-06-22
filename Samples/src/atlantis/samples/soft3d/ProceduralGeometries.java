@@ -62,7 +62,7 @@ public class ProceduralGeometries extends BaseDemo3D {
 		super.update(gameTime);
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
-			meshes[i].rotation.x += 0.01f;
+			meshes[i].rotation.z += 0.01f;
 			meshes[i].rotation.y += 0.01f;
 		}
 	}

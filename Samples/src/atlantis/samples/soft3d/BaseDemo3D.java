@@ -48,16 +48,21 @@ public class BaseDemo3D extends Game {
             camera.translate(0.1f, 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_UP))
-            camera.rotate(0.0f, 0.0f, -0.01f);
+            camera.rotate(-0.01f, 0.0f, 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_DOWN))
-            camera.rotate(0.0f, 0.0f, 0.01f);
+            camera.rotate(0.01f, 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_A))
-            camera.translate(0.0f, -0.01f, 0.0f);
+            camera.translate(0.0f, -0.05f, 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_E))
-            camera.translate(0.0f, 0.01f, 0.0f);
+            camera.translate(0.0f, 0.05f, 0.0f);
+        
+        if (keyboardState.isKeyDown(KeyEvent.VK_F5)) {
+        	System.out.println("Position: " + camera.position.toString());
+        	System.out.println("Rotation: " + camera.rotation.toString());
+        }
 		
 		if (keyboardState.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			this.exit();

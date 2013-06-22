@@ -6,13 +6,24 @@ package atlantis.framework;
  *
  */
 public class Vector2 {
-	//public static final Vector2 Zero = new Vector2();
-	//public static final Vector2 One = new Vector2(1.0f, 1.0f);
-	//public static final Vector2 UnitX = new Vector2(1.0f, 0.0f);
-	//public static final Vector2 UnitY = new Vector2(0.0f, 1.0f);
-	
 	public float x;
 	public float y;
+	
+	public static final Vector2 Zero() {
+		return new Vector2();
+	}
+	
+	public static final Vector2 One() {
+		return new Vector2(1.0f, 1.0f);
+	}
+	
+	public static final Vector2 UnitX() {
+		return new Vector2(1.0f, 0.0f);
+	}
+	
+	public static final Vector2 UnitY() {
+		return new Vector2(0.0f, 1.0f);
+	}
 	
 	/**
 	 * Create a default vector with X and Y equal 0.

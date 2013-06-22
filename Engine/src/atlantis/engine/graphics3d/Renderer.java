@@ -336,7 +336,9 @@ public class Renderer {
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			Matrix scale = Matrix.createScale(meshes[i].scale);
-			Matrix rotation = Matrix.multiply(Matrix.createRotationX(meshes[i].rotation.x), Matrix.createRotationY(meshes[i].rotation.y));
+			//Matrix rotation = Matrix.multiply(Matrix.createRotationX(meshes[i].rotation.x), Matrix.createRotationY(meshes[i].rotation.y));
+			Matrix rotation = Matrix.createRotationYawPitchRoll(meshes[i].rotation.y, meshes[i].rotation.x, meshes[i].rotation.z);
+			
 			Matrix translation = Matrix.createTranslation(meshes[i].position);
 			Matrix world = Matrix.multiply(scale, rotation, translation);
 			

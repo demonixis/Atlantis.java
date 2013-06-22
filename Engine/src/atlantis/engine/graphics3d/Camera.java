@@ -61,6 +61,6 @@ public class Camera {
         this.target.x = this.position.x + transformedRef.x;
         this.target.y = this.position.y + transformedRef.y;
         this.target.z = this.position.z + transformedRef.z;
-        return Matrix.createLookAt(this.position, this.target, Vector3.getUnitY());
+        return Matrix.createLookAt(this.position, this.target, Vector3.UnitY());
 	}
 }

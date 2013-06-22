@@ -6,21 +6,49 @@ package atlantis.framework;
  * @see Inspired by MonoGame Vector3.cs class.
  */
 public class Vector3 {
-	//public static final Vector3 Zero = new Vector3(0, 0, 0);
-	//public static final Vector3 One = new Vector3(1.0f, 1.0f, 1.0f);
-	//public static final Vector3 UnitX = new Vector3(1.0f, 0.0f, 0.0f);
+	public static final Vector3 Zero() {
+		return new Vector3(0, 0, 0);
+	}
 	
-	public static final Vector3 getUnitY() {
+	public static final Vector3 One() {
+		return new Vector3(1.0f, 1.0f, 1.0f);
+	}
+	
+	public static final Vector3 UnitX() {
+		return new Vector3(1.0f, 0.0f, 0.0f);
+	}
+	
+	public static final Vector3 UnitY() {
 		return new Vector3(0.0f, 1.0f, 0.0f);
 	}
 	
-	//public static final Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
-	//public static final Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
-	//public static final Vector3 Down = new Vector3(0.0f, -1.0f, 0.0f);
-	//public static final Vector3 Right = new Vector3(1.0f, 0.0f, 0.0f);
-	//public static final Vector3 Left = new Vector3(-1.0f, 0.0f, 0.0f);
-    //public static final Vector3 Forward = new Vector3(0.0f, 0.0f, -1.0f);
-    //public static final Vector3 Backward = new Vector3(0.0f, 0.0f, 1.0f);
+	public static final Vector3 UnitZ() {
+		return new Vector3(0.0f, 0.0f, 1.0f);
+	}
+	
+	public static final Vector3 Up() {
+		return new Vector3(0.0f, 1.0f, 0.0f);
+	}
+	
+	public static final Vector3 Down() {
+		return new Vector3(0.0f, -1.0f, 0.0f);
+	}
+	
+	public static final Vector3 Right() {
+		return new Vector3(1.0f, 0.0f, 0.0f);
+	}
+	
+	public static final Vector3 Left() {
+		return new Vector3(-1.0f, 0.0f, 0.0f);
+	}
+	
+    public static final Vector3 Forward() {
+    	return new Vector3(0.0f, 0.0f, -1.0f);
+    }
+    
+    public static final Vector3 Backward() {
+    	return new Vector3(0.0f, 0.0f, 1.0f);
+    }
 	
 	public float x;
 	public float y;

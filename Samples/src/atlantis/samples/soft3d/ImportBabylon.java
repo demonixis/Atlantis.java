@@ -1,5 +1,7 @@
 package atlantis.samples.soft3d;
 
+import java.awt.Color;
+
 import atlantis.engine.graphics3d.importer.babylonjs.BabylonImporter;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
@@ -7,7 +9,8 @@ import atlantis.framework.GameTime;
 public class ImportBabylon extends BaseDemo3D {
 	public ImportBabylon() {
 		super("AtlantisEngine.java - 3D serie : Loading a babylon scene");
-		this.camera.position.z = 20;
+		this.camera.position.setValues(0, 13.9f, 32.0f);
+		this.camera.rotation.setValues(-0.38f, 0.0f, 0.0f);
 	}
 	
 	/**
@@ -15,13 +18,18 @@ public class ImportBabylon extends BaseDemo3D {
 	 */
 	public void loadContent() {
 		super.loadContent();
+		//meshes = BabylonImporter.loadBabyonScene("Content/models/repaireArea.babylon");
 		//meshes = BabylonImporter.loadBabyonScene("Content/models/object.babylon");
 		//meshes = BabylonImporter.loadBabyonScene("Content/models/smallScene.babylon");
 		meshes = BabylonImporter.loadBabyonScene("Content/models/spaceship.babylon");
+	
+		for (int i = 0; i < meshes.length; i++) {
+			meshes[i].vertexColor = Color.lightGray;
+		}
 	}
 	
 	/**
-	 * Apply a rotation on each objet of the scene
+	 * Apply a rotation on each objects of the scene
 	 */
 	public void update(GameTime gameTime) {
 		super.update(gameTime);

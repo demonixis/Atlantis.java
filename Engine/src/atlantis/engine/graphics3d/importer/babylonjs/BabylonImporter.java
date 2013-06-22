@@ -50,8 +50,12 @@ public class BabylonImporter {
 			JSONObject jsonMesh = meshes.getJSONObject(i);
 			scene.meshes[i].name = jsonMesh.getString("name");
 			scene.meshes[i].id = jsonMesh.getString("id");
+			try {
 			scene.meshes[i].materialId = jsonMesh.getString("materialId");
-			
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 			scene.meshes[i].position = getFloat3Array(jsonMesh, "position");
 			scene.meshes[i].rotation = getFloat3Array(jsonMesh, "rotation");
 			scene.meshes[i].scaling = getFloat3Array(jsonMesh, "scaling");

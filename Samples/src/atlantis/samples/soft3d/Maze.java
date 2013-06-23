@@ -11,8 +11,8 @@ public class Maze extends BaseDemo3D {
 	
 	public Maze() {
 		super("AtlantisEngine.java - 3D serie : Procedural Maze");
-		this.camera.position.setValues(-21.56f, 51.60f, 86.7f);
-		this.camera.rotation.setValues(-0.58f, -0.4f, 0f);
+		this.camera.position.set(-21.56f, 51.60f, 86.7f);
+		this.camera.rotation.set(-0.58f, -0.4f, 0f);
 		
 		this.level = new int [][] {
 			{2, 2, 2, 2, 2, 1, 2, 2, 2, 2},
@@ -38,7 +38,7 @@ public class Maze extends BaseDemo3D {
 		
 		CubeGeometry groundGeo = new CubeGeometry(width, 0.1f, depth);
 		Mesh ground = new Mesh("ground", groundGeo);
-		ground.vertexColor = Color.darkGray;
+		ground.color = Color.darkGray;
 		ground.position = new Vector3(width - 1, -0.9f, depth - 1);
 		mazeMeshes.add(ground);
 		
@@ -64,7 +64,7 @@ public class Maze extends BaseDemo3D {
 		CubeGeometry wallGeo = new CubeGeometry();
 		Mesh wallMesh = new Mesh("wall", wallGeo);
 		wallMesh.position = new Vector3(x * blockSize, 0, z * blockSize);
-		wallMesh.vertexColor = color;
+		wallMesh.color = color;
 		
 		if (sy < 1) {
 			wallMesh.position.y = -sy;

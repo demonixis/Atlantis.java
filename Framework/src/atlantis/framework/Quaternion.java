@@ -1,9 +1,13 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
 /**
  * Define a quaternion.
  * @author Yannick
- *
+ * Some methods has been ported from the open source project SharpDX.
+ * Check this project here : https://github.com/sharpdx/SharpDX
  */
 public class Quaternion {
 	public float x;

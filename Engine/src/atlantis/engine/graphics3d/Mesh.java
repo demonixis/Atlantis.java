@@ -1,3 +1,6 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics3d;
 
 import java.awt.Color;
@@ -13,7 +16,7 @@ public class Mesh {
 	protected String name;
 	protected Vector3[] vertices;
 	protected Face3[] faces;
-	public Color vertexColor;
+	public Color color;
 	public Vector3 position;
 	public Vector3 rotation;
 	public Vector3 scale;
@@ -23,7 +26,7 @@ public class Mesh {
 		this.position = new Vector3();
 		this.rotation = new Vector3();
 		this.scale = new Vector3(1.0f);
-		this.vertexColor = Color.yellow;
+		this.color = Color.yellow;
 		this.wireframe = false;
 	}
 	

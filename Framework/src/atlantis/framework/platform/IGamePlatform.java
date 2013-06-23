@@ -1,9 +1,12 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.framework.platform;
 
 import atlantis.framework.graphics.JPanelRenderer;
 
 /**
- * An interface that define a game plateform window
+ * An interface that define a game platform window
  * @author Yannick
  */
 public interface IGamePlatform {

@@ -1,9 +1,13 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
 /**
  * A Vector3 class that represent a vector with 3 coordinates X, Y and Z.
+ * Some methods has been ported from the open source project SharpDX.
+ * Check this project here : https://github.com/sharpdx/SharpDX
  * @author Yannick
- * @see Inspired by MonoGame Vector3.cs class.
  */
 public class Vector3 {
 	public static final Vector3 Zero() {
@@ -304,10 +308,14 @@ public class Vector3 {
 	 * @return Return the distance between two vectors.
 	 */
 	public static double distance(Vector3 vec1, Vector3 vec2) {
+		return Math.sqrt(distanceSquared(vec1, vec2));
+	}
+	
+	public static double distanceSquared(Vector3 vec1, Vector3 vec2) {
 		double dx = vec1.x - vec2.x;
 		double dy = vec1.y - vec2.y;
 		double dz = vec1.z - vec2.z;
-		return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+		return (dx * dx) + (dy * dy) + (dz * dz);
 	}
 	
 	/**
@@ -410,7 +418,7 @@ public class Vector3 {
 		
 		if (factor != 0) {
 			factor = 1.0f / factor;
-			this.setValues(this.x * factor, this.y * factor, this.z * factor);
+			this.set(this.x * factor, this.y * factor, this.z * factor);
 		}
 	}
 	
@@ -455,7 +463,7 @@ public class Vector3 {
 	 * @param y The new Y coordinate.
 	 * @param z The new Z coordinate.
 	 */
-	public void setValues(float x, float y, float z) {
+	public void set(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;

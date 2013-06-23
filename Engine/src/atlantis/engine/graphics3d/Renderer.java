@@ -1,3 +1,6 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics3d;
 
 import java.awt.Color;
@@ -69,8 +72,8 @@ public class Renderer {
 	
 	protected void swap(Vector3 vectorA, Vector3 vectorB) {
 		Vector3 temp = new Vector3(vectorB);
-		vectorB.setValues(vectorA.x, vectorA.y, vectorA.z);
-		vectorB.setValues(temp.x, temp.y, temp.z); 
+		vectorB.set(vectorA.x, vectorA.y, vectorA.z);
+		vectorB.set(temp.x, temp.y, temp.z); 
 	}
 	
 	// ---
@@ -332,7 +335,7 @@ public class Renderer {
 	 */
 	protected void internalRender(Camera camera, Mesh[] meshes) {
 		Matrix view = camera.getViewMatrix();
-		Matrix projection = Matrix.createPerspetiveFieldOfViewRightHand((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
+		Matrix projection = Matrix.createPerspetiveFieldOfViewRH((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			Matrix scale = Matrix.createScale(meshes[i].scale);
@@ -354,12 +357,12 @@ public class Renderer {
                  Vector3 pointC = project(vecC, worldViewProject);
                  
                  if (meshes[i].isWireframe()) {
-		             drawLine(pointA, pointB, meshes[i].vertexColor);
-		             drawLine(pointB, pointC, meshes[i].vertexColor);
-		             drawLine(pointC, pointA, meshes[i].vertexColor);
+		             drawLine(pointA, pointB, meshes[i].color);
+		             drawLine(pointB, pointC, meshes[i].color);
+		             drawLine(pointC, pointA, meshes[i].color);
                  }
                  else {
-                	 this.drawTriangle(pointA, pointB, pointC, meshes[i].vertexColor);
+                	 this.drawTriangle(pointA, pointB, pointC, meshes[i].color);
                  }
 			}
 		}

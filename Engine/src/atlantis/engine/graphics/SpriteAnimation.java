@@ -1,8 +1,15 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics;
 
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 
+/**
+ * Define a sprite animation which is a set of rectangles
+ * @author Yannick
+ */
 public class SpriteAnimation {
 	protected int frameRate;
 	protected double frameRateValue;

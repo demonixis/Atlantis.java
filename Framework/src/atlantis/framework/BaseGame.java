@@ -1,3 +1,6 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
 import java.awt.Graphics;
@@ -12,7 +15,6 @@ import atlantis.framework.platform.IGamePlatform;
  * The Game class provide basic initialization and game logic. 
  * It implements GameState pattern.
  * @author Yannick
- *
  */
 public abstract class BaseGame implements IDrawable, IUpdateable {
 	protected KeyboardManager keyboardManager;

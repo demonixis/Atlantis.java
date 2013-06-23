@@ -1,12 +1,14 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics3d;
 
 import atlantis.framework.Matrix;
 import atlantis.framework.Vector3;
 
 /**
- * A camera is used to view a 3D scene.
+ * Define a camera for viewing a 3D scene.
  * @author Yannick
- *
  */
 public class Camera {
 	public Vector3 position;

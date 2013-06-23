@@ -1,9 +1,12 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
 /**
  * A matrix 4x4 
- * Some methods has been taken from SharpDX. Thanks to the open source community.
- * @see https://github.com/sharpdx/SharpDX
+ * Some methods has been ported from the open source project SharpDX.
+ * Check this project here : https://github.com/sharpdx/SharpDX
  * @author Yannick
  */
 public class Matrix {
@@ -531,7 +534,7 @@ public class Matrix {
 	 * @param far Far clip
 	 * @return Return a matrix of this type of perspective.
 	 */
-	public static Matrix createPerspetiveFieldOfViewRightHand(float fov, float aspect, float zNear, float zFar) {
+	public static Matrix createPerspetiveFieldOfViewRH(float fov, float aspect, float zNear, float zFar) {
 		Matrix matrix = createPerspectiveFieldOfView(fov, aspect, zNear, zFar);
 		matrix.M31 *= -1.0f;
 		matrix.M32 *= -1.0f;

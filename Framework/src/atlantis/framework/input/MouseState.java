@@ -1,3 +1,6 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.framework.input;
 
 import atlantis.framework.Vector2;
@@ -5,7 +8,6 @@ import atlantis.framework.Vector2;
 /**
  * A mouse state define the state of the position and buttons at a given time.
  * @author Yannick
- *
  */
 public class MouseState {
 	private Vector2 position;

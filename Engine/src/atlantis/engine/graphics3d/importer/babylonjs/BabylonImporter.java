@@ -1,3 +1,6 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics3d.importer.babylonjs;
 
 import java.io.BufferedReader;
@@ -11,6 +14,10 @@ import atlantis.engine.graphics3d.Face3;
 import atlantis.engine.graphics3d.Mesh;
 import atlantis.framework.Vector3;
 
+/**
+ * Importer for a babylon scene.
+ * @author Yannick
+ */
 public class BabylonImporter {
 	public static Mesh[] loadBabyonScene(String filename) {
 		Mesh[] mesh = null;
@@ -51,7 +58,7 @@ public class BabylonImporter {
 			scene.meshes[i].name = jsonMesh.getString("name");
 			scene.meshes[i].id = jsonMesh.getString("id");
 			try {
-			scene.meshes[i].materialId = jsonMesh.getString("materialId");
+				scene.meshes[i].materialId = jsonMesh.getString("materialId");
 			}
 			catch (Exception e) {
 				e.printStackTrace();

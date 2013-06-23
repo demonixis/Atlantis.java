@@ -9,8 +9,8 @@ import atlantis.framework.GameTime;
 public class ImportBabylon extends BaseDemo3D {
 	public ImportBabylon() {
 		super("AtlantisEngine.java - 3D serie : Loading a babylon scene");
-		this.camera.position.setValues(0, 13.9f, 32.0f);
-		this.camera.rotation.setValues(-0.38f, 0.0f, 0.0f);
+		this.camera.position.set(0, 13.9f, 32.0f);
+		this.camera.rotation.set(-0.38f, 0.0f, 0.0f);
 	}
 	
 	/**
@@ -24,7 +24,7 @@ public class ImportBabylon extends BaseDemo3D {
 		meshes = BabylonImporter.loadBabyonScene("Content/models/spaceship.babylon");
 	
 		for (int i = 0; i < meshes.length; i++) {
-			meshes[i].vertexColor = Color.lightGray;
+			meshes[i].color = Color.lightGray;
 		}
 	}
 	

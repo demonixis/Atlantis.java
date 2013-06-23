@@ -1,3 +1,6 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
 /**
@@ -32,13 +35,16 @@ public class GameTime {
 	}
 
 	/**
-	 * Get the total elapsed time since the begining.
-	 * @return Return the total elapsed time since the begining.
+	 * Get the total elapsed time since the beginning.
+	 * @return Return the total elapsed time since the beginning.
 	 */
 	public long getTotalGameTime() {
 		return (long)(this.totalGameTime);
 	}
 	
+	/**
+	 * Reset the timer.
+	 */
 	public void reset() {
 		this.elapsedTime = 0;
 		this.totalGameTime = 0;

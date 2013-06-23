@@ -24,33 +24,33 @@ public class ProceduralGeometries extends BaseDemo3D {
 		meshes = new Mesh[6];
 				
 		Mesh cube = new Mesh("cube", new CubeGeometry());
-		cube.vertexColor = Color.GREEN;
+		cube.color = Color.GREEN;
 		cube.position = new Vector3(-2.5f, -2.5f, 0);
 		cube.setWireframeMode(true);
 		meshes[0] = cube;
 		
 		Mesh cube2 = new Mesh("cube2", new CubeGeometry());
-		cube2.vertexColor = Color.BLUE;
+		cube2.color = Color.BLUE;
 		cube2.position = new Vector3(2.5f, 2.5f, 0);
 		meshes[1] = cube2;
 		
 		Mesh plane = new Mesh("plane", new PlaneGeometry());
-		plane.vertexColor = Color.PINK;
+		plane.color = Color.PINK;
 		plane.position = new Vector3(-2.5f, 2.5f, 0.0f);
 		meshes[2] = plane;
 		
 		Mesh pyramid = new Mesh("triangle", new PyramidGeometry());
-		pyramid.vertexColor = Color.YELLOW;
+		pyramid.color = Color.YELLOW;
 		pyramid.position = new Vector3(2.5f, -2.5f, 0);
 		meshes[3] = pyramid;
 		
 		Mesh pyramid2 = new Mesh("triangle", new PyramidGeometry());
-		pyramid2.vertexColor = Color.ORANGE;
+		pyramid2.color = Color.ORANGE;
 		pyramid2.position = new Vector3(7.5f, 2.5f, 0);
 		meshes[4] = pyramid2;
 		
 		Mesh plane2 = new Mesh("plane", new PlaneGeometry());
-		plane2.vertexColor = Color.RED;
+		plane2.color = Color.RED;
 		plane2.position = new Vector3(-7.5f, 2.5f, 0.0f);
 		meshes[5] = plane2;
 	}

@@ -10,7 +10,7 @@ import atlantis.framework.input.KeyboardState;
 
 /**
  * A keyboard component
- * @author Yann
+ * @author Yannick
  */
 public class KeyboardComponent extends GameComponent {
 	protected KeyboardState keysState;

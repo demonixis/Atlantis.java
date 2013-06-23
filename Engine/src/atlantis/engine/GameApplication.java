@@ -3,6 +3,10 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine;
 
+import atlantis.engine.input.KeyboardComponent;
+import atlantis.engine.input.KeyboardHelper;
+import atlantis.engine.input.MouseComponent;
+import atlantis.engine.input.MouseHelper;
 import atlantis.engine.state.StateManager;
 import atlantis.framework.Game;
 
@@ -16,14 +20,21 @@ public class GameApplication extends Game {
 	public GameApplication(int width, int height, String title) {
 		super(width, height, title);
 		
+		KeyboardComponent keyboardComponent = new KeyboardComponent(this);
+		MouseComponent mouseComponent = new MouseComponent(this);
+		
 		this.stateManager = new StateManager(this);
 		this.components.add(this.stateManager);
+		this.components.add(keyboardComponent);
+		this.components.add(mouseComponent);
 		
 		Atlantis.game = this;
 		Atlantis.content = this.content;
 		Atlantis.components = this.components;
 		Atlantis.keyboard = this.keyboardManager;
 		Atlantis.mouse = this.mouseManager;
+		Atlantis.keyboardH = new KeyboardHelper(keyboardComponent);
+		Atlantis.mouseH = new MouseHelper(mouseComponent);
 		Atlantis.width = this.width;
 		Atlantis.height = this.height;
 	}

@@ -3,6 +3,91 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.input;
 
-public class MouseComponent {
+import java.awt.event.MouseEvent;
 
+import atlantis.framework.Game;
+import atlantis.framework.GameComponent;
+import atlantis.framework.GameTime;
+import atlantis.framework.Vector2;
+import atlantis.framework.input.MouseState;
+
+public class MouseComponent extends GameComponent {
+	private MouseState mouseState;
+	private MouseState previousMouseState;
+	private Vector2 delta;
+
+	public int getX() {
+		return this.mouseState.getX();
+	}
+
+	public int getY() {
+		return this.mouseState.getY();
+	}
+
+	public int getWheel() {
+		return this.mouseState.getWheel();
+	}
+
+	public boolean isMoving() {
+		return (this.mouseState.getX() != this.previousMouseState.getX()) || (this.mouseState.getY() != this.previousMouseState.getY());
+	}
+
+	public Vector2 getDelta() {
+		return this.delta;
+	}
+	
+	public MouseState getMouseState() {
+		return this.mouseState;
+	}
+
+	public MouseState getPreviousMouseState() {
+		return this.previousMouseState;
+	}
+
+	public MouseComponent(Game game) {
+		super(game);
+		this.mouseState = game.getMouseManager().getState();
+		this.previousMouseState = this.mouseState;
+		this.delta = new Vector2();
+	}
+
+	public void update(GameTime gameTime) {
+		super.update(gameTime);
+		// Update states
+		this.previousMouseState = this.mouseState;
+		this.mouseState = this.game.getMouseManager().getState();
+
+		// Calculate the delta
+		this.delta.x = this.mouseState.getX() - this.previousMouseState.getX();
+		this.delta.y = this.mouseState.getY() - this.previousMouseState.getY();
+	}
+
+	public boolean clickLeft(boolean isButtonDown) {
+		if (!isButtonDown) {
+			return this.mouseState.isButtonUp(MouseEvent.BUTTON1);
+		}
+		return this.mouseState.isButtonDown(MouseEvent.BUTTON1);
+	}
+
+	public boolean clickRight(boolean isButtonDown) {
+		if (!isButtonDown) {
+			return this.mouseState.isButtonUp(MouseEvent.BUTTON3);
+		}
+		return this.mouseState.isButtonDown(MouseEvent.BUTTON3);
+	}
+
+	public boolean clickMiddle(boolean isButtonDown) {
+		if (!isButtonDown) {
+			return this.mouseState.isButtonUp(MouseEvent.BUTTON2);
+		}
+		return this.mouseState.isButtonDown(MouseEvent.BUTTON2);
+	}
+
+	public boolean justClicked(int button) {
+		return this.mouseState.isButtonDown(button) && this.previousMouseState.isButtonUp(button);
+	}
+
+	public boolean justReleased(int button)	{
+		return this.mouseState.isButtonUp(button) && this.previousMouseState.isButtonDown(button);
+	}
 }

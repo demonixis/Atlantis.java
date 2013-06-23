@@ -12,78 +12,63 @@ import java.awt.event.KeyEvent;
 public class KeyboardHelper {
 	KeyboardComponent keyboardComponent;
 	
-	public KeyboardHelper(KeyboardComponent keyboardComponent)
-    {
+	public KeyboardHelper(KeyboardComponent keyboardComponent) {
         this.keyboardComponent = keyboardComponent;
     }
 
-    public boolean pressed(int key)
-    {
+    public boolean pressed(int key) {
         return this.keyboardComponent.pressed(key);
     }
 
-    public boolean released(int key)
-    {
+    public boolean released(int key) {
         return this.keyboardComponent.released(key);
     }
 
-    public boolean justpressed(int key)
-    {
+    public boolean justpressed(int key) {
         return this.keyboardComponent.justPressed(key);
     }
 
-    public boolean justReleased(int key)
-    {
+    public boolean justReleased(int key) {
         return this.keyboardComponent.justReleased(key);
     }
 
-    public boolean Up()
-    {
+    public boolean isUp() {
         return this.pressed(KeyEvent.VK_UP);
     }
 
-    public boolean down()
-    {
+    public boolean isDown() {
         return this.pressed(KeyEvent.VK_DOWN);
     }
 
-    public boolean left()
-    {
+    public boolean isLeft() {
         return this.pressed(KeyEvent.VK_LEFT);
     }
 
-    public boolean right()
-    {
+    public boolean isRright() {
         return this.pressed(KeyEvent.VK_RIGHT);
     }
 
-    public boolean enter()
-    {
+    public boolean isEnter() {
         return this.pressed(KeyEvent.VK_ENTER);
     }
 
-    public boolean space()
-    {
+    public boolean isSpace() {
         return this.pressed(KeyEvent.VK_SPACE);
     }
 
-    public boolean escape()
-    {
+    public boolean isEscape() {
         return this.pressed(KeyEvent.VK_ESCAPE);
     }
 
-    public boolean control()
-    {
+    public boolean isControl() {
         return this.pressed(KeyEvent.VK_CONTROL);
     }
 
-    public boolean shift()
-    {
+    public boolean isShift() {
         return this.pressed(KeyEvent.VK_SHIFT);
     }
 
-    public boolean tab()
-    {
+    public boolean isTab() {
         return this.pressed(KeyEvent.VK_TAB);
     }
 }

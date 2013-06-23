@@ -167,7 +167,7 @@ public class Game implements IDrawable, IUpdateable {
 	 * Retrieve the mouse state
 	 * @return A MouseState object
 	 */
-	public MouseManager getMouseState() {
+	public MouseManager getMouseManager() {
 		return this.mouseManager;
 	}
 	

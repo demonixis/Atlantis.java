@@ -4,6 +4,7 @@
 package atlantis.framework.graphics;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +19,14 @@ import atlantis.framework.IDisposable;
  */
 public class Texture2D implements IDisposable {
 	protected BufferedImage texture;
+	
+	/**
+	 * Create a texture with a BufferedImage.
+	 * @param texture Image to use.
+	 */
+	public Texture2D(BufferedImage texture) {
+		this.texture = texture;
+	}
 	
 	/**
 	 * Create a Texture2D, it is loaded from an external folder
@@ -89,5 +98,50 @@ public class Texture2D implements IDisposable {
 	 */
 	public int getHeight() {
 		return texture.getHeight();
+	}
+	
+	/**
+	 * Gets data of the texture.
+	 * @return Return an array that contains the structure of the texture;
+	 */
+	public int[] getData() {
+		DataBuffer buffer = this.texture.getRaster().getDataBuffer();
+		int [] data = new int[buffer.getSize()];
+		
+		for (int i = 0, l = buffer.getSize(); i < l; i++) {
+			data[i] = buffer.getElem(i);
+		}
+		
+		return data;
+	}
+	
+	/**
+	 * Sets data into the texture.
+	 * @param data An array of data to inject.
+	 * @throws Exception The array of data must have the same size of texture data.
+	 */
+	public boolean setData(int[] data) throws Exception {
+		DataBuffer buffer = this.texture.getRaster().getDataBuffer();
+		if (data.length == buffer.getSize()) {
+			for (int i = 0, l = buffer.getSize(); i < l; i++) {
+				buffer.setElem(i, data[i]);
+			}
+			return true;
+		}
+		else {
+			throw new Exception("The data array must have the same size of the texture data");
+		}
+	}
+	
+	/**
+	 * Gets the size of the data array.
+	 * @return Return the size of the buffer array.
+	 */
+	public int getDataSize() {
+		return this.texture.getRaster().getDataBuffer().getSize();
+	}
+	
+	public int getSurfaceType() {
+		return this.texture.getType();
 	}
 }

@@ -158,4 +158,19 @@ public class Rectangle {
 	public int getRight() {
 		return this.x + this.width;
 	}
+	
+	public int getWidth() {
+		return this.width;
+	}
+	
+	public int getHeight() {
+		return this.height;
+	}
+	
+	public void set(int x, int y, int width, int height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
 }

@@ -224,7 +224,7 @@ public class Vector2 {
 	 * @param vec2 Another vector
 	 * @return Return a new vector.
 	 */
-	public double distance(Vector2 vec1, Vector2 vec2) {
+	public static double distance(Vector2 vec1, Vector2 vec2) {
 		Vector2 vec = new Vector2(vec1);
 		return vec.distance(vec2);
 	}

@@ -206,7 +206,7 @@ public class Sprite extends BaseEntity {
 	 * @param y The Y coordinate
 	 */
 	public void setPosition(int x, int y) {
-		this.position.setPosition((float)x, (float)y);
+		this.position.set((float)x, (float)y);
 		this.rectangle.setPosition(x, y);
 	}
 	

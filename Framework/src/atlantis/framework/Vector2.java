@@ -296,10 +296,13 @@ public class Vector2 {
 	/**
 	 * Negage a vector.
 	 * @param vector A vector to negate.
+	 * @return Return the negated vector.
 	 */
-	public static void negate(Vector2 vector) {
-		vector.x *= -1;
-		vector.y *= -1;
+	public static Vector2 negate(Vector2 vector) {
+		Vector2 vec = new Vector2(vector);
+		vec.x *= -1;
+		vec.y *= -1;
+		return vec;
 	}
 	
 	/**
@@ -350,7 +353,7 @@ public class Vector2 {
 	 * @param x
 	 * @param y
 	 */
-	public void setPosition(float x, float y) {
+	public void set(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}

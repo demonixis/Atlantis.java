@@ -3,7 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.input;
 
-import atlantis.framework.BaseGame;
+import atlantis.framework.Game;
 import atlantis.framework.GameComponent;
 import atlantis.framework.GameTime;
 import atlantis.framework.input.KeyboardState;
@@ -16,7 +16,7 @@ public class KeyboardComponent extends GameComponent {
 	protected KeyboardState keysState;
 	protected KeyboardState previousKeysState;
 	
-	public KeyboardComponent(BaseGame game) {
+	public KeyboardComponent(Game game) {
 		super(game);
 		this.keysState = game.getKeyboardManager().getState();
 		this.previousKeysState = game.getKeyboardManager().getState();

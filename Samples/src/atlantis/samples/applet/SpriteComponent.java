@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import atlantis.engine.Atlantis;
 import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
-import atlantis.framework.BaseGame;
+import atlantis.framework.Game;
 import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.GameTime;
 import atlantis.framework.input.KeyboardState;
@@ -16,7 +16,7 @@ public class SpriteComponent extends DrawableGameComponent {
 	private Entity tree2;
 	private Sprite femaleSprite;
 	
-	public SpriteComponent(BaseGame game) {
+	public SpriteComponent(Game game) {
 		super(game);
 		this.background = new Entity("background.png");
 		this.tree = new Entity("Tree.png");

@@ -14,7 +14,7 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	protected boolean visible;
 	protected boolean assetLoaded;
 	
-	public DrawableGameComponent(BaseGame game) {
+	public DrawableGameComponent(Game game) {
 		super(game);
 		this.visible = true;
 		this.assetLoaded = false;

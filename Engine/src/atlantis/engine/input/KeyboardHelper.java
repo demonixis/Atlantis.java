@@ -5,6 +5,10 @@ package atlantis.engine.input;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * A keyboard helper that provide instant access on different keyboard states.
+ * @author Yannick
+ */
 public class KeyboardHelper {
 	KeyboardComponent keyboardComponent;
 	
@@ -18,17 +22,17 @@ public class KeyboardHelper {
         return this.keyboardComponent.pressed(key);
     }
 
-    public boolean Released(int key)
+    public boolean released(int key)
     {
         return this.keyboardComponent.released(key);
     }
 
-    public boolean Justpressed(int key)
+    public boolean justpressed(int key)
     {
         return this.keyboardComponent.justPressed(key);
     }
 
-    public boolean JustReleased(int key)
+    public boolean justReleased(int key)
     {
         return this.keyboardComponent.justReleased(key);
     }

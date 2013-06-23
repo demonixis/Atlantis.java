@@ -20,7 +20,6 @@ public class MouseManager  implements MouseListener, MouseMotionListener, MouseW
 	// Not yet used.
 	protected Vector2 position;
 	protected Vector2 positionOnScreen;
-	protected boolean drag;
 	
 	protected int x;
 	protected int y;
@@ -41,7 +40,6 @@ public class MouseManager  implements MouseListener, MouseMotionListener, MouseW
 	public MouseState getState() {
 		return new MouseState(this.buttons, this.x, this.y, this.wheel);
 	}
-	
 	
 	@Override
 	public void mouseClicked(MouseEvent mouseEvent) {

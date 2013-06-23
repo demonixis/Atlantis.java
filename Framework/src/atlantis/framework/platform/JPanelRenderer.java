@@ -1,7 +1,7 @@
 // AtlantisEngine.java - Copyright (C) Yannick Comte.
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
-package atlantis.framework.graphics;
+package atlantis.framework.platform;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import atlantis.framework.IDrawable;
 
 /**
- * A JPanel renderer for drawing image, sprite, texte.
+ * A JPanel renderer for drawing image, sprite, text.
  * @author Yannick
  */
 public class JPanelRenderer extends JPanel {

@@ -3,13 +3,12 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework.platform;
 
-import atlantis.framework.graphics.JPanelRenderer;
 
 /**
  * An interface that define a game platform window
  * @author Yannick
  */
-public interface IGamePlatform {
+public interface IGameWindow {
 	/**
 	 * Sets the renderer 
 	 * @param renderer

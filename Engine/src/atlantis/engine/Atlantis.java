@@ -3,7 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine;
 
-import atlantis.framework.BaseGame;
+import atlantis.framework.Game;
 import atlantis.framework.GameComponentCollection;
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.input.KeyboardManager;
@@ -14,7 +14,7 @@ import atlantis.framework.input.MouseManager;
  * @author Yannick
  */
 public class Atlantis {
-	public static BaseGame game;
+	public static Game game;
 	public static ContentManager content;
 	public static GameComponentCollection components;
 	public static KeyboardManager keyboard;

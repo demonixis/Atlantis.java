@@ -7,18 +7,18 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import atlantis.framework.DrawableGameComponent;
-import atlantis.framework.BaseGame;
+import atlantis.framework.Game;
 import atlantis.framework.GameTime;
 
 /**
  * A State manager that is responsible to manage game states.
- * @author Yann
+ * @author Yannick
  */
 public class StateManager extends DrawableGameComponent {
 	
 	protected ArrayList<State> states;
 	
-	public StateManager(BaseGame game) {
+	public StateManager(Game game) {
 		super(game);
 		this.states = new ArrayList<State>();
 	}
@@ -64,7 +64,7 @@ public class StateManager extends DrawableGameComponent {
 	/**
 	 * Sets a state active.
 	 * @param name The name of the state to activate.
-	 * @param desactiveOtherStates Sets to true to desactive other active states.
+	 * @param desactiveOtherStates Sets to true to disable other active states.
 	 */
 	public void setStateActive(String name, boolean desactiveOtherStates) {
 		int i = 0;
@@ -84,7 +84,7 @@ public class StateManager extends DrawableGameComponent {
 	/**
 	 * Sets a state active.
 	 * @param position The index of the state to active.
-	 * @param desactiveOtherStates Sets to true to desactive other active states.
+	 * @param desactiveOtherStates Sets to true to disable other active states.
 	 */
 	public void setStateActive(int position, boolean desactiveOtherStates) {
 		if (desactiveOtherStates) {
@@ -108,19 +108,10 @@ public class StateManager extends DrawableGameComponent {
 	}
 	
 	/**
-	 * Switch to a state and remove other from the state manager.
-	 * @param newState
-	 */
-	public void switchState(State newState) {
-		this.states.clear();
-		this.states.add(newState);
-	}
-	
-	/**
 	 * Add a new state on the collection.
 	 * @param state The state to add.
 	 * @param isActive Define the activity of the new state.
-	 * @param desactiveOtherStates Sets to true to desactive ohter states.
+	 * @param desactiveOtherStates Sets to true to disable other states.
 	 */
 	public void add(State state, boolean isActive, boolean desactiveOtherStates) {
 		if (desactiveOtherStates) {

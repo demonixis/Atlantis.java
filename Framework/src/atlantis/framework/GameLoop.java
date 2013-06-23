@@ -9,9 +9,9 @@ package atlantis.framework;
  *
  */
 public class GameLoop implements Runnable {
-	private BaseGame game;
+	private Game game;
 	
-	public GameLoop(BaseGame game) {
+	public GameLoop(Game game) {
 		this.game = game;
 	}
 	
@@ -24,7 +24,7 @@ public class GameLoop implements Runnable {
 				this.game.update(this.game.gameTime);
 			}
 		
-			this.game.renderer.repaint();
+			this.game.windowRenderer.repaint();
 			
 			// TODO : Use a correct value
 			try {

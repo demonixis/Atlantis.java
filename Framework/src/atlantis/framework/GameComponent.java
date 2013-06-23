@@ -9,11 +9,11 @@ package atlantis.framework;
  * @author Yannick
  */
 public class GameComponent implements IUpdateable {
-	protected BaseGame game;
+	protected Game game;
 	protected boolean enabled;
 	protected boolean initialized;
 
-	public GameComponent(BaseGame game) {
+	public GameComponent(Game game) {
 		this.game = game;
 		this.enabled = true;
 		this.initialized = false;

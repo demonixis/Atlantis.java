@@ -5,6 +5,8 @@ package atlantis.framework.graphics;
 
 import java.awt.Graphics;
 
+import atlantis.framework.platform.JPanelRenderer;
+
 /**
  * The graphics device.
  * @author Yann

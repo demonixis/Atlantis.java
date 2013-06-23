@@ -10,15 +10,14 @@ import atlantis.framework.Game;
 import atlantis.framework.GameTime;
 import atlantis.framework.IDrawable;
 import atlantis.framework.IUpdateable;
-import atlantis.framework.graphics.JPanelRenderer;
-import atlantis.framework.platform.IGamePlatform;
+import atlantis.framework.platform.JPanelRenderer;
 
 /**
  * Provide basic initialization of an applet
  * @see Game
  * @author Yannick
  */
-public class GameApplet extends JApplet implements IGamePlatform, IUpdateable, IDrawable {
+public class GameApplet extends JApplet implements IUpdateable, IDrawable {
 	private static final long serialVersionUID = 5413818823844604622L;
 	protected JPanelRenderer renderer;
 	protected Game game;
@@ -28,7 +27,6 @@ public class GameApplet extends JApplet implements IGamePlatform, IUpdateable, I
 		this.setSize(dim.width, dim.height);
 		this.setVisible(true);
 		this.game = new Game(dim.width, dim.height, "Atlantis Applet");
-		this.game.setWindow(this);
 		this.game.getContentManager().setLoadType(0);
 		this.game.getRenderer().addDrawable(this);
 		
@@ -48,17 +46,6 @@ public class GameApplet extends JApplet implements IGamePlatform, IUpdateable, I
 	public void setRenderer(JPanelRenderer renderer) {
 		this.renderer = renderer;
 		this.setContentPane(this.renderer);
-	}
-
-	@Override
-	public void exit() {
-
-	}
-
-	@Override
-	public void toggleFullscreen() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

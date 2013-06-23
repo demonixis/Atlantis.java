@@ -7,7 +7,6 @@ import java.awt.GraphicsDevice;
 
 import javax.swing.JFrame;
 
-import atlantis.framework.graphics.JPanelRenderer;
 
 /**
  * Define a class for use the desktop platform of the JRE.
@@ -15,7 +14,7 @@ import atlantis.framework.graphics.JPanelRenderer;
  * @author Yannick
  *
  */
-public class DesktopPlatform extends JFrame implements IGamePlatform {
+public class DesktopPlatform extends JFrame implements IGameWindow {
 	private static final long serialVersionUID = -417120026570767131L;
 	protected JPanelRenderer renderer;
 	protected boolean isFullscreen;

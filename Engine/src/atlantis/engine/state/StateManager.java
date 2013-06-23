@@ -62,11 +62,11 @@ public class StateManager extends DrawableGameComponent {
 	}
 	
 	/**
-	 * Sets a state active.
-	 * @param name The name of the state to activate.
+	 * Activation of a state by its name.
+	 * @param name The name of the state to enable
 	 * @param desactiveOtherStates Sets to true to disable other active states.
 	 */
-	public void setStateActive(String name, boolean desactiveOtherStates) {
+	public void setActive(String name, boolean desactiveOtherStates) {
 		int i = 0;
         int size = this.states.size();
 
@@ -82,11 +82,19 @@ public class StateManager extends DrawableGameComponent {
 	}
 	
 	/**
-	 * Sets a state active.
-	 * @param position The index of the state to active.
+	 * Activation of a state by its name.
+	 * @param name The name of the state to enable
+	 */
+	public void setActive(String name) {
+		setActive(name, true);
+	}
+	
+	/**
+	 * Activation of a state by its index.
+	 * @param position The index of the state to enable.
 	 * @param desactiveOtherStates Sets to true to disable other active states.
 	 */
-	public void setStateActive(int position, boolean desactiveOtherStates) {
+	public void setActive(int position, boolean desactiveOtherStates) {
 		if (desactiveOtherStates) {
 			disableStates();
 		}
@@ -96,6 +104,14 @@ public class StateManager extends DrawableGameComponent {
 		if (state != null) {
 			state.setActive(true);
 		}
+	}
+	
+	/**
+	 * Activation of a state by its index.
+	 * @param position The index of the state to enable.
+	 */
+	public void setActive(int position) {
+		setActive(position, true);
 	}
 	
 	/**

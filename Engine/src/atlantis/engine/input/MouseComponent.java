@@ -16,6 +16,24 @@ public class MouseComponent extends GameComponent {
 	private MouseState previousMouseState;
 	private Vector2 delta;
 
+	public MouseComponent(Game game) {
+		super(game);
+		this.mouseState = game.getMouseManager().getState();
+		this.previousMouseState = this.mouseState;
+		this.delta = new Vector2();
+	}
+	
+	public void update(GameTime gameTime) {
+		super.update(gameTime);
+		// Update states
+		this.previousMouseState = this.mouseState;
+		this.mouseState = this.game.getMouseManager().getState();
+
+		// Calculate the delta
+		this.delta.x = this.mouseState.getX() - this.previousMouseState.getX();
+		this.delta.y = this.mouseState.getY() - this.previousMouseState.getY();
+	}
+	
 	public int getX() {
 		return this.mouseState.getX();
 	}
@@ -42,24 +60,6 @@ public class MouseComponent extends GameComponent {
 
 	public MouseState getPreviousMouseState() {
 		return this.previousMouseState;
-	}
-
-	public MouseComponent(Game game) {
-		super(game);
-		this.mouseState = game.getMouseManager().getState();
-		this.previousMouseState = this.mouseState;
-		this.delta = new Vector2();
-	}
-
-	public void update(GameTime gameTime) {
-		super.update(gameTime);
-		// Update states
-		this.previousMouseState = this.mouseState;
-		this.mouseState = this.game.getMouseManager().getState();
-
-		// Calculate the delta
-		this.delta.x = this.mouseState.getX() - this.previousMouseState.getX();
-		this.delta.y = this.mouseState.getY() - this.previousMouseState.getY();
 	}
 
 	public boolean clickLeft(boolean isButtonDown) {
@@ -89,5 +89,42 @@ public class MouseComponent extends GameComponent {
 
 	public boolean justReleased(int button)	{
 		return this.mouseState.isButtonUp(button) && this.previousMouseState.isButtonDown(button);
+	}
+	
+	public Vector2 getPosition() {
+		return new Vector2(this.getX(), this.getY());
+	}
+
+	public Vector2 getPreviousPosition() {
+		return new Vector2(this.getPreviousMouseState().getX(), this.getPreviousMouseState().getY());
+	}
+	
+	public boolean click(int button) {
+		return clickOn(button, true);
+	}
+
+	public boolean released(int button)	{
+		return clickOn(button, false);
+	}
+	
+	public boolean drag(int button) {
+		return click(button) && isMoving();
+	}
+
+	public boolean drop (int button) {
+		return released(button) && !isMoving();
+	}
+
+	public boolean clickOn(int button, boolean isPressed) {
+		boolean result = false;
+
+		switch (button)
+		{
+			case MouseEvent.BUTTON1: result = this.clickLeft(isPressed); break;
+			case MouseEvent.BUTTON2: result = this.clickMiddle(isPressed); break;
+			case MouseEvent.BUTTON3: result = this.clickRight(isPressed); break;
+		}
+
+		return result; 
 	}
 }

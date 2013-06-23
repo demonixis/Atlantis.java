@@ -1,7 +1,5 @@
 package atlantis.samples.shooter;
 
-import java.awt.event.KeyEvent;
-
 import atlantis.engine.Atlantis;
 import atlantis.engine.Timer;
 import atlantis.engine.graphics.Entity;
@@ -10,7 +8,6 @@ import atlantis.engine.graphics.SpriteGroup;
 import atlantis.engine.state.State;
 import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
-import atlantis.framework.input.KeyboardState;
 
 public class GameScreen extends State {
 	private Starfield starfield;
@@ -54,8 +51,6 @@ public class GameScreen extends State {
 		this.shootTimer.update(gameTime);
 		this.spawnTimer.update(gameTime);
 		
-		KeyboardState state = Atlantis.keyboard.getState();
-		
 		// Spawn a new alien
 		if (!this.spawnTimer.isEnabled()) {
 			Alien alien = new Alien(Atlantis.width + 50, (int)(Math.random() * Atlantis.height));
@@ -64,10 +59,7 @@ public class GameScreen extends State {
 			this.spawnTimer.start();
 		}
 		
-		if (state.isKeyDown(KeyEvent.VK_LEFT) ||
-				state.isKeyDown(KeyEvent.VK_RIGHT) ||
-				state.isKeyDown(KeyEvent.VK_UP) ||
-				state.isKeyDown(KeyEvent.VK_DOWN)) {
+		if (Atlantis.keyboard.up() || Atlantis.keyboard.down() ||	Atlantis.keyboard.right() || Atlantis.keyboard.left()) {
 			this.ship.play("move");
 		}
 		else {
@@ -75,26 +67,26 @@ public class GameScreen extends State {
 		}
 		
 		// Move the ship
-		if (state.isKeyDown(KeyEvent.VK_LEFT)) {
+		if (Atlantis.keyboard.left()) {
 			this.ship.setX(this.ship.getX() - 2);
 		}
-		else if (state.isKeyDown(KeyEvent.VK_RIGHT)) {
+		else if (Atlantis.keyboard.right()) {
 			this.ship.setX(this.ship.getX() + 2);
 		}
 		
-		if (state.isKeyDown(KeyEvent.VK_UP)) {
+		if (Atlantis.keyboard.up()) {
 			this.ship.setY(this.ship.getY() - 2);
 		}
-		else if (state.isKeyDown(KeyEvent.VK_DOWN)) {
+		else if (Atlantis.keyboard.down()) {
 			this.ship.setY(this.ship.getY() + 2);
 		}
 		
-		if (state.isKeyDown(KeyEvent.VK_ESCAPE)) {
-			Atlantis.game.exit();
+		if (Atlantis.keyboard.escape()) {
+			this.stateManager.setActive("menu", true);
 		}
 		
 		// Shoot a laser
-		if (state.isKeyDown(KeyEvent.VK_SPACE)) {
+		if (Atlantis.keyboard.left()) {
 			if (!this.shootTimer.isEnabled()) {
 				Laser laser = new Laser(this.ship.getX() + this.ship.getWidth() + 1, this.ship.getY() + 25);
 				laser.loadContent(Atlantis.content);
@@ -121,7 +113,7 @@ public class GameScreen extends State {
 				// Player with alien
 				if (this.ship.getRectangle().intersects(alien.getRectangle())) {
 					alien.setActive(false);
-					this.stateManager.setStateActive("menu", true);
+					this.stateManager.setActive("menu", true);
 					System.out.println("\nShip: " + this.ship.getRectangle().toString() + "\nAlien: " + alien.getRectangle().toString());
 				}
 			}

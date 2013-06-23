@@ -54,22 +54,20 @@ public class SpriteComponent extends DrawableGameComponent {
 		
 		this.femaleSprite.update(gameTime);
 		
-		KeyboardState state = Atlantis.keyboard.getState();
-		
-		if (state.isKeyDown(KeyEvent.VK_UP)) {
+		if (Atlantis.keyboard.up()) {
 			this.femaleSprite.play("up");
 			this.femaleSprite.setY(this.femaleSprite.getY() - 1);
 		}
-		else if (state.isKeyDown(KeyEvent.VK_DOWN)) {
+		else if (Atlantis.keyboard.down()) {
 			this.femaleSprite.play("down");
 			this.femaleSprite.setY(this.femaleSprite.getY() + 1);
 		}
 		
-		if (state.isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (Atlantis.keyboard.right()) {
 			this.femaleSprite.play("right");
 			this.femaleSprite.setX(this.femaleSprite.getX() + 1);
 		}
-		else if (state.isKeyDown(KeyEvent.VK_LEFT)) {
+		else if (Atlantis.keyboard.left()) {
 			this.femaleSprite.play("left");
 			this.femaleSprite.setX(this.femaleSprite.getX() - 1);
 		}

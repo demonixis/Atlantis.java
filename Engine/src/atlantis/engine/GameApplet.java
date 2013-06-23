@@ -5,7 +5,11 @@ package atlantis.engine;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+
 import javax.swing.JApplet;
+
+import atlantis.engine.input.KeyboardComponent;
+import atlantis.engine.input.MouseComponent;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
 import atlantis.framework.IDrawable;
@@ -30,15 +34,21 @@ public class GameApplet extends JApplet implements IUpdateable, IDrawable {
 		this.game.getContentManager().setLoadType(0);
 		this.game.getRenderer().addDrawable(this);
 		
+		KeyboardComponent keyboardComponent = new KeyboardComponent(this.game);
+		MouseComponent mouseComponent = new MouseComponent(this.game);
+		
 		Atlantis.game = this.game;
 		Atlantis.content = this.game.getContentManager();
 		Atlantis.components = this.game.getComponents();
-		Atlantis.keyboard = this.game.getKeyboardManager();
-		Atlantis.mouse = this.game.getMouseManager();
+		Atlantis.keyboard = keyboardComponent;
+		Atlantis.mouse = mouseComponent;
 		Atlantis.width = this.getWidth();
 		Atlantis.height = this.getHeight();
 	}
 	
+	/**
+	 * Start the game.
+	 */
 	public void start() {
 		this.game.run();
 	}

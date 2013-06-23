@@ -3,13 +3,16 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.input;
 
+import java.awt.event.KeyEvent;
+
 import atlantis.framework.Game;
 import atlantis.framework.GameComponent;
 import atlantis.framework.GameTime;
 import atlantis.framework.input.KeyboardState;
 
 /**
- * A keyboard component
+ * A keyboard component that be used with KeyboardHelper to provide some
+ * interesting keyboars states as pressed, justPressed, etc.
  * @author Yannick
  */
 public class KeyboardComponent extends GameComponent {
@@ -28,6 +31,11 @@ public class KeyboardComponent extends GameComponent {
          this.keysState = this.game.getKeyboardManager().getState();
      }
 
+     /**
+      * 
+      * @param key
+      * @return
+      */
      public boolean pressed(int key)
      {
          return this.keysState.isKeyDown(key);
@@ -46,5 +54,45 @@ public class KeyboardComponent extends GameComponent {
      public boolean justReleased(int key)
      {
          return this.keysState.isKeyDown(key) && this.previousKeysState.isKeyUp(key);
+     }
+     
+     public boolean up() {
+         return this.pressed(KeyEvent.VK_UP);
+     }
+
+     public boolean down() {
+         return this.pressed(KeyEvent.VK_DOWN);
+     }
+
+     public boolean left() {
+         return this.pressed(KeyEvent.VK_LEFT);
+     }
+
+     public boolean right() {
+         return this.pressed(KeyEvent.VK_RIGHT);
+     }
+
+     public boolean enter() {
+         return this.pressed(KeyEvent.VK_ENTER);
+     }
+
+     public boolean space() {
+         return this.pressed(KeyEvent.VK_SPACE);
+     }
+
+     public boolean escape() {
+         return this.pressed(KeyEvent.VK_ESCAPE);
+     }
+
+     public boolean control() {
+         return this.pressed(KeyEvent.VK_CONTROL);
+     }
+
+     public boolean shift() {
+         return this.pressed(KeyEvent.VK_SHIFT);
+     }
+
+     public boolean tab() {
+         return this.pressed(KeyEvent.VK_TAB);
      }
 }

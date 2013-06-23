@@ -4,9 +4,7 @@
 package atlantis.engine;
 
 import atlantis.engine.input.KeyboardComponent;
-import atlantis.engine.input.KeyboardHelper;
 import atlantis.engine.input.MouseComponent;
-import atlantis.engine.input.MouseHelper;
 import atlantis.engine.state.StateManager;
 import atlantis.framework.Game;
 
@@ -29,12 +27,11 @@ public class GameApplication extends Game {
 		this.components.add(mouseComponent);
 		
 		Atlantis.game = this;
+		Atlantis.stateManager = stateManager;
 		Atlantis.content = this.content;
 		Atlantis.components = this.components;
-		Atlantis.keyboard = this.keyboardManager;
-		Atlantis.mouse = this.mouseManager;
-		Atlantis.keyboardH = new KeyboardHelper(keyboardComponent);
-		Atlantis.mouseH = new MouseHelper(mouseComponent);
+		Atlantis.keyboard = keyboardComponent;
+		Atlantis.mouse = mouseComponent;
 		Atlantis.width = this.width;
 		Atlantis.height = this.height;
 	}

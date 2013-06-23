@@ -8,12 +8,18 @@ import java.awt.Graphics;
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
+import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.Texture2D;
 
 /**
- * A class that represent a sprite object that can be have animations and some physics.
+ * A sprite is a graphical object which can be a simple image or a more complex animated entity.
  * @author Yannick
  */
-public class Sprite extends Entity {
+public class Sprite extends BaseEntity {
+	protected Rectangle rectangle;
+	protected Vector2 position;
+	protected Texture2D texture;
+	protected String textureName;
 	protected Rectangle sourceRectangle;
 	protected Vector2 direction;
 	protected Vector2 previousPosition;
@@ -28,6 +34,10 @@ public class Sprite extends Entity {
 	protected boolean hasAnimation;
 	
 	public Sprite() {
+		this.rectangle = new Rectangle();
+		this.position = new Vector2();
+		this.texture = null;
+		this.textureName = "";
 		this.sourceRectangle = new Rectangle();
 		this.direction = new Vector2();
 		this.previousPosition = new Vector2();
@@ -47,20 +57,13 @@ public class Sprite extends Entity {
 		this.textureName = textureName;
 	}
 	
-	public void prepareAnimation(int width, int height) {
-		this.hasAnimation = true;
-		this.spriteAnimator.initialize(width, height, this.texture.getWidth(), this.texture.getHeight());
-		this.rectangle.width = width;
-		this.rectangle.height = height;
-	}
-	
-	public void addAnimation(String name, int[] framesIndex, int frameRate) {
-		this.spriteAnimator.add(name, framesIndex, frameRate);
-		this.sourceRectangle = this.spriteAnimator.getAnimations().get(name).getRectangle(0);
-	}
-	
-	public void play(String name) {
-		this.sourceRectangle = this.spriteAnimator.play(name);
+	public void loadContent(ContentManager content) {
+		if (this.textureName != "" && this.assetLoaded == false) {
+			this.texture = content.loadTexture(this.textureName);
+			this.rectangle.width = this.texture.getWidth();
+			this.rectangle.height = this.texture.getHeight();
+			this.assetLoaded = true;
+		}
 	}
 	
 	public void update(GameTime gameTime) {
@@ -93,6 +96,10 @@ public class Sprite extends Entity {
         }
 	}
 	
+	/**
+	 * Called when the update process is done and before the draw method.
+	 * Some operations are done in this method such as position, direction updates and collides detection. 
+	 */
 	protected void postUpdate() {
 		if (this.enabled) {
             this.direction.x = this.position.x - this.previousPosition.x;
@@ -138,6 +145,7 @@ public class Sprite extends Entity {
         }
 	}
 		
+	@Override
 	public void draw(Graphics graphics) {
 		if (this.enabled) {
 			this.postUpdate();
@@ -154,8 +162,136 @@ public class Sprite extends Entity {
 	}
 	
 	// ---
+	// --- Animation methods
+	// ---
+	
+	/**
+	 * Initialize the first step of the animation process. You must call this method before add any animation.
+	 * @param width The width of an animation (Can be recomputed later).
+	 * @param height The height of an animation (Can be recomputed later).
+	 */
+	public void prepareAnimation(int width, int height) {
+		this.hasAnimation = true;
+		this.spriteAnimator.initialize(width, height, this.texture.getWidth(), this.texture.getHeight());
+		this.rectangle.width = width;
+		this.rectangle.height = height;
+	}
+	
+	/**
+	 * Add an animation which is a set of frame index on the sprite sheet.
+	 * @param name The name of the animation.
+	 * @param framesIndex An array of index.
+	 * @param frameRate The desired frame rate for this animation.
+	 */
+	public void addAnimation(String name, int[] framesIndex, int frameRate) {
+		this.spriteAnimator.add(name, framesIndex, frameRate);
+		this.sourceRectangle = this.spriteAnimator.getAnimations().get(name).getRectangle(0);
+	}
+	
+	/**
+	 * Play an animation by its name.
+	 * @param name The name of the animation to play.
+	 */
+	public void play(String name) {
+		this.sourceRectangle = this.spriteAnimator.play(name);
+	}
+	
+	// ---
 	// --- Getters and setters
 	// ---
+	
+	/**
+	 * Set the position of the entity on the screen
+	 * @param x The X coordinate
+	 * @param y The Y coordinate
+	 */
+	public void setPosition(int x, int y) {
+		this.position.setPosition((float)x, (float)y);
+		this.rectangle.setPosition(x, y);
+	}
+	
+	/**
+	 * Change the size of the sprite
+	 * @param width
+	 * @param height
+	 */
+	public void setSize(int width, int height) {
+		this.rectangle.setSize(width, height);
+	}
+	
+	/**
+	 * Sets the value of X coordinate of the entity
+	 * @param x New X value on screen.
+	 */
+	public void setX(int x) {
+		this.position.x = x;
+		this.rectangle.x = x;
+	}
+	
+	/**
+	 * Sets the value of Y coordinate of the entity
+	 * @param y New Y value on screen.
+	 */
+	public void setY(int y) {
+		this.position.y = y;
+		this.rectangle.y = y;
+	}
+	
+	/**
+	 * Sets the width of the sprite.
+	 * @param width Desired width.
+	 */
+	public void setWidth(int width) {
+		this.rectangle.width = width;
+	}
+	
+	/**
+	 * Sets the height of the sprite.
+	 * @param height Desired height.
+	 */
+	public void setHeight(int height) {
+		this.rectangle.height = height;
+	}
+
+	/**
+	 * Gets the X position on screen.
+	 * @return Return the X position.
+	 */
+	public int getX() {
+		return this.rectangle.x;
+	}
+	
+	/**
+	 * Gets the Y position on screen.
+	 * @return Return the Y position.
+	 */
+	public int getY() {
+		return this.rectangle.y;
+	}
+	
+	/**
+	 * Gets the width.
+	 * @return Return width.
+	 */
+	public int getWidth() {
+		return this.rectangle.width;
+	}
+	
+	/**
+	 * Gets the height.
+	 * @return Return height
+	 */
+	public int getHeight() {
+		return this.rectangle.height;
+	}
+	
+	/**
+	 * Gets the rectangle of the sprite
+	 * @return Return the rectangle.
+	 */
+	public Rectangle getRectangle() {
+		return this.rectangle;
+	}
 	
 	/**
 	 * Determine the viewport of the sprite.
@@ -165,6 +301,13 @@ public class Sprite extends Entity {
 		this.viewport = viewport;
 	}
 	
+	/**
+	 * Determine the viewport of the sprite.
+	 * @param x Start position on X.
+	 * @param y Start position on Y.
+	 * @param width Width
+	 * @param height Height
+	 */
 	public void setViewport(int x, int y, int width, int height) {
 		this.viewport.x = x;
 		this.viewport.y = y;
@@ -172,6 +315,12 @@ public class Sprite extends Entity {
 		this.viewport.height = height;
 	}
 
+	/**
+	 * Gets the actual direction of the Sprite. 
+	 * X: -1 = left / 1 = right
+	 * Y: -1 = up / 1 = down
+	 * @return
+	 */
 	public Vector2 getDirection() {
 		return direction;
 	}
@@ -200,10 +349,6 @@ public class Sprite extends Entity {
 		return viewport;
 	}
 
-	public void setDirection(Vector2 direction) {
-		this.direction = direction;
-	}
-
 	public void setAcceleration(Vector2 acceleration) {
 		this.acceleration = acceleration;
 	}
@@ -216,10 +361,18 @@ public class Sprite extends Entity {
 		this.maxVelocity = maxVelocity;
 	}
 
+	/**
+	 * Force the sprite to stay inside its viewport.
+	 * @param insideScreen Sets to true to force.
+	 */
 	public void forceInsideScreen(boolean insideScreen) {
 		this.forceInsideScreen = insideScreen;
 	}
 
+	/**
+	 * Allow the sprite across the screen.
+	 * @param acrossScreen Sets to true to enable.
+	 */
 	public void allowAcrossScreen(boolean acrossScreen) {
 		this.allowAcrossScreen = acrossScreen;
 	}

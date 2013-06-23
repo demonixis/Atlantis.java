@@ -5,9 +5,10 @@ package atlantis.engine.graphics;
 
 import atlantis.framework.IDrawable;
 import atlantis.framework.IUpdateable;
+import atlantis.framework.content.ContentManager;
 
 /**
- * Define a basic drawable entity.
+ * Define a basic entity.
  * @author Yannick
  */
 public abstract class BaseEntity implements IUpdateable, IDrawable {
@@ -25,6 +26,14 @@ public abstract class BaseEntity implements IUpdateable, IDrawable {
 		this.assetLoaded = false;
 		this.enabled = true;
 		this.visible = true;
+	}
+	
+	public void initialize() {
+		this.initialized = true;
+	}
+	
+	public void loadContent(ContentManager content) {
+		
 	}
 	
 	public boolean isInitialized() {
@@ -60,7 +69,7 @@ public abstract class BaseEntity implements IUpdateable, IDrawable {
 	}
 
 	/**
-	 * Active or desactive an entity.
+	 * Enable or disable an entity.
 	 * If isActice is set to true the entity is not udpated and not drawed
 	 * @param isActive
 	 */

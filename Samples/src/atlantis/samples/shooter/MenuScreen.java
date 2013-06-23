@@ -1,16 +1,16 @@
 package atlantis.samples.shooter;
 
 import atlantis.engine.Atlantis;
-import atlantis.engine.graphics.Entity;
+import atlantis.engine.graphics.Sprite;
 import atlantis.engine.state.State;
 import atlantis.framework.GameTime;
 
 public class MenuScreen extends State {
-	Entity background;
+	Sprite background;
 	
 	public MenuScreen(String name) {
 		super(name);
-		this.background = new Entity("menu.png");
+		this.background = new Sprite("menu.png");
 		this.scene.add(background);
 	}
 

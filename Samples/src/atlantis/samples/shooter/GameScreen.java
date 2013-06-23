@@ -2,7 +2,6 @@ package atlantis.samples.shooter;
 
 import atlantis.engine.Atlantis;
 import atlantis.engine.Timer;
-import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.graphics.SpriteGroup;
 import atlantis.engine.state.State;
@@ -86,7 +85,7 @@ public class GameScreen extends State {
 		}
 		
 		// Shoot a laser
-		if (Atlantis.keyboard.left()) {
+		if (Atlantis.keyboard.space()) {
 			if (!this.shootTimer.isEnabled()) {
 				Laser laser = new Laser(this.ship.getX() + this.ship.getWidth() + 1, this.ship.getY() + 25);
 				laser.loadContent(Atlantis.content);
@@ -97,12 +96,12 @@ public class GameScreen extends State {
 		
 		// Test if a laser touching an alien
 		if (this.alienGroup.getCount() > 0) {
-			for (Entity alien : this.alienGroup.getEntities()) {
+			for (Sprite alien : this.alienGroup.getEntities()) {
 				if (!alien.isActive()) {
 					continue;
 				}
 				
-				for (Entity laser : this.laserGroup.getEntities()) {
+				for (Sprite laser : this.laserGroup.getEntities()) {
 					// Laser with alien
 					if (laser.getRectangle().intersects(alien.getRectangle())) {
 						laser.setActive(false);
@@ -127,13 +126,13 @@ public class GameScreen extends State {
  *
  */
 class Starfield extends SpriteGroup {
-	Entity [] starfields;
+	Sprite [] starfields;
 	
 	public Starfield() {
-		this.starfields = new Entity[2];
+		this.starfields = new Sprite[2];
 		
 		for (int i = 0; i < 2; i++) {
-			this.starfields[i] = new Entity("starfield.png");
+			this.starfields[i] = new Sprite("starfield.png");
 			this.starfields[i].setPosition(i * 800, 0);
 			this.add(this.starfields[i]);
 		}
@@ -142,11 +141,11 @@ class Starfield extends SpriteGroup {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		
-		for (Entity entity : this.starfields) {
-			if (entity.getX() <= -800) {
-				entity.setX(800);
+		for (Sprite Sprite : this.starfields) {
+			if (Sprite.getX() <= -800) {
+				Sprite.setX(800);
 			}
-			entity.setX(entity.getX() - 1);
+			Sprite.setX(Sprite.getX() - 1);
 		}
 	}
 }
@@ -156,7 +155,7 @@ class Starfield extends SpriteGroup {
  * @author yannick
  *
  */
-class Laser extends Entity {
+class Laser extends Sprite {
 	public Laser(int x, int y) {
 		super("laser.png");
 		this.setPosition(x, y);

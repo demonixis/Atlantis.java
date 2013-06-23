@@ -6,9 +6,12 @@ package atlantis.engine.graphics;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import atlantis.framework.GameTime;
 import atlantis.framework.Vector2;
+import atlantis.framework.content.ContentManager;
 
-public class SpriteText extends Entity {
+public class SpriteText extends Sprite {
+	protected Vector2 position;
 	protected String text;
 	protected Font spriteFont;
 	protected int textSize;
@@ -16,6 +19,7 @@ public class SpriteText extends Entity {
 	protected String fontName;
 	
 	public SpriteText() {
+		this.position = Vector2.Zero();
 		this.text = "";
 		this.fontName = "Arial";
 		this.textFormat = Font.PLAIN;
@@ -33,6 +37,17 @@ public class SpriteText extends Entity {
 		this.position = position;
 	}
 	
+	@Override
+	public void loadContent(ContentManager content) {
+		
+	}
+	
+	@Override
+	public void update(GameTime gameTime) {
+		
+	}
+	
+	@Override
 	public void draw(Graphics graphics) {
 		if (this.visible) {
 			graphics.drawString(this.text, (int)this.position.x, (int)this.position.y);

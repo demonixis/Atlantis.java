@@ -12,21 +12,21 @@ import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
 
 /**
- * An Entity collection which is updateable and drawable
- * @author Yann
+ * An Entity collection which will update and draw its children.
+ * @author Yannick
  */
-public class SpriteGroup extends Entity {
-	protected ArrayList<Entity> entities;
+public class SpriteGroup extends Sprite {
+	protected ArrayList<Sprite> entities;
 	
 	public SpriteGroup() {
-		this.entities = new ArrayList<Entity>();
+		this.entities = new ArrayList<Sprite>();
 	}
 	
 	/**
 	 * Initialize entities
 	 */
 	public void initialize() {
-		for (Entity entity : this.entities) {
+		for (Sprite entity : this.entities) {
 			entity.initialize();
 		}
 		
@@ -37,7 +37,7 @@ public class SpriteGroup extends Entity {
 	 * Load asset for each entity
 	 */
 	public void loadContent(ContentManager content) {
-		for (Entity entity : this.entities) {
+		for (Sprite entity : this.entities) {
 			entity.loadContent(content);
 		}
 		
@@ -49,7 +49,7 @@ public class SpriteGroup extends Entity {
 	 */
 	public void update(GameTime gameTime) {
 		if (this.enabled) {
-			for (Entity entity : this.entities) {
+			for (Sprite entity : this.entities) {
 				entity.update(gameTime);
 			}
 		}
@@ -60,7 +60,7 @@ public class SpriteGroup extends Entity {
 	 */
 	public void draw(Graphics graphics) {
 		if (this.visible) {
-			for (Entity entity : this.entities) {
+			for (Sprite entity : this.entities) {
 				entity.draw(graphics);
 			}
 		}
@@ -70,7 +70,7 @@ public class SpriteGroup extends Entity {
 	 * Gets entities
 	 * @return
 	 */
-	public List<Entity> getEntities() {
+	public List<Sprite> getEntities() {
 		return this.entities;
 	}
 	
@@ -86,7 +86,7 @@ public class SpriteGroup extends Entity {
 	 * Add an Entity to the collection, if assets hasn't loaded they are loaded and initialized
 	 * @param entity
 	 */
-	public void add(Entity entity) {
+	public void add(Sprite entity) {
 		if (this.assetLoaded && !entity.assetLoaded) {
 			entity.loadContent(Atlantis.content);
 		}
@@ -102,16 +102,16 @@ public class SpriteGroup extends Entity {
 	 * Remove an Entity from the collection
 	 * @param entity
 	 */
-	public boolean remove(Entity entity) {
+	public boolean remove(Sprite entity) {
 		return this.entities.remove(entity);
 	}
 	
 	/**
-	 * Get an Entity from the colletion
+	 * Get an Entity from the collection
 	 * @param position
 	 * @return
 	 */
-	public Entity get(int position) {
+	public Sprite get(int position) {
 		return this.entities.get(position);
 	}
 }

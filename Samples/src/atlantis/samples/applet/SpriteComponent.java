@@ -1,26 +1,24 @@
 package atlantis.samples.applet;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
+
 import atlantis.engine.Atlantis;
-import atlantis.engine.graphics.Entity;
 import atlantis.engine.graphics.Sprite;
-import atlantis.framework.Game;
 import atlantis.framework.DrawableGameComponent;
+import atlantis.framework.Game;
 import atlantis.framework.GameTime;
-import atlantis.framework.input.KeyboardState;
 
 public class SpriteComponent extends DrawableGameComponent {
-	private Entity background;
-	private Entity tree;
-	private Entity tree2;
+	private Sprite background;
+	private Sprite tree;
+	private Sprite tree2;
 	private Sprite femaleSprite;
 	
 	public SpriteComponent(Game game) {
 		super(game);
-		this.background = new Entity("background.png");
-		this.tree = new Entity("Tree.png");
-		this.tree2 = new Entity("Tree2.png");
+		this.background = new Sprite("background.png");
+		this.tree = new Sprite("Tree.png");
+		this.tree2 = new Sprite("Tree2.png");
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
 		this.femaleSprite.setViewport(0, 0, Atlantis.width, Atlantis.height);
 		this.femaleSprite.forceInsideScreen(true);

@@ -37,7 +37,7 @@ public class Matrix {
 			0.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 0.0f
 		};
-		this.setValues(values);
+		this.set(values);
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class Matrix {
 	 * @param matrix A matrix.
 	 */
 	public Matrix(Matrix matrix) {
-		this.setValues(matrix.toArray());
+		this.set(matrix.toArray());
 	}
 	
 	/**
@@ -57,14 +57,14 @@ public class Matrix {
 		if (values.length != 16) {
 			throw new Exception("The array of values must contains 16 float values");
 		}
-		this.setValues(values);
+		this.set(values);
 	}
 	
 	/**
 	 * Set all values of the matrix
 	 * @param values An array of 16 values who start at M11 and stop at M44
 	 */
-	public void setValues(float [] values) {
+	public void set(float [] values) {
 		if (values.length == 16) {
 			this.M11 = values[0]; this.M12 = values[1]; this.M13 = values[2]; this.M14 = values[3];
 			this.M21 = values[4]; this.M22 = values[5]; this.M23 = values[6]; this.M24 = values[7];
@@ -81,7 +81,7 @@ public class Matrix {
 	 * Sets the matrix to identity
 	 */
 	public void setIdentity () {
-		setValues(getIdentityValues());
+		set(getIdentityValues());
 	}
 	
 	/**
@@ -280,7 +280,7 @@ public class Matrix {
 		for(int i = 0; i < 16; i++) {
 			mValues[i] += eValues[i];
 		}
-		this.setValues(mValues);
+		this.set(mValues);
 	}
 	
 	/**
@@ -333,6 +333,11 @@ public class Matrix {
 		return matrix;
 	}
 	
+	/**
+	 * Create a rotation matrix on Z axis.
+	 * @param rotation An angle in radians
+	 * @return Return a rotation matrix on Z axis.
+	 */
 	public static Matrix createRotationZ(float rotation) {
 		Matrix matrix = getMatrixIdentity();
 		
@@ -644,7 +649,7 @@ public class Matrix {
 		for(int i = 0; i < 16; i++) {
 			mValues[i] -= eValues[i];
 		}
-		this.setValues(mValues);
+		this.set(mValues);
 	}
 	
 	/**

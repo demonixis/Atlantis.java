@@ -25,39 +25,61 @@
 			
 			<nav id="navigation">
 				<span><a class="selected" href="/" title="main">Main</a></span>
-				<!--<span><a href="screenshots.html" title="screenshots">Screenshots</a></span>-->
 				<span><a href="doc/index.html" title="documentation">Documentation</a></span>
 				<span><a href="http://www.github.com/demonixis/AtlantisEngine.java" title="Sources">Sources</a></span>
 			</nav>
-		
-			<div id="content">
-				<h3>Summary</h3>
-				<p>
-					AtlantisEngine is an experimental game engine written in many languages with the same API. The goal of this project is 
-					to make an easy and simple game engine. The project is composed by two main modules. 
-				</p>
-				
-				<h5>The Framework</h5>
-				<p>
-					It's close to XNA/MonoGame Framework API without some features like network, advanced 3D, gamers services, etc.
-				</p>
-				<h5>The Engine</h5>
-				<p>
-					The engine is a modified port of YnaEngine, another Game Engine that I written. The API of the engine is similar to 
-					Flixel, an awesome ActionScript 3 game framework. You have a global static class with many usefull objects.
-				</p>
-				
-				<h3>Some features</h3>
-				<ul>
-					<li>State management</li>
-					<li>Sprite and animated Sprite</li>
-					<li>Input management (keyboard, mouse)</li>
-				</ul>
-				
-				<h3>License</h3>
-				<p>
-					AtlantisEngine is free to use for any type of projects. It's using MIT license, take a look of the license file for more informations.
-				</p>
+			<div id="whiteBlock">
+				<div id="content">
+					<p>
+						<img src="img/java.png" alt="Java logo" />
+						AtlantisEngine is an experimental game engine written in many languages, this version if the Java port.
+					</p>
+					<h3>Goals</h3>
+					<ul>
+						<li>Using the standard language API (try to avoid 3rd party librairies if possible)</li>
+						<li>Unsing the same API for each language</li>
+						<li>Two main modules: a Framework and an Engine</li>
+						<li>Must work with Java and OpenJDK</li>
+						<li>Easy and fun programming</li>
+					</ul>
+					
+					<h3>The Framework</h3>
+					<p>
+						<a href="http://monogame.net/" title="MonoGame web site">XNA/MonoGame Framework</a> is an elegant solution for making a game or building an engine, moreover the main probleme 
+						is there are a lot of classes and utilities that we doesn't use. The concept of the Framework behind Atlantis is to provide an API close to XNA/MonoGame 
+						without some features. So network, XACT, gamer services and all specific Xbox and Windows code will not be implemented.
+						The result is a lightweight Framework with only object that we really need for the engine.
+					</p>
+					
+					<h3>The Engine</h3>
+					<p>
+						The engine is a modified port of <a href="https://github.com/demonixis/YnaEngine" title="YnaEngine web site">YnaEngine</a>, another Game Engine that I written. The goal of the engine is to be simple as possible like <a href="http://flixel.org/" title="Flixel web site">Flixel (2D)</a> or 
+						<a href="http://threejs.org/" title="Three.js web site">Three.js (3D)</a> and provide to developer a rapid way to create prototypes or games. It's <em>mainly</em> designed for Game Jam.
+					</p>
+					
+					<h3>Some features</h3>
+					<ul>
+						<li>A basic framework who has the same API as XNA</li>
+						<li>State management</li>
+						<li>Sprite and animated Sprite</li>
+						<li>Input management (keyboard, mouse)</li>
+						<li>Storage management</li>
+						<li>Experimental 3D software rendering</li>
+					</ul>
+					
+					<h3>Screenshots</h3>
+					<div id="screenshots">
+						<img src="img/3d-soft-tumb.jpg" alt="3D software rendering" />
+						<img src="img/3d-soft2-tumb.jpg" alt="3D software rendering" />
+						<img src="img/3d-wireframe-tumb.jpg" alt="3D software rendering" />
+						<img src="img/2d-sprite-tumb.jpg" alt="2D sample" />
+					</div>
+					
+					<h3>License</h3>
+					<p>
+						AtlantisEngine is free to use for any type of projects. It's using <a href="http://www.linfo.org/mitlicense.html" title="About this license">MIT license</a>, take a look of the license file for more informations.
+					</p>
+				</div>
 			</div>
 			<footer id="footer">
 				<p>AtlantisEngine.java - 2012 / 2013 - Yannick Comte</p>

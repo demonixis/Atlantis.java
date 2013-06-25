@@ -60,22 +60,19 @@ textarea {
    Author's custom styles
    ========================================================================== */
 /* http://www.colorhunter.com/tag/pastel/4 */
-body {
-	background: #EEF0F7;
-}
 
 #main {
-	margin: auto;
+	margin: auto;	
+	min-width: 360px;
 }
 
 #main * {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
 }
    
 #header {
 	position: relative;
 	text-align: center;
-	background-color: #EEF0F7;
 }
 
 #header h1 {
@@ -87,7 +84,6 @@ body {
 	margin: 0 0 10px 0;
 	padding: 0;
 	text-align: center;
-	
 }
 
 #navigation a{
@@ -104,19 +100,20 @@ body {
 	border-bottom: 2px solid #76ACD7;
 }
 
-
 #content {
 	clear: left;
 	padding: 15px;
-	min-width: 320px;
 	max-width: 1024px;
 	margin: auto;
-	background: #fafafa;
-	box-shadow: 1px 4px 6px #666;
+	background: #fdfdfd;
+	box-shadow: 0px 0px 1px #999;
+}
+
+.indent {
+	text-indent: 15px;
 }
 
 #content p {
-	text-indent: 15px;
 	margin: 0 0 20px 0;
 	font-size: 13px;
 }
@@ -124,6 +121,10 @@ body {
 #content p  logo {
 	float: left;
 	display: block;
+}
+
+#content li {
+	font-size: 13px;
 }
 
 #content h3 {
@@ -135,8 +136,12 @@ body {
 	padding: 0;
 }
 
-#footer {
-	background-color: #EEF0F7;
+#screenshots {
+	text-align: center;
+}
+
+#screenshots img {
+	margin: 0 0 15px 0;
 }
 
 #footer p {

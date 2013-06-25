@@ -11,3 +11,5 @@ atlantis.framework.content
 atlantis.framework.graphics
 atlantis.framework.input
 atlantis.framework.platform
+org.json
+org.json.zip

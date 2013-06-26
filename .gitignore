@@ -3,6 +3,15 @@
 [Dd]oc
 *.DS_Store
 .metadata/
-
-
+*.DS_Store
+*.pidb
+*.userprefs
+*.pdb
+*.user
+*.bak
+*.[Cc]ache
+*.log
+*.directory
+[Bb]in
+*~
 

@@ -10,12 +10,6 @@ package atlantis.framework.platform;
  */
 public interface IGameWindow {
 	/**
-	 * Sets the renderer 
-	 * @param renderer
-	 */
-	public void setRenderer(JPanelRenderer renderer);
-	
-	/**
 	 * Exit
 	 */
 	public void exit();
@@ -31,4 +25,6 @@ public interface IGameWindow {
 	 * Toggle in fullscreen mode or window mode
 	 */
 	public void toggleFullscreen();
+	
+	public JPanelRenderer getRenderer();
 }

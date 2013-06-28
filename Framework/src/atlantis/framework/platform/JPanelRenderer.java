@@ -13,7 +13,7 @@ import atlantis.framework.IDrawable;
  * A JPanel renderer for drawing image, sprite, text.
  * @author Yannick
  */
-public class JPanelRenderer extends JPanel {
+public class JPanelRenderer extends JPanel implements IWindowRenderer {
 	private static final long serialVersionUID = 9202978237731998998L;
 	protected Color clearColor;
 	private ArrayList<IDrawable> drawableCollection;
@@ -51,22 +51,5 @@ public class JPanelRenderer extends JPanel {
 	 */
 	public void addDrawable(IDrawable drawable) {
 		this.drawableCollection.add(drawable);
-	}
-	
-	/**
-	 * Remove a drawable object from the collection of drawable objects.
-	 * @param drawable The drawable object to remove.
-	 */
-	public void removeDrawable(IDrawable drawable) {
-		this.drawableCollection.remove(drawable);
-	}
-	
-	/**
-	 * Gets the a drawable object on the collection of drawable objects.
-	 * @param position The position of the drawable object in the collection;
-	 * @return Return the object if exists, otherwise return null.
-	 */
-	public IDrawable getDrawable(int position) {
-		return this.drawableCollection.get(position);
 	}
 }

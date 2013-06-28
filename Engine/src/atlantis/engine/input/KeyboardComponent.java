@@ -16,8 +16,8 @@ import atlantis.framework.input.KeyboardState;
  * @author Yannick
  */
 public class KeyboardComponent extends GameComponent {
-	protected KeyboardState keysState;
-	protected KeyboardState previousKeysState;
+	public KeyboardState keysState;
+	public KeyboardState previousKeysState;
 	
 	public KeyboardComponent(Game game) {
 		super(game);
@@ -27,7 +27,7 @@ public class KeyboardComponent extends GameComponent {
 
      public void update(GameTime gameTime)
      {
-         this.previousKeysState = this.keysState;
+    	 this.previousKeysState = this.keysState;
          this.keysState = this.game.getKeyboardManager().getState();
      }
 

@@ -1,5 +1,6 @@
 package atlantis.samples.shooter;
 
+import java.awt.event.KeyEvent;
 import atlantis.engine.Atlantis;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.state.State;
@@ -17,8 +18,8 @@ public class MenuScreen extends State {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		
-		if (Atlantis.keyboard.enter()) {
-			this.stateManager.setActive("game", true);
+		if (Atlantis.keyboard.justPressed(KeyEvent.VK_ENTER)) {
+			this.stateManager.setActive("game");
 		}
 		
 		if (Atlantis.keyboard.escape()) {

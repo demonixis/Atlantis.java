@@ -8,9 +8,8 @@ import java.awt.Graphics;
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.input.KeyboardManager;
 import atlantis.framework.input.MouseManager;
-import atlantis.framework.platform.DesktopPlatform;
+import atlantis.framework.platform.GameWindow;
 import atlantis.framework.platform.IGameWindow;
-import atlantis.framework.platform.JPanelRenderer;
 
 /**
  * The Game class provide basic initialization and game logic. 
@@ -21,8 +20,7 @@ public class Game implements IDrawable, IUpdateable {
 	protected KeyboardManager keyboardManager;
 	protected MouseManager mouseManager;
 	protected GameTime gameTime;
-	protected IGameWindow window;
-	protected JPanelRenderer windowRenderer;
+	protected IGameWindow gameWindow;
 	protected GameComponentCollection components;
 	protected ContentManager content;
 	
@@ -42,18 +40,15 @@ public class Game implements IDrawable, IUpdateable {
 		this.content = new ContentManager();
 		this.initialized = false;
 		
-		// The renderer
-		this.windowRenderer = new JPanelRenderer();
-		this.windowRenderer.addDrawable(this.components);
-		this.windowRenderer.addDrawable(this);
-		
 		// The window container
-		DesktopPlatform desktopPlatform = new DesktopPlatform(width, height, title);
-		desktopPlatform.setRenderer(this.windowRenderer);
-		desktopPlatform.addKeyListener((KeyboardManager)this.keyboardManager);
-		desktopPlatform.addMouseListener((MouseManager)this.mouseManager);
-		desktopPlatform.addMouseMotionListener((MouseManager)this.mouseManager);
-		desktopPlatform.addMouseWheelListener((MouseManager)this.mouseManager);
+		GameWindow window = new GameWindow(width, height, title);
+		window.addKeyListener((KeyboardManager)this.keyboardManager);
+		window.addMouseListener((MouseManager)this.mouseManager);
+		window.addMouseMotionListener((MouseManager)this.mouseManager);
+		window.addMouseWheelListener((MouseManager)this.mouseManager);
+		window.getRenderer().addDrawable(this);
+		window.getRenderer().addDrawable(this.components);
+		this.gameWindow = window;
 
 		// Thread for rendering
 		this.gameThread = new Thread(new GameLoop(this));
@@ -65,8 +60,8 @@ public class Game implements IDrawable, IUpdateable {
 	public void run() {
 		if (!this.isRunning) {
 			this.isRunning = true;
-			this.loadContent();
-			this.initialize();
+			
+			this.loadContent();this.initialize();
 			this.initialized = true;
 			this.gameThread.start();
 		}
@@ -115,36 +110,18 @@ public class Game implements IDrawable, IUpdateable {
 	}
 	
 	public void setWindow(IGameWindow window) {
-		this.window = window;
+		this.gameWindow = window;
+	}
+	
+	public IGameWindow getGameWindow() {
+		return this.gameWindow;
 	}
 	
 	/**
 	 * Toggle on fullscreen mode
 	 */
 	public void toggleFullscreen() {
-		this.window.toggleFullscreen();
-	}
-	
-	/**
-	 * Add a component to the components collection
-	 * @param component
-	 */
-	public void addComponent(GameComponent component) {
-		if (this.initialized) {
-			if (component instanceof DrawableGameComponent) {
-				((DrawableGameComponent)component).loadContent();
-				((DrawableGameComponent)component).initialize();
-			}
-		}
-		this.components.add(component);
-	}
-	
-	/**
-	 * Gets the renderer
-	 * @return
-	 */
-	public JPanelRenderer getRenderer() {
-		return this.windowRenderer;
+		this.gameWindow.toggleFullscreen();
 	}
 	
 	/**

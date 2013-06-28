@@ -23,12 +23,16 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	/**
 	 * Load assets of the component
 	 */
-	public void loadContent() { }
+	public void loadContent() {
+		this.assetLoaded = true;
+	}
 	
 	/**
 	 * Unload and dispose all assets of the component
 	 */
-	public void unloadContent() { }
+	public void unloadContent() {
+		this.assetLoaded = false;
+	}
 	
 	/**
 	 * Draw the component

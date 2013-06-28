@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
+
 /**
  * The game loop 
  * @author Yann
@@ -24,7 +25,7 @@ public class GameLoop implements Runnable {
 				this.game.update(this.game.gameTime);
 			}
 		
-			this.game.windowRenderer.repaint();
+			this.game.getGameWindow().getRenderer().repaint();
 			
 			// TODO : Use a correct value
 			try {

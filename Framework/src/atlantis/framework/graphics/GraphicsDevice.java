@@ -21,4 +21,12 @@ public final class GraphicsDevice {
 	public Graphics getGraphics() {
 		return this.renderer.getGraphics();
 	}
+	
+	public int getWidth() {
+		return this.renderer.getWidth();
+	}
+	
+	public int getHeight() {
+		return this.renderer.getHeight();
+	}
 }

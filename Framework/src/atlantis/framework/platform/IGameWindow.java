@@ -22,9 +22,19 @@ public interface IGameWindow {
 	public void setSize(int width, int height);
 	
 	/**
-	 * Toggle in fullscreen mode or window mode
+	 * Toggle in full screen mode or window mode
 	 */
 	public void toggleFullscreen();
 	
+	/**
+	 * Sets the renderer to use.
+	 * @param renderer The renderer to use.
+	 */
+	public void setRenderer(IWindowRenderer renderer);
+	
+	/**
+	 * Gets the active window renderer
+	 * @return Return the window renderer
+	 */
 	public JPanelRenderer getRenderer();
 }

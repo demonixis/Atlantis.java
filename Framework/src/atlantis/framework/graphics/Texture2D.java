@@ -11,38 +11,37 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import atlantis.framework.IDisposable;
-
 /**
  * A texture 2D
  * @author Yannick
  */
-public class Texture2D implements IDisposable {
-	protected BufferedImage texture;
+public class Texture2D extends BufferedImage {
+	protected DataBuffer dataBuffer;
+	protected int bufferSize;
 	
-	/**
-	 * Create a texture with a BufferedImage.
-	 * @param texture Image to use.
-	 */
-	public Texture2D(BufferedImage texture) {
-		this.texture = texture;
+	public Texture2D() {
+		this(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
 	}
 	
-	/**
-	 * Create a Texture2D, it is loaded from an external folder
-	 * @param path the path of the image
-	 */
-	public Texture2D(String path) {
-		this(path, 1);
+	public Texture2D(int width, int height, int type) {
+		super(width, height, type);
+		this.dataBuffer = this.getRaster().getDataBuffer();
+		this.bufferSize = this.dataBuffer.getSize();
+		
+		for (int i = 0; i < this.bufferSize; i++) {
+			this.dataBuffer.setElem(i, 255);
+		}
 	}
 	
-	/**
-	 * Create a Texture2D
-	 * @param path the path of the image
-	 * @param loadType the type of loading, internal = 0 (for applet), external = 1
-	 */
-	public Texture2D(String path, int loadType) {
-		this.texture = this.loadTexture(path, loadType);
+	public static Texture2D createFromPath(String path, int loadType) {
+		BufferedImage image = loadBufferedImage(path, loadType);
+		return createFromImage(image);
+	}
+	
+	public static Texture2D createFromImage(BufferedImage image) {
+		Texture2D texture = new Texture2D(image.getWidth(), image.getHeight(), image.getType());
+		texture.setData(image.getRaster().getDataBuffer());
+		return texture;
 	}
 	
 	/**
@@ -51,12 +50,12 @@ public class Texture2D implements IDisposable {
 	 * @param loadType the type of loading, internal = 0 (for applet), external = 1
 	 * @return an image
 	 */
-	public BufferedImage loadTexture(String path, int loadType) {
+	protected static BufferedImage loadBufferedImage(String path, int loadType) {
 		BufferedImage image = null;
 
 		try {
 			if (loadType == 0) {
-				URL url = this.getClass().getClassLoader().getResource(path);
+				URL url = Texture2D.class.getClass().getClassLoader().getResource(path);
 				image = ImageIO.read(url); 
 			}
 			else {
@@ -68,44 +67,13 @@ public class Texture2D implements IDisposable {
 
 		return image;
 	}
-	
-	/**
-	 * Gets the raw texture.
-	 * @return
-	 */
-	public BufferedImage getTexture() {
-		return this.texture;
-	}
-	
-	/**
-	 * Remove this texture.
-	 */
-	public void dispose() {
-		this.texture = null;
-	}
-	
-	/**
-	 * Gets the width of the texture.
-	 * @return Return the width of the texture.
-	 */
-	public int getWidth() {
-		return texture.getWidth();
-	}
-	
-	/**
-	 * Gets the height of the texture.
-	 * @return Return the height of the texture.
-	 */
-	public int getHeight() {
-		return texture.getHeight();
-	}
-	
+
 	/**
 	 * Gets data of the texture.
 	 * @return Return an array that contains the structure of the texture;
 	 */
-	public int[] getData() {
-		DataBuffer buffer = this.texture.getRaster().getDataBuffer();
+	public int[] getTexData() {
+		DataBuffer buffer = this.getRaster().getDataBuffer();
 		int [] data = new int[buffer.getSize()];
 		
 		for (int i = 0, l = buffer.getSize(); i < l; i++) {
@@ -120,17 +88,25 @@ public class Texture2D implements IDisposable {
 	 * @param data An array of data to inject.
 	 * @throws Exception The array of data must have the same size of texture data.
 	 */
-	public boolean setData(int[] data) throws Exception {
-		DataBuffer buffer = this.texture.getRaster().getDataBuffer();
+	public boolean setData(int[] data) {
+		DataBuffer buffer = this.getRaster().getDataBuffer();
 		if (data.length == buffer.getSize()) {
 			for (int i = 0, l = buffer.getSize(); i < l; i++) {
 				buffer.setElem(i, data[i]);
 			}
 			return true;
 		}
-		else {
-			throw new Exception("The data array must have the same size of the texture data");
+		return false;
+	}
+	
+	public boolean setData(DataBuffer buffer) {
+		if (buffer.getSize() == this.bufferSize) {
+			for (int i = 0; i < this.bufferSize; i++) {
+				this.dataBuffer.setElem(i, buffer.getElem(i));
+			}
+			return true;
 		}
+		return false;
 	}
 	
 	/**
@@ -138,10 +114,10 @@ public class Texture2D implements IDisposable {
 	 * @return Return the size of the buffer array.
 	 */
 	public int getDataSize() {
-		return this.texture.getRaster().getDataBuffer().getSize();
+		return this.getRaster().getDataBuffer().getSize();
 	}
 	
 	public int getSurfaceType() {
-		return this.texture.getType();
+		return this.getType();
 	}
 }

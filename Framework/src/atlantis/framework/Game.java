@@ -4,12 +4,14 @@
 package atlantis.framework;
 
 import java.awt.Graphics;
-
 import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.GraphicsDevice;
+import atlantis.framework.graphics.RenderTarget2D;
 import atlantis.framework.input.KeyboardManager;
 import atlantis.framework.input.MouseManager;
 import atlantis.framework.platform.GameWindow;
 import atlantis.framework.platform.IGameWindow;
+
 
 /**
  * The Game class provide basic initialization and game logic. 
@@ -23,7 +25,8 @@ public class Game implements IDrawable, IUpdateable {
 	protected IGameWindow gameWindow;
 	protected GameComponentCollection components;
 	protected ContentManager content;
-	
+	protected GraphicsDevice graphicsDevice;
+	protected RenderTarget2D mainRenderTarget;
 	protected int width;
 	protected int height;
 	protected boolean isRunning;
@@ -45,11 +48,11 @@ public class Game implements IDrawable, IUpdateable {
 		window.addKeyListener((KeyboardManager)this.keyboardManager);
 		window.addMouseListener((MouseManager)this.mouseManager);
 		window.addMouseMotionListener((MouseManager)this.mouseManager);
-		window.addMouseWheelListener((MouseManager)this.mouseManager);
-		window.getRenderer().addDrawable(this);
-		window.getRenderer().addDrawable(this.components);
 		this.gameWindow = window;
-
+		
+		this.mainRenderTarget = new RenderTarget2D(width, height);
+		window.getRenderer().addRenderTarget(this.mainRenderTarget);
+		
 		// Thread for rendering
 		this.gameThread = new Thread(new GameLoop(this));
 	}
@@ -118,7 +121,7 @@ public class Game implements IDrawable, IUpdateable {
 	}
 	
 	/**
-	 * Toggle on fullscreen mode
+	 * Toggle on full screen mode
 	 */
 	public void toggleFullscreen() {
 		this.gameWindow.toggleFullscreen();

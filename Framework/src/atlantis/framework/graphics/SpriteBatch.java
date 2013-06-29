@@ -55,7 +55,7 @@ public class SpriteBatch {
 		for (int i = 0, l = batchOperations.size(); i < l; i++) {
 			operation = batchOperations.get(i);
 			if (operation.sourceRectangle != null) {
-				graphics.drawImage(batchOperations.get(i).texture.getTexture(), 
+				graphics.drawImage(batchOperations.get(i).texture, 
 						operation.destinationRectangle.x, 
 						operation.destinationRectangle.y, 
 						operation.destinationRectangle.getRight(), 
@@ -67,7 +67,7 @@ public class SpriteBatch {
 						null);
 			}
 			else {
-				graphics.drawImage(batchOperations.get(i).texture.getTexture(), 
+				graphics.drawImage(batchOperations.get(i).texture, 
 						operation.destinationRectangle.x, 
 						operation.destinationRectangle.y, 
 						operation.destinationRectangle.getWidth(), 

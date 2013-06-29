@@ -27,7 +27,7 @@ public class GraphicsFactory {
 			buffer.setElem(i + 3, color.getRed());
 		}
 		
-		Texture2D texture = new Texture2D(image);
+		Texture2D texture = Texture2D.createFromImage(image);
 		return texture;
 	}
 	
@@ -50,7 +50,7 @@ public class GraphicsFactory {
 			colors[i + 3] = random.nextInt(255);
 		}
 		
-		Texture2D texture = new Texture2D(image);
+		Texture2D texture = Texture2D.createFromImage(image);
 		texture.setData(colors);
 
 		return texture;
@@ -81,10 +81,10 @@ public class GraphicsFactory {
 	 * @param borderSize Border size.
 	 */
 	public static void drawRectangle(Graphics graphics, Texture2D texture, Rectangle rectangle, Color color, int borderSize) {
-		graphics.drawImage(texture.getTexture(), rectangle.getLeft(), rectangle.getTop(), rectangle.getWidth(), borderSize, null);
-		graphics.drawImage(texture.getTexture(), rectangle.getLeft(), rectangle.getBottom(), rectangle.getWidth(), borderSize, null);
-		graphics.drawImage(texture.getTexture(), rectangle.getLeft(), rectangle.getTop(), borderSize, rectangle.getHeight(), null);
-		graphics.drawImage(texture.getTexture(), rectangle.getRight(), rectangle.getTop(), borderSize, rectangle.getHeight(), null);
+		graphics.drawImage(texture, rectangle.getLeft(), rectangle.getTop(), rectangle.getWidth(), borderSize, null);
+		graphics.drawImage(texture, rectangle.getLeft(), rectangle.getBottom(), rectangle.getWidth(), borderSize, null);
+		graphics.drawImage(texture, rectangle.getLeft(), rectangle.getTop(), borderSize, rectangle.getHeight(), null);
+		graphics.drawImage(texture, rectangle.getRight(), rectangle.getTop(), borderSize, rectangle.getHeight(), null);
 	}
 	
 	/**

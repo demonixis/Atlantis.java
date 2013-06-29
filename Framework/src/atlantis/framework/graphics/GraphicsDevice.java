@@ -13,9 +13,13 @@ import atlantis.framework.platform.JPanelRenderer;
  */
 public final class GraphicsDevice {
 	private JPanelRenderer renderer;
+	protected int width;
+	protected int height;
 	
 	public GraphicsDevice(JPanelRenderer renderer) {
 		this.renderer = renderer;
+		this.width = renderer.getWidth();
+		this.height = renderer.getHeight();
 	}
 	
 	public Graphics getGraphics() {

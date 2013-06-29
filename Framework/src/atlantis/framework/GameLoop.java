@@ -3,6 +3,9 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
+import atlantis.framework.graphics.RenderTarget2D;
+import atlantis.framework.platform.GameWindow;
+
 
 /**
  * The game loop 
@@ -11,21 +14,23 @@ package atlantis.framework;
  */
 public class GameLoop implements Runnable {
 	private Game game;
+	private GameWindow gameWindow;
+	private RenderTarget2D renderTarget;
 	
 	public GameLoop(Game game) {
 		this.game = game;
+		this.gameWindow = (GameWindow) game.getGameWindow();
+		this.renderTarget = game.mainRenderTarget;
 	}
 	
 	@Override
 	public void run() {
 		while(this.game.isRunning) {
 			this.game.gameTime.update();
-			
-			for (int i = 0; i < 2; i++) {
-				this.game.update(this.game.gameTime);
-			}
-		
-			this.game.getGameWindow().getRenderer().repaint();
+			//for (int i = 0; i < 2; i++)
+			this.game.update(this.game.gameTime);
+			this.game.draw(renderTarget.getGraphics());
+			this.gameWindow.getRenderer().repaint();
 			
 			// TODO : Use a correct value
 			try {

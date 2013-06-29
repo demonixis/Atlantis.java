@@ -9,7 +9,7 @@ import atlantis.framework.graphics.Texture2D;
 
 /**
  * A content manager for load images and sounds
- * @author Yann
+ * @author Yannick
  */
 public class ContentManager {
 	protected HashMap<String, Object> assets;
@@ -35,7 +35,7 @@ public class ContentManager {
 		Texture2D image = (Texture2D) this.assets.get(assetName);
 		
 		if (image == null) {
-			image = new Texture2D(this.rootDirectory + "/" + assetName, this.loadType);
+			image = Texture2D.createFromPath(this.rootDirectory + "/" + assetName, this.loadType);
 			this.assets.put(assetName, image);
 		}
 		

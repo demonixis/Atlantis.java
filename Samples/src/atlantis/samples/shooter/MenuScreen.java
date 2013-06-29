@@ -18,7 +18,7 @@ public class MenuScreen extends State {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		
-		if (Atlantis.keyboard.justPressed(KeyEvent.VK_ENTER)) {
+		if (Atlantis.keyboard.pressed(KeyEvent.VK_ENTER)) {
 			this.stateManager.setActive("game");
 		}
 		

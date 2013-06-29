@@ -6,8 +6,10 @@ package atlantis.framework.platform;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
-import atlantis.framework.IDrawable;
+
+import atlantis.framework.graphics.RenderTarget2D;
 
 /**
  * A JPanel renderer for drawing image, sprite, text.
@@ -16,12 +18,14 @@ import atlantis.framework.IDrawable;
 public class JPanelRenderer extends JPanel implements IWindowRenderer {
 	private static final long serialVersionUID = 9202978237731998998L;
 	protected Color clearColor;
-	private ArrayList<IDrawable> drawableCollection;
+	private ArrayList<RenderTarget2D> renderTargets;
+	private int renderTargetCount;
 	
 	public JPanelRenderer() {
 		this.clearColor = Color.black;
 		this.setDoubleBuffered(true);
-		this.drawableCollection = new ArrayList<IDrawable>();
+		this.renderTargets = new ArrayList<RenderTarget2D>();
+		this.renderTargetCount = 0;
 	}
 	
 	public void paintComponent(Graphics graphics) {
@@ -31,9 +35,9 @@ public class JPanelRenderer extends JPanel implements IWindowRenderer {
 		graphics.setColor(clearColor);
 		graphics.fillRect(0, 0, getWidth(), getHeight());
 		
-		// Draw all drawable objects
-		for (IDrawable drawable : this.drawableCollection) {
-			drawable.draw(graphics);
+		// Draw all render target objects
+		for (int i = 0; i < this.renderTargetCount; i++) {
+			this.renderTargets.get(i).draw(graphics);
 		}
 	}
 	
@@ -46,10 +50,11 @@ public class JPanelRenderer extends JPanel implements IWindowRenderer {
 	}
 	
 	/**
-	 * Add a drawable object to the collection of drawable objects.
-	 * @param drawable The drawable object to add.
+	 * Add a render target object to the collection of renderTarget objects.
+	 * @param drawable The render target object to add.
 	 */
-	public void addDrawable(IDrawable drawable) {
-		this.drawableCollection.add(drawable);
+	public void addRenderTarget(RenderTarget2D renderTarget) {
+		this.renderTargets.add(renderTarget);
+		this.renderTargetCount++;
 	}
 }

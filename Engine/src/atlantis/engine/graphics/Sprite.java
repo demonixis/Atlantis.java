@@ -153,10 +153,10 @@ public class Sprite extends BaseEntity {
 		
 		if (this.visible && this.assetLoaded) {
             if (this.hasAnimation) {
-                graphics.drawImage(this.texture.getTexture(), this.rectangle.x, this.rectangle.y, this.rectangle.getRight(), this.rectangle.getBottom(), this.sourceRectangle.x, this.sourceRectangle.y, this.sourceRectangle.getRight(), this.sourceRectangle.getBottom(), null);
+                graphics.drawImage(this.texture, this.rectangle.x, this.rectangle.y, this.rectangle.getRight(), this.rectangle.getBottom(), this.sourceRectangle.x, this.sourceRectangle.y, this.sourceRectangle.getRight(), this.sourceRectangle.getBottom(), null);
             }
             else {
-                graphics.drawImage(this.texture.getTexture(), this.rectangle.x, this.rectangle.y, this.rectangle.width, this.rectangle.height, null);
+                graphics.drawImage(this.texture, this.rectangle.x, this.rectangle.y, this.rectangle.width, this.rectangle.height, null);
             }
         }
 	}

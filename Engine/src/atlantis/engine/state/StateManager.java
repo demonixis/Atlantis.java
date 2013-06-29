@@ -37,7 +37,7 @@ public class StateManager extends DrawableGameComponent {
 	public void loadContent() {
 		if (!this.assetLoaded) {
 			for (State state : this.states) {
-				state.loadContent(this.game.getContentManager());
+				state.loadContent(this.game.contentManager());
 			}
 			this.assetLoaded = true;
 		}
@@ -138,7 +138,7 @@ public class StateManager extends DrawableGameComponent {
 		state.setActive(isActive);
 		
 		if (this.initialized) {
-			state.loadContent(this.game.getContentManager());
+			state.loadContent(this.game.contentManager());
 			state.initialize();
 		}
 		

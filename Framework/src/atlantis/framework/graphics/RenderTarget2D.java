@@ -12,15 +12,11 @@ import atlantis.framework.IDrawable;
  */
 public class RenderTarget2D extends BufferedImage implements IDrawable {
 	protected Graphics graphics;
-	protected int width;
-	protected int height;
 	protected DataBuffer dataBuffer;
 	protected int bufferSize;
 	
 	public RenderTarget2D(int width, int height) {
 		super(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		this.width = width;
-		this.height = height;
 		this.graphics = this.getGraphics();
 		this.dataBuffer = this.getRaster().getDataBuffer();
 		this.bufferSize = this.dataBuffer.getSize();
@@ -46,14 +42,6 @@ public class RenderTarget2D extends BufferedImage implements IDrawable {
 	
 	@Override
 	public void draw(Graphics graphics) {
-		graphics.drawImage(this, 0, 0, this.width, this.height, null);
-	}
-	
-	public int getWidth() {
-		return this.width;
-	}
-	
-	public int getHeight() {
-		return this.height;
+		graphics.drawImage(this, 0, 0, this.getWidth(), this.getHeight(), null);
 	}
 }

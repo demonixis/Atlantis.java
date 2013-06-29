@@ -70,7 +70,7 @@ public abstract class BaseEntity implements IUpdateable, IDrawable {
 
 	/**
 	 * Enable or disable an entity.
-	 * If isActice is set to true the entity is not udpated and not drawed
+	 * If isActice is set to true the entity is not updated and not drawn
 	 * @param isActive
 	 */
 	public void setActive(boolean active) {

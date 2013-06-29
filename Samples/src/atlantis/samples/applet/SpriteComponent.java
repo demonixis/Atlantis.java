@@ -25,16 +25,16 @@ public class SpriteComponent extends DrawableGameComponent {
 	}
 		
 	public void loadContent() {
-		this.background.loadContent(this.game.getContentManager());
+		this.background.loadContent(this.game.contentManager());
 		this.background.setSize(Atlantis.width, Atlantis.height);
 		
-		this.tree.loadContent(this.game.getContentManager());
+		this.tree.loadContent(this.game.contentManager());
 		this.tree.setPosition(150, 150);
-		this.tree2.loadContent(this.game.getContentManager());
+		this.tree2.loadContent(this.game.contentManager());
 		this.tree2.setSize(128, 128);
 		this.tree2.setPosition(Atlantis.width - 250, Atlantis.height - 250);
 		
-		this.femaleSprite.loadContent(this.game.getContentManager());
+		this.femaleSprite.loadContent(this.game.contentManager());
 		this.femaleSprite.prepareAnimation(64, 64);
 		this.femaleSprite.addAnimation("up", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, 75);
 		this.femaleSprite.addAnimation("left", new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 17 }, 75);

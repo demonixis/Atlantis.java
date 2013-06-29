@@ -20,7 +20,7 @@ public class GameLoop implements Runnable {
 	public GameLoop(Game game) {
 		this.game = game;
 		this.gameWindow = (GameWindow) game.getGameWindow();
-		this.renderTarget = game.mainRenderTarget;
+		this.renderTarget = game.graphicsDevice.getRenderTarget();
 	}
 	
 	@Override

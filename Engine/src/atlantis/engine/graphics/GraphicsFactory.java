@@ -26,9 +26,8 @@ public class GraphicsFactory {
 			buffer.setElem(i + 2, color.getGreen());
 			buffer.setElem(i + 3, color.getRed());
 		}
-		
-		Texture2D texture = Texture2D.createFromImage(image);
-		return texture;
+
+		return new Texture2D(buffer, image.getWidth(), image.getHeight(), image.getType());
 	}
 	
 	/**
@@ -39,21 +38,18 @@ public class GraphicsFactory {
 	 * @throws Exception
 	 */
 	public static Texture2D createRandomTexture(int width, int height) throws Exception {
-		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		
 		Random random = new Random();
-		int[] colors = new int[width * height * 4];
-		for (int i = 0, l = colors.length; i < l; i += 4) {
-			colors[i] = random.nextInt(255);
-			colors[i + 1] = random.nextInt(255);
-			colors[i + 2] = random.nextInt(255);
-			colors[i + 3] = random.nextInt(255);
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		DataBuffer buffer = image.getRaster().getDataBuffer();
+		
+		for (int i = 0, l = buffer.getSize(); i < l; i += 4) {
+			buffer.setElem(i, random.nextInt(255));
+			buffer.setElem(i + 1, random.nextInt(255));
+			buffer.setElem(i + 2, random.nextInt(255));
+			buffer.setElem(i + 3, random.nextInt(255));
 		}
 		
-		Texture2D texture = Texture2D.createFromImage(image);
-		texture.setData(colors);
-
-		return texture;
+		return new Texture2D(buffer, image.getWidth(), image.getHeight(), image.getType());
 	}
 	
 	/**

@@ -21,14 +21,14 @@ public class KeyboardComponent extends GameComponent {
 	
 	public KeyboardComponent(Game game) {
 		super(game);
-		this.keysState = game.getKeyboardManager().getState();
-		this.previousKeysState = game.getKeyboardManager().getState();
+		this.keysState = game.keyboardManager().getState();
+		this.previousKeysState = game.keyboardManager().getState();
 	}
 
      public void update(GameTime gameTime)
      {
     	 this.previousKeysState = this.keysState;
-         this.keysState = this.game.getKeyboardManager().getState();
+         this.keysState = this.game.keyboardManager().getState();
      }
 
      /**

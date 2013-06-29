@@ -4,9 +4,9 @@
 package atlantis.framework;
 
 import java.awt.Graphics;
+
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.GraphicsDevice;
-import atlantis.framework.graphics.RenderTarget2D;
 import atlantis.framework.input.KeyboardManager;
 import atlantis.framework.input.MouseManager;
 import atlantis.framework.platform.GameWindow;
@@ -26,7 +26,6 @@ public class Game implements IDrawable, IUpdateable {
 	protected GameComponentCollection components;
 	protected ContentManager content;
 	protected GraphicsDevice graphicsDevice;
-	protected RenderTarget2D mainRenderTarget;
 	protected int width;
 	protected int height;
 	protected boolean isRunning;
@@ -41,6 +40,7 @@ public class Game implements IDrawable, IUpdateable {
 		this.gameTime = new GameTime();
 		this.components = new GameComponentCollection();
 		this.content = new ContentManager();
+		this.graphicsDevice = new GraphicsDevice(width, height);
 		this.initialized = false;
 		
 		// The window container
@@ -48,14 +48,16 @@ public class Game implements IDrawable, IUpdateable {
 		window.addKeyListener((KeyboardManager)this.keyboardManager);
 		window.addMouseListener((MouseManager)this.mouseManager);
 		window.addMouseMotionListener((MouseManager)this.mouseManager);
+		window.getRenderer().addRenderTarget(this.graphicsDevice.getRenderTarget());
 		this.gameWindow = window;
-		
-		this.mainRenderTarget = new RenderTarget2D(width, height);
-		window.getRenderer().addRenderTarget(this.mainRenderTarget);
 		
 		// Thread for rendering
 		this.gameThread = new Thread(new GameLoop(this));
 	}
+	
+	// ---
+	// --- Game state pattern
+	// ---
 	
 	/**
 	 * Launch the main game loop and start the game
@@ -63,8 +65,8 @@ public class Game implements IDrawable, IUpdateable {
 	public void run() {
 		if (!this.isRunning) {
 			this.isRunning = true;
-			
-			this.loadContent();this.initialize();
+			this.loadContent();
+			this.initialize();
 			this.initialized = true;
 			this.gameThread.start();
 		}
@@ -105,6 +107,10 @@ public class Game implements IDrawable, IUpdateable {
 		this.components.draw(graphics);
 	}
 	
+	// ---
+	// --- Window methods
+	// ---
+	
 	/**
 	 * Exit the game
 	 */
@@ -127,11 +133,23 @@ public class Game implements IDrawable, IUpdateable {
 		this.gameWindow.toggleFullscreen();
 	}
 	
+	// ---
+	// --- Getters
+	// ---
+	
+	/**
+	 * Retrieve the graphics device
+	 * @return
+	 */
+	public GraphicsDevice graphicsDevice() {
+		return this.graphicsDevice;
+	}
+	
 	/**
 	 * Retrieve the game components
 	 * @return Game components
 	 */
-	public GameComponentCollection getComponents() {
+	public GameComponentCollection components() {
 		return components;
 	}
 	
@@ -139,7 +157,7 @@ public class Game implements IDrawable, IUpdateable {
 	 * Retrieve the keyboard state
 	 * @return A KeyboardState object
 	 */
-	public KeyboardManager getKeyboardManager() {
+	public KeyboardManager keyboardManager() {
 		return this.keyboardManager;
 	}
 	
@@ -147,7 +165,7 @@ public class Game implements IDrawable, IUpdateable {
 	 * Retrieve the mouse state
 	 * @return A MouseState object
 	 */
-	public MouseManager getMouseManager() {
+	public MouseManager mouseManager() {
 		return this.mouseManager;
 	}
 	
@@ -155,7 +173,7 @@ public class Game implements IDrawable, IUpdateable {
 	 * Retrieve the content manager
 	 * @return The content manager
 	 */
-	public ContentManager getContentManager() {
+	public ContentManager contentManager() {
 		return this.content;
 	}
 }

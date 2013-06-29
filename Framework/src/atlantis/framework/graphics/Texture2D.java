@@ -33,6 +33,11 @@ public class Texture2D extends BufferedImage {
 		}
 	}
 	
+	public Texture2D(DataBuffer dataBuffer, int width, int height, int type) {
+		super(width, height, type);
+		this.setData(dataBuffer);
+	}
+	
 	public static Texture2D createFromPath(String path, int loadType) {
 		BufferedImage image = loadBufferedImage(path, loadType);
 		return createFromImage(image);
@@ -114,7 +119,7 @@ public class Texture2D extends BufferedImage {
 	 * @return Return the size of the buffer array.
 	 */
 	public int getDataSize() {
-		return this.getRaster().getDataBuffer().getSize();
+		return this.bufferSize;
 	}
 	
 	public int getSurfaceType() {

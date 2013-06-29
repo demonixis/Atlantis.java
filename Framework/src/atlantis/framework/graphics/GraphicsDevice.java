@@ -5,32 +5,34 @@ package atlantis.framework.graphics;
 
 import java.awt.Graphics;
 
-import atlantis.framework.platform.JPanelRenderer;
-
 /**
- * The graphics device.
- * @author Yann
+ * The graphics device is response to create the main render target and must manage all draw call.
+ * @author Yannick
  */
 public final class GraphicsDevice {
-	private JPanelRenderer renderer;
+	protected RenderTarget2D mainRenderTarget;
 	protected int width;
 	protected int height;
 	
-	public GraphicsDevice(JPanelRenderer renderer) {
-		this.renderer = renderer;
-		this.width = renderer.getWidth();
-		this.height = renderer.getHeight();
+	public GraphicsDevice(int width, int height) {
+		this.mainRenderTarget = new RenderTarget2D(width, height);
+		this.width = width;
+		this.height = height;
 	}
 	
 	public Graphics getGraphics() {
-		return this.renderer.getGraphics();
+		return this.mainRenderTarget.getGraphics();
+	}
+	
+	public RenderTarget2D getRenderTarget() {
+		return this.mainRenderTarget;
 	}
 	
 	public int getWidth() {
-		return this.renderer.getWidth();
+		return width;
 	}
 	
 	public int getHeight() {
-		return this.renderer.getHeight();
+		return height;
 	}
 }

@@ -18,7 +18,7 @@ public class MouseComponent extends GameComponent {
 
 	public MouseComponent(Game game) {
 		super(game);
-		this.mouseState = game.getMouseManager().getState();
+		this.mouseState = game.mouseManager().getState();
 		this.previousMouseState = this.mouseState;
 		this.delta = new Vector2();
 	}
@@ -27,7 +27,7 @@ public class MouseComponent extends GameComponent {
 		super.update(gameTime);
 		// Update states
 		this.previousMouseState = this.mouseState;
-		this.mouseState = this.game.getMouseManager().getState();
+		this.mouseState = this.game.mouseManager().getState();
 
 		// Calculate the delta
 		this.delta.x = this.mouseState.getX() - this.previousMouseState.getX();

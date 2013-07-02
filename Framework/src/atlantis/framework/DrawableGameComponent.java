@@ -3,8 +3,6 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
-import java.awt.Graphics;
-
 /**
  * A DrawableGameComponent is a GameComponent that is updated and drawn on each frame.
  * It can be enabled or disabled and visible or invisible
@@ -39,7 +37,7 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	 * @param a Graphics object
 	 */
 	@Override
-	public void draw(Graphics graphics) { }
+	public void draw(GameTime gameTime) { }
 	
 	/**
 	 * Gets the visibility of the component

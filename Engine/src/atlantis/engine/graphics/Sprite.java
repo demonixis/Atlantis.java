@@ -3,12 +3,11 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics;
 
-import java.awt.Graphics;
-
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
 import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.SpriteBatch;
 import atlantis.framework.graphics.Texture2D;
 
 /**
@@ -146,17 +145,17 @@ public class Sprite extends BaseEntity {
 	}
 		
 	@Override
-	public void draw(Graphics graphics) {
+	public void draw(GameTime gameTime, SpriteBatch spriteBatch) {
 		if (this.enabled) {
 			this.postUpdate();
 		}
 		
 		if (this.visible && this.assetLoaded) {
             if (this.hasAnimation) {
-                graphics.drawImage(this.texture, this.rectangle.x, this.rectangle.y, this.rectangle.getRight(), this.rectangle.getBottom(), this.sourceRectangle.x, this.sourceRectangle.y, this.sourceRectangle.getRight(), this.sourceRectangle.getBottom(), null);
+                spriteBatch.draw(this.texture, this.rectangle, this.sourceRectangle, 0);
             }
             else {
-                graphics.drawImage(this.texture, this.rectangle.x, this.rectangle.y, this.rectangle.width, this.rectangle.height, null);
+            	spriteBatch.draw(this.texture, this.rectangle);
             }
         }
 	}

@@ -1,11 +1,11 @@
 package atlantis.samples.sprite;
 
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 import atlantis.engine.graphics.Sprite;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
+import atlantis.framework.graphics.SpriteBatch;
 import atlantis.framework.input.KeyboardState;
 
 public class SpriteGame extends Game {
@@ -13,6 +13,7 @@ public class SpriteGame extends Game {
 	private Sprite tree;
 	private Sprite tree2;
 	private Sprite femaleSprite;
+	private SpriteBatch spriteBatch;
 	
 	public SpriteGame() {
 		super(1024, 600, "Atlantis Game Engine for Java - Sprite Sample");
@@ -22,6 +23,7 @@ public class SpriteGame extends Game {
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
 		this.femaleSprite.setViewport(0, 0, this.width, this.height);
 		this.femaleSprite.forceInsideScreen(true);
+		this.spriteBatch = new SpriteBatch(graphicsDevice());
 	}
 	
 	public void loadContent() {
@@ -79,12 +81,14 @@ public class SpriteGame extends Game {
 		}
 	}
 	
-	public void draw(Graphics graphics) {
-		super.draw(graphics);
-		this.background.draw(graphics);
-		this.tree.draw(graphics);
-		this.tree2.draw(graphics);
-		this.femaleSprite.draw(graphics);
+	public void draw(GameTime gameTime) {
+		super.draw(gameTime);
+		this.spriteBatch.begin();
+		this.background.draw(gameTime, this.spriteBatch);
+		this.tree.draw(gameTime, this.spriteBatch);
+		this.tree2.draw(gameTime, this.spriteBatch);
+		this.femaleSprite.draw(gameTime, this.spriteBatch);
+		this.spriteBatch.end();
 	}
 
 	public static void main(String [] args) {

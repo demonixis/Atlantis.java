@@ -3,15 +3,15 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics;
 
-import atlantis.framework.IDrawable;
-import atlantis.framework.IUpdateable;
+import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.SpriteBatch;
 
 /**
  * Define a basic entity.
  * @author Yannick
  */
-public abstract class BaseEntity implements IUpdateable, IDrawable {
+public abstract class BaseEntity {
 	private static int entityCounter = 0;
 	protected boolean initialized;
 	protected boolean assetLoaded;
@@ -33,6 +33,14 @@ public abstract class BaseEntity implements IUpdateable, IDrawable {
 	}
 	
 	public void loadContent(ContentManager content) {
+		
+	}
+	
+	public void update(GameTime gameTime) {
+		
+	}
+	
+	public void draw(GameTime gameTime, SpriteBatch spriteBatch) {
 		
 	}
 	

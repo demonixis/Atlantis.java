@@ -4,13 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
-import atlantis.framework.IDrawable;
 
 /**
  * A render target 2D is a back buffer image.
  * @author Yannick
  */
-public class RenderTarget2D extends BufferedImage implements IDrawable {
+public class RenderTarget2D extends BufferedImage {
 	protected Graphics graphics;
 	protected DataBuffer dataBuffer;
 	protected int bufferSize;
@@ -40,7 +39,6 @@ public class RenderTarget2D extends BufferedImage implements IDrawable {
 		}
 	}
 	
-	@Override
 	public void draw(Graphics graphics) {
 		graphics.drawImage(this, 0, 0, this.getWidth(), this.getHeight(), null);
 	}

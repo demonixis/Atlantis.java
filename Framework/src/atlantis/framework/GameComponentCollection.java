@@ -3,7 +3,6 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
@@ -75,11 +74,11 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 	/**
 	 * Draw all DrawableGameComponent if they are visibles
 	 */
-	public void draw(Graphics graphics) {
+	public void draw(GameTime gameTime) {
 		if (this.drawableGameComponents.size() > 0) {
 			for (DrawableGameComponent component : this.drawableGameComponents) {
 				if (component.isVisible()) {
-					component.draw(graphics);
+					component.draw(gameTime);
 				}
 			}
 		}

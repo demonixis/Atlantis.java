@@ -3,13 +3,13 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics;
 
-import java.awt.Graphics;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import atlantis.engine.Atlantis;
 import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.SpriteBatch;
 
 /**
  * An Entity collection which will update and draw its children.
@@ -58,10 +58,10 @@ public class SpriteGroup extends Sprite {
 	/**
 	 * Draw entities on screen
 	 */
-	public void draw(Graphics graphics) {
+	public void draw(GameTime gameTime, SpriteBatch spriteBatch) {
 		if (this.visible) {
 			for (Sprite entity : this.entities) {
-				entity.draw(graphics);
+				entity.draw(gameTime, spriteBatch);
 			}
 		}
 	}

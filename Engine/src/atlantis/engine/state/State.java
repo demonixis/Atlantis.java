@@ -3,25 +3,37 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.state;
 
-import java.awt.Graphics;
-
-import atlantis.engine.graphics.BaseEntity;
+import atlantis.engine.Atlantis;
 import atlantis.engine.graphics.SpriteGroup;
 import atlantis.framework.GameTime;
+import atlantis.framework.IDrawable;
+import atlantis.framework.IUpdateable;
 import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.SpriteBatch;
 
 /**
  * A class that define a game state.
  * @author Yannick
  */
-public class State extends BaseEntity {
+public class State implements IUpdateable, IDrawable {
 	protected SpriteGroup scene;
 	protected StateManager stateManager;
+	protected SpriteBatch spriteBatch;
+	protected boolean initialized;
+	protected boolean assetLoaded;
+	protected boolean enabled;
+	protected boolean visible;
+	protected String name;
 	
-	public State() {
+	private State() {
 		super();
 		this.scene = new SpriteGroup();
 		this.stateManager = null;
+		this.initialized = false;
+		this.assetLoaded = false;
+		this.enabled = true;
+		this.visible = true;
+		this.spriteBatch = new SpriteBatch(Atlantis.game.graphicsDevice());
 	}
 	
 	public State(String name) {
@@ -47,9 +59,11 @@ public class State extends BaseEntity {
 	}
 	
 	@Override
-	public void draw(Graphics graphics) {
+	public void draw(GameTime gameTime) {
 		if (this.visible) {
-			this.scene.draw(graphics);
+			this.spriteBatch.begin();
+			this.scene.draw(gameTime, this.spriteBatch);
+			this.spriteBatch.end();
 		}
 	}
 
@@ -59,5 +73,59 @@ public class State extends BaseEntity {
 	 */
 	public SpriteGroup getScene() {
 		return this.scene;
+	}
+	
+	public boolean isInitialized() {
+		return initialized;
+	}
+
+	public boolean isAssetLoaded() {
+		return assetLoaded;
+	}
+
+	public boolean isActive() {
+		return this.enabled && this.visible;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
+
+	public void setAssetLoaded(boolean assetLoaded) {
+		this.assetLoaded = assetLoaded;
+	}
+
+	/**
+	 * Enable or disable an entity.
+	 * If isActice is set to true the entity is not updated and not drawn
+	 * @param isActive
+	 */
+	public void setActive(boolean active) {
+		this.enabled = active;
+		this.visible = active;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -4,11 +4,12 @@
 package atlantis.engine.graphics;
 
 import java.awt.Font;
-import java.awt.Graphics;
 
 import atlantis.framework.GameTime;
 import atlantis.framework.Vector2;
 import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.SpriteBatch;
+import atlantis.framework.graphics.SpriteFont;
 
 public class SpriteText extends Sprite {
 	protected Vector2 position;
@@ -18,6 +19,7 @@ public class SpriteText extends Sprite {
 	protected int textSize;
 	protected int textFormat;
 	protected String fontName;
+	protected SpriteFont spriteFont;
 	
 	public SpriteText() {
 		this.position = Vector2.Zero();
@@ -50,12 +52,9 @@ public class SpriteText extends Sprite {
 	}
 	
 	@Override
-	public void draw(Graphics graphics) {
+	public void draw(GameTime gameTime, SpriteBatch spriteBatch) {
 		if (this.visible) {
-			this.tempOldFont = graphics.getFont();
-			graphics.setFont(this.font);
-			graphics.drawString(this.text, (int)this.position.x, (int)this.position.y);
-			graphics.setFont(this.tempOldFont);
+			spriteBatch.drawString(spriteFont, position);
 		}
 	}
 	

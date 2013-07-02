@@ -1,18 +1,18 @@
 package atlantis.samples.applet;
 
-import java.awt.Graphics;
-
 import atlantis.engine.Atlantis;
 import atlantis.engine.graphics.Sprite;
 import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
+import atlantis.framework.graphics.SpriteBatch;
 
 public class SpriteComponent extends DrawableGameComponent {
 	private Sprite background;
 	private Sprite tree;
 	private Sprite tree2;
 	private Sprite femaleSprite;
+	private SpriteBatch spriteBatch;
 	
 	public SpriteComponent(Game game) {
 		super(game);
@@ -22,6 +22,7 @@ public class SpriteComponent extends DrawableGameComponent {
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
 		this.femaleSprite.setViewport(0, 0, Atlantis.width, Atlantis.height);
 		this.femaleSprite.forceInsideScreen(true);
+		this.spriteBatch = new SpriteBatch(game.graphicsDevice());
 	}
 		
 	public void loadContent() {
@@ -71,11 +72,13 @@ public class SpriteComponent extends DrawableGameComponent {
 		}
 	}
 	
-	public void draw(Graphics graphics) {
-		super.draw(graphics);
-		this.background.draw(graphics);
-		this.tree.draw(graphics);
-		this.tree2.draw(graphics);
-		this.femaleSprite.draw(graphics);
+	public void draw(GameTime gameTime) {
+		super.draw(gameTime);
+		this.spriteBatch.begin();
+		this.background.draw(gameTime, spriteBatch);
+		this.tree.draw(gameTime, spriteBatch);
+		this.tree2.draw(gameTime, spriteBatch);
+		this.femaleSprite.draw(gameTime, spriteBatch);
+		this.spriteBatch.end();
 	}
 }

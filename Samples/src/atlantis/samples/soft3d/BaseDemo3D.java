@@ -1,7 +1,6 @@
 package atlantis.samples.soft3d;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 import atlantis.engine.graphics3d.Camera;
@@ -69,9 +68,9 @@ public class BaseDemo3D extends Game {
 		}
 	}
 	
-	public void draw(Graphics graphics) {
-		super.draw(graphics);
+	public void draw(GameTime gameTime) {
+		super.draw(gameTime);
 		renderer.clear(Color.black);
-		renderer.render(graphics, camera, meshes);
+		renderer.render(this.graphicsDevice().getGraphics(), camera, meshes);
 	}
 }

@@ -3,7 +3,6 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.state;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 import atlantis.framework.DrawableGameComponent;
@@ -53,10 +52,10 @@ public class StateManager extends DrawableGameComponent {
 	}
 
 	@Override
-	public void draw(Graphics graphics) {
+	public void draw(GameTime gameTime) {
 		for (State state : this.states) {
 			if (state.isVisible()) {
-				state.draw(graphics);
+				state.draw(gameTime);
 			}
 		}
 	}

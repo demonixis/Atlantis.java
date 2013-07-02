@@ -4,7 +4,6 @@
 package atlantis.engine;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 
 import javax.swing.JApplet;
 
@@ -64,7 +63,7 @@ public class GameApplet extends JApplet implements IUpdateable, IDrawable {
 	}
 
 	@Override
-	public void draw(Graphics graphics) {
-		this.game.draw(graphics);
+	public void draw(GameTime gameTime) {
+		this.game.draw(gameTime);
 	}
 }

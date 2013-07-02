@@ -3,8 +3,6 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework;
 
-import java.awt.Graphics;
-
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.GraphicsDevice;
 import atlantis.framework.input.KeyboardManager;
@@ -103,8 +101,8 @@ public class Game implements IDrawable, IUpdateable {
 	/**
 	 * Draw game graphics
 	 */
-	public void draw(Graphics graphics) { 
-		this.components.draw(graphics);
+	public void draw(GameTime gameTime) { 
+		this.components.draw(gameTime);
 	}
 	
 	// ---

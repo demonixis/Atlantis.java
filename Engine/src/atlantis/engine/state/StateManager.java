@@ -24,11 +24,8 @@ public class StateManager extends DrawableGameComponent {
 	
 	@Override
 	public void initialize() {
-		if (!this.initialized) {
-			for (int i = 0, l = this.states.size(); i < l; i++) {
-				this.states.get(i).initialize();
-			}
-			this.initialized = true;
+		for (int i = 0, l = this.states.size(); i < l; i++) {
+			this.states.get(i).initialize();
 		}
 	}
 	
@@ -37,6 +34,7 @@ public class StateManager extends DrawableGameComponent {
 		for (int i = 0, l = this.states.size(); i < l; i++) {
 			this.states.get(i).loadContent(this.game.contentManager());
 		}
+		this.initialized = true;
 	}
 
 	@Override

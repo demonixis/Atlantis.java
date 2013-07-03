@@ -4,12 +4,9 @@
 package atlantis.framework.graphics;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -25,6 +22,7 @@ public class SpriteBatch {
 	protected boolean beginStarted;
 	protected boolean readyToBatch;
 	protected ArrayList<BatchOperation> batchOperations;
+	private Rectangle tempRectangle;
 	
 	/**
 	 * Create a spriteBatch.
@@ -35,8 +33,74 @@ public class SpriteBatch {
 		this.beginStarted = false;
 		this.readyToBatch = false;
 		this.batchOperations = new ArrayList<BatchOperation>();
+		this.tempRectangle = Rectangle.Empty();
+	}
+	
+	/**
+	 * Draw a texture2D to screen.
+	 * @param texture The texture2D to use.
+	 * @param x The position on X axis.
+	 * @param y The position on Y axis.
+	 */
+	public void draw(Texture2D texture, float x, float y, int color, float rotation, float layerDepth) {
+		this.tempRectangle.x = (int)x;
+		this.tempRectangle.y = (int)y;
+		this.tempRectangle.width = texture.getWidth();
+		this.tempRectangle.height = texture.getHeight();
+		this.draw(texture, this.tempRectangle, null, color, rotation, layerDepth);
+	}
+	
+	/**
+	 * Draw a texture2D to screen.
+	 * @param texture The texture2D to use.
+	 * @param position The position of the texture on screen.
+	 */
+	public void draw(Texture2D texture, Vector2 position, int color, float rotation, float layerDepth) {
+		this.draw(texture, position.x, position.y, color, rotation, layerDepth);
+	}
+	
+	/**
+	 * Draw a texture2D on screen.
+	 * @param texture
+	 * @param destRectangle
+	 */
+	public void draw(Texture2D texture, Rectangle destRectangle) {
+		this.draw(texture, destRectangle, null, Color.TRANSLUCENT, 0.0f);
+	}
+	
+	public void draw(Texture2D texture, Vector2 position, Rectangle sourceRectangle, int color, int rotation, float layerDepth) {
+		this.tempRectangle.x = (int)position.x;
+		this.tempRectangle.y = (int)position.y;
+		this.tempRectangle.width = texture.getWidth();
+		this.tempRectangle.height = texture.getHeight();
+		this.draw(texture, this.tempRectangle, sourceRectangle, color, rotation, layerDepth);
+	}
+	
+	/**
+	 * Draw a texture2D to screen.
+	 * @param texture The texture2D to use.
+	 * @param destRectangle The destination rectangle.
+	 * @param sourceRectangle The source rectangle.
+	 */
+	public void draw(Texture2D texture, Rectangle destRectangle, Rectangle sourceRectangle, int color, float rotation) {
+		this.draw(texture, destRectangle, sourceRectangle, color, rotation, 1);
+	}
+	
+	public void draw(Texture2D texture, Rectangle destRectangle, Rectangle sourceRectangle, int color, float rotation, float layerDepth) {
+		if (this.beginStarted) {
+			batchOperations.add(new BatchOperation(texture, destRectangle, sourceRectangle, color, rotation, layerDepth));
+		}
 	}
 
+	/**
+	 * Draw a string on screen.
+	 * @param spriteFont A spriteFont
+	 * @param position The position of the text.
+	 */
+	public void drawString(SpriteFont spriteFont, Vector2 position) {
+		
+	}
+	
 	public void begin() {
 		this.beginStarted = true;
 	}
@@ -58,11 +122,11 @@ public class SpriteBatch {
 		Graphics2D graphics = (Graphics2D)render.getGraphics();
 		graphics.clearRect(0, 0, width, height);
 		Collections.sort(batchOperations, new ComparatorBatchOperation());
+		
 		for (int i = 0, l = batchOperations.size(); i < l; i++) {
 			operation = batchOperations.get(i);
-			if (operation.rotation != 0.0f) {
-				graphics.rotate(operation.rotation);
-			}
+			graphics.rotate(operation.rotation);
+			
 			if (operation.sourceRectangle != null) {
 				graphics.drawImage(batchOperations.get(i).texture, 
 						operation.destinationRectangle.x, 
@@ -88,55 +152,6 @@ public class SpriteBatch {
 		this.graphicsDevice.getGraphics().drawImage(render, 0, 0, width, height, null);
 		batchOperations.clear();
 	}
-	
-	/**
-	 * Draw a texture2D to screen.
-	 * @param texture The texture2D to use.
-	 * @param destRectangle The destination rectangle.
-	 * @param sourceRectangle The source rectangle.
-	 */
-	public void draw(Texture2D texture, Rectangle destRectangle, Rectangle sourceRectangle, int color, float rotation) {
-		if (this.beginStarted) {
-			batchOperations.add(new BatchOperation(texture, destRectangle, sourceRectangle, color, rotation, Vector2.One(), null, 1));
-		}
-	}
-
-	/**
-	 * Draw a texture2D to screen.
-	 * @param texture The texture2D to use.
-	 * @param x The position on X axis.
-	 * @param y The position on Y axis.
-	 */
-	public void draw(Texture2D texture, float x, float y) {
-		this.draw(texture, new Rectangle((int)x, (int)y, texture.getWidth(), texture.getHeight()), null, 0, 0.0f);
-	}
-	
-	/**
-	 * Draw a texture2D to screen.
-	 * @param texture The texture2D to use.
-	 * @param position The position of the texture on screen.
-	 */
-	public void draw(Texture2D texture, Vector2 position) {
-		this.draw(texture, position.x, position.y);
-	}
-	
-	/**
-	 * Draw a texture2D on screen.
-	 * @param texture
-	 * @param destRectangle
-	 */
-	public void draw(Texture2D texture, Rectangle destRectangle) {
-		this.draw(texture, destRectangle, null, 0, 0.0f);
-	}
-
-	/**
-	 * Draw a string on screen.
-	 * @param spriteFont A spriteFont
-	 * @param position The position of the text.
-	 */
-	public void drawString(SpriteFont spriteFont, Vector2 position) {
-		
-	}
 }
 
 /**
@@ -149,28 +164,30 @@ class BatchOperation {
 	public Rectangle sourceRectangle;
 	public int color;
 	public float rotation;
-	public Vector2 origin;
-	public Object effects;
 	public float depth;
 	
-	public BatchOperation(Texture2D texture, Rectangle destRectangle, Rectangle srcRectangle, int color, float rotation, Vector2 origin, Object effects, float depth) {
+	public BatchOperation(Texture2D texture, Rectangle destRectangle, Rectangle srcRectangle, int color, float rotation, float depth) {
 		this.texture = texture;
 		this.destinationRectangle = destRectangle;
 		this.sourceRectangle = srcRectangle;
 		this.color = color;
 		this.rotation = rotation;
-		this.origin = origin;
-		this.effects = effects;
 		this.depth = depth;
 	}
 }
 
 class ComparatorBatchOperation implements Comparator<BatchOperation> {
-	//http://www.developpez.net/forums/d331284/java/general-java/apis/javautil/tri-arraylist/
 	@Override
-	public int compare(BatchOperation arg0, BatchOperation arg1) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compare(BatchOperation batch1, BatchOperation batch2) {
+		if (batch1.depth < batch2.depth) {
+			return -1;
+		}
+		else if (batch1.depth > batch2.depth) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 	
 }

@@ -152,7 +152,7 @@ public class Sprite extends BaseEntity {
 		
 		if (this.visible && this.assetLoaded) {
             if (this.hasAnimation) {
-                spriteBatch.draw(this.texture, this.rectangle, this.sourceRectangle, 0);
+                spriteBatch.draw(this.texture, this.rectangle, this.sourceRectangle, 0, 0);
             }
             else {
             	spriteBatch.draw(this.texture, this.rectangle);

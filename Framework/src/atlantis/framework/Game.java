@@ -30,6 +30,10 @@ public class Game implements IDrawable, IUpdateable {
 	protected boolean initialized;
 	protected Thread gameThread;
 	
+	public Game() {
+		this(800, 600, "Atlantis Framework Game");
+	}
+	
 	public Game(int width, int height, String title) {
 		this.width = width;
 		this.height = height;

@@ -8,7 +8,10 @@ package atlantis.framework;
  * @author Yannick
  */
 public class Rectangle {
-	public static final Rectangle Empty = new Rectangle();
+	public static final Rectangle Empty() {
+		return new Rectangle();
+	}
+	
 	public int x;
 	public int y;
 	public int width;

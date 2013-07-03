@@ -19,24 +19,37 @@ public class GameComponent implements IUpdateable {
 		this.initialized = false;
 	}
 	
-	public void initialize() { }
+	/**
+	 * Initialize the component.
+	 */
+	public void initialize() { 
+		
+	}
 
 	@Override
 	public void update(GameTime gameTime) { }
 	
+	/**
+	 * Gets the status of the component.
+	 * @return The status of the component.
+	 */
 	public boolean isEnabled() {
 		return enabled;
 	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 	
-	public void setInitialized(boolean initialized) {
-		this.initialized = initialized;
-	}
-	
+	/**
+	 * Flags used to determine if the initialization processes is done.
+	 * @return
+	 */
 	public boolean isInitialized() {
 		return this.initialized;
+	}
+
+	/**
+	 * Gets the status of the component.
+	 * @param enabled Sets to true to enable
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }

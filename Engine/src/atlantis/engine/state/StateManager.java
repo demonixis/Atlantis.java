@@ -25,8 +25,8 @@ public class StateManager extends DrawableGameComponent {
 	@Override
 	public void initialize() {
 		if (!this.initialized) {
-			for (State state : this.states) {
-				state.initialize();
+			for (int i = 0, l = this.states.size(); i < l; i++) {
+				this.states.get(i).initialize();
 			}
 			this.initialized = true;
 		}
@@ -34,28 +34,25 @@ public class StateManager extends DrawableGameComponent {
 	
 	@Override
 	public void loadContent() {
-		if (!this.assetLoaded) {
-			for (State state : this.states) {
-				state.loadContent(this.game.contentManager());
-			}
-			this.assetLoaded = true;
+		for (int i = 0, l = this.states.size(); i < l; i++) {
+			this.states.get(i).loadContent(this.game.contentManager());
 		}
 	}
 
 	@Override
 	public void update(GameTime gameTime) {
-		for (State state : this.states) {
-			if (state.isEnabled()) {
-				state.update(gameTime);
+		for (int i = 0, l = this.states.size(); i < l; i++) {
+			if (this.states.get(i).isEnabled()) {
+				this.states.get(i).update(gameTime);
 			}
 		}
 	}
 
 	@Override
 	public void draw(GameTime gameTime) {
-		for (State state : this.states) {
-			if (state.isVisible()) {
-				state.draw(gameTime);
+		for (int i = 0, l = this.states.size(); i < l; i++) {
+			if (this.states.get(i).isVisible()) {
+				this.states.get(i).draw(gameTime);
 			}
 		}
 	}

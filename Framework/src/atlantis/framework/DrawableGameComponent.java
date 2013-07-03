@@ -10,26 +10,24 @@ package atlantis.framework;
  */
 public class DrawableGameComponent extends GameComponent implements IDrawable {
 	protected boolean visible;
-	protected boolean assetLoaded;
 	
 	public DrawableGameComponent(Game game) {
 		super(game);
 		this.visible = true;
-		this.assetLoaded = false;
 	}
 	
 	/**
 	 * Load assets of the component
 	 */
 	public void loadContent() {
-		this.assetLoaded = true;
+		
 	}
 	
 	/**
 	 * Unload and dispose all assets of the component
 	 */
 	public void unloadContent() {
-		this.assetLoaded = false;
+		
 	}
 	
 	/**
@@ -46,10 +44,6 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	public boolean isVisible() {
 		return visible;
 	}
-	
-	public boolean isAssetsLoaded() {
-		return this.assetLoaded;
-	}
 
 	/**
 	 * Set the component visible or invisible
@@ -57,9 +51,5 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
-	}
-	
-	public void setAssetsLoaded(boolean loaded) {
-		this.assetLoaded = loaded;
 	}
 }

@@ -3,9 +3,15 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework.graphics;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
@@ -49,11 +55,14 @@ public class SpriteBatch {
 		BatchOperation operation = null;
 		
 		BufferedImage render = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics graphics = render.getGraphics();
+		Graphics2D graphics = (Graphics2D)render.getGraphics();
 		graphics.clearRect(0, 0, width, height);
-		
+		Collections.sort(batchOperations, new ComparatorBatchOperation());
 		for (int i = 0, l = batchOperations.size(); i < l; i++) {
 			operation = batchOperations.get(i);
+			if (operation.rotation != 0.0f) {
+				graphics.rotate(operation.rotation);
+			}
 			if (operation.sourceRectangle != null) {
 				graphics.drawImage(batchOperations.get(i).texture, 
 						operation.destinationRectangle.x, 
@@ -86,9 +95,9 @@ public class SpriteBatch {
 	 * @param destRectangle The destination rectangle.
 	 * @param sourceRectangle The source rectangle.
 	 */
-	public void draw(Texture2D texture, Rectangle destRectangle, Rectangle sourceRectangle, float rotation) {
+	public void draw(Texture2D texture, Rectangle destRectangle, Rectangle sourceRectangle, int color, float rotation) {
 		if (this.beginStarted) {
-			batchOperations.add(new BatchOperation(texture, destRectangle, sourceRectangle, rotation));
+			batchOperations.add(new BatchOperation(texture, destRectangle, sourceRectangle, color, rotation, Vector2.One(), null, 1));
 		}
 	}
 
@@ -99,7 +108,7 @@ public class SpriteBatch {
 	 * @param y The position on Y axis.
 	 */
 	public void draw(Texture2D texture, float x, float y) {
-		this.draw(texture, new Rectangle((int)x, (int)y, texture.getWidth(), texture.getHeight()), null, 0.0f);
+		this.draw(texture, new Rectangle((int)x, (int)y, texture.getWidth(), texture.getHeight()), null, 0, 0.0f);
 	}
 	
 	/**
@@ -117,7 +126,7 @@ public class SpriteBatch {
 	 * @param destRectangle
 	 */
 	public void draw(Texture2D texture, Rectangle destRectangle) {
-		this.draw(texture, destRectangle, null, 0.0f);
+		this.draw(texture, destRectangle, null, 0, 0.0f);
 	}
 
 	/**
@@ -138,12 +147,30 @@ class BatchOperation {
 	public Texture2D texture;
 	public Rectangle destinationRectangle;
 	public Rectangle sourceRectangle;
+	public int color;
 	public float rotation;
+	public Vector2 origin;
+	public Object effects;
+	public float depth;
 	
-	public BatchOperation(Texture2D texture, Rectangle destRectangle, Rectangle srcRectangle, float rotation) {
+	public BatchOperation(Texture2D texture, Rectangle destRectangle, Rectangle srcRectangle, int color, float rotation, Vector2 origin, Object effects, float depth) {
 		this.texture = texture;
 		this.destinationRectangle = destRectangle;
 		this.sourceRectangle = srcRectangle;
+		this.color = color;
 		this.rotation = rotation;
+		this.origin = origin;
+		this.effects = effects;
+		this.depth = depth;
 	}
+}
+
+class ComparatorBatchOperation implements Comparator<BatchOperation> {
+	//http://www.developpez.net/forums/d331284/java/general-java/apis/javautil/tri-arraylist/
+	@Override
+	public int compare(BatchOperation arg0, BatchOperation arg1) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 }

@@ -26,8 +26,8 @@ public class SpriteGroup extends Sprite {
 	 * Initialize entities
 	 */
 	public void initialize() {
-		for (Sprite entity : this.entities) {
-			entity.initialize();
+		for (int i = 0, l = this.entities.size(); i < l; i++) {
+			this.entities.get(i).initialize();
 		}
 		
 		this.initialized = true;
@@ -37,8 +37,8 @@ public class SpriteGroup extends Sprite {
 	 * Load asset for each entity
 	 */
 	public void loadContent(ContentManager content) {
-		for (Sprite entity : this.entities) {
-			entity.loadContent(content);
+		for (int i = 0, l = this.entities.size(); i < l; i++) {
+			this.entities.get(i).loadContent(content);
 		}
 		
 		this.assetLoaded = true;
@@ -49,8 +49,8 @@ public class SpriteGroup extends Sprite {
 	 */
 	public void update(GameTime gameTime) {
 		if (this.enabled) {
-			for (Sprite entity : this.entities) {
-				entity.update(gameTime);
+			for (int i = 0, l = this.entities.size(); i < l; i++) {
+				this.entities.get(i).update(gameTime);
 			}
 		}
 	}
@@ -60,8 +60,8 @@ public class SpriteGroup extends Sprite {
 	 */
 	public void draw(GameTime gameTime, SpriteBatch spriteBatch) {
 		if (this.visible) {
-			for (Sprite entity : this.entities) {
-				entity.draw(gameTime, spriteBatch);
+			for (int i = 0, l = this.entities.size(); i < l; i++) {
+				this.entities.get(i).draw(gameTime, spriteBatch);
 			}
 		}
 	}
@@ -87,12 +87,12 @@ public class SpriteGroup extends Sprite {
 	 * @param entity
 	 */
 	public void add(Sprite entity) {
-		if (this.assetLoaded && !entity.assetLoaded) {
-			entity.loadContent(Atlantis.content);
-		}
-		
 		if (this.initialized) {
 			entity.initialize();
+		}
+		
+		if (this.assetLoaded) {
+			entity.loadContent(Atlantis.content);
 		}
 		
 		this.entities.add(entity);

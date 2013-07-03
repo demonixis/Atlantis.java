@@ -4,7 +4,7 @@ import atlantis.engine.GameApplication;
 
 public class PlatformerGame extends GameApplication {
 	public PlatformerGame() {
-		super(800, 480, "Atlantis :: Platformer 2D sample");
+		super(800, 520, "Atlantis :: Platformer 2D sample");
 		this.content.setRootDirectory("Content/Platformer/");
 	}
 	

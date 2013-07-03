@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework.graphics;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
@@ -31,6 +32,13 @@ public class Texture2D extends BufferedImage {
 		for (int i = 0; i < this.bufferSize; i++) {
 			this.dataBuffer.setElem(i, 255);
 		}
+	}
+	
+	public Texture2D(BufferedImage image) {
+		super(image.getWidth(), image.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics graphics = this.createGraphics();
+		graphics.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+		graphics.dispose();
 	}
 	
 	public Texture2D(DataBuffer dataBuffer, int width, int height, int type) {
@@ -67,7 +75,7 @@ public class Texture2D extends BufferedImage {
 				image = ImageIO.read(new File(path));
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("[Texture2D] Can't load " + path + " asset !");
 		}
 
 		return image;

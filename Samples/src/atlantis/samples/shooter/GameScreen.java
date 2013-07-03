@@ -15,6 +15,7 @@ public class GameScreen extends State {
 	private SpriteGroup alienGroup;
 	private Timer shootTimer;
 	private Timer spawnTimer;
+	private float shipSpeed;
 	
 	public GameScreen(String name) {
 		super(name);
@@ -30,15 +31,18 @@ public class GameScreen extends State {
 		this.scene.add(this.laserGroup);
 		this.scene.add(this.alienGroup);
 		
-		this.shootTimer = new Timer(700, 0);
+		this.shootTimer = new Timer(300, 0);
 		// Spawn a new alien 
-		this.spawnTimer = new Timer(3500, 0); 
+		this.spawnTimer = new Timer(550, 0);
+		
+		this.shipSpeed = 0.25f;
 	}
 
-	public void initialize() {
+	public void loadContent(ContentManager content) {
+		super.loadContent(content);
 		this.ship.prepareAnimation(48, 48);
-		this.ship.addAnimation("idle", new int[] { 0 }, 50);
-		this.ship.addAnimation("move", new int[] { 1, 2 }, 50);
+		this.ship.addAnimation("idle", new int[] { 0 }, 85);
+		this.ship.addAnimation("move", new int[] { 1, 2 }, 85);
 		this.ship.play("idle");
 		this.ship.setPosition(50, Atlantis.height / 2 - this.ship.getHeight() / 2);
 		this.ship.forceInsideScreen(true);
@@ -67,17 +71,17 @@ public class GameScreen extends State {
 		
 		// Move the ship
 		if (Atlantis.keyboard.left()) {
-			this.ship.setX(this.ship.getX() - 2);
-		}
+			this.ship.setX((int) (this.ship.getX() - this.shipSpeed * gameTime.getElapsedTime()));
+		} 
 		else if (Atlantis.keyboard.right()) {
-			this.ship.setX(this.ship.getX() + 2);
+			this.ship.setX((int) (this.ship.getX() + this.shipSpeed * gameTime.getElapsedTime()));
 		}
 		
 		if (Atlantis.keyboard.up()) {
-			this.ship.setY(this.ship.getY() - 2);
+			this.ship.setY((int) (this.ship.getY() - this.shipSpeed * gameTime.getElapsedTime()));
 		}
 		else if (Atlantis.keyboard.down()) {
-			this.ship.setY(this.ship.getY() + 2);
+			this.ship.setY((int) (this.ship.getY() + this.shipSpeed * gameTime.getElapsedTime()));
 		}
 		
 		if (Atlantis.keyboard.escape()) {
@@ -156,9 +160,12 @@ class Starfield extends SpriteGroup {
  *
  */
 class Laser extends Sprite {
+	private float speed;
+	
 	public Laser(int x, int y) {
 		super("laser.png");
 		this.setPosition(x, y);
+		this.speed = 0.65f;
 	}
 	
 	public void update(GameTime gameTime) {
@@ -168,7 +175,7 @@ class Laser extends Sprite {
 			this.setActive(false);
 		}
 		else {
-			this.setX((int)(this.position.x + 3));
+			this.setX((int)(this.position.x + this.speed * gameTime.getElapsedTime()));
 		}
 	}
 }
@@ -179,9 +186,12 @@ class Laser extends Sprite {
  *
  */
 class Alien extends Sprite {
+	private float speed;
+	
 	public Alien(int x, int y) {
 		super("alien.png");
 		this.setPosition(x, y);
+		this.speed = 0.55f;
 	}
 	
 	public void loadContent(ContentManager content) {
@@ -199,7 +209,7 @@ class Alien extends Sprite {
 		}
 		else {
 			this.play("normal");
-			this.setX((int)(this.position.x - 1));
+			this.setX((int)(this.position.x - this.speed * gameTime.getElapsedTime()));
 		}
 	}
 }

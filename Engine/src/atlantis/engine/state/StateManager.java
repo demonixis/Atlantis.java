@@ -14,7 +14,6 @@ import atlantis.framework.GameTime;
  * @author Yannick
  */
 public class StateManager extends DrawableGameComponent {
-	
 	protected ArrayList<State> states;
 	
 	public StateManager(Game game) {
@@ -132,8 +131,8 @@ public class StateManager extends DrawableGameComponent {
 		state.setActive(isActive);
 		
 		if (this.initialized) {
-			state.loadContent(this.game.contentManager());
 			state.initialize();
+			state.loadContent(this.game.contentManager());
 		}
 		
 		this.states.add(state);

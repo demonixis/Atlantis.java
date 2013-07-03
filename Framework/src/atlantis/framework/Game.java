@@ -67,8 +67,8 @@ public class Game implements IDrawable, IUpdateable {
 	public void run() {
 		if (!this.isRunning) {
 			this.isRunning = true;
-			this.loadContent();
 			this.initialize();
+			this.loadContent();
 			this.initialized = true;
 			this.gameThread.start();
 		}

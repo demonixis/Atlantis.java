@@ -2,8 +2,10 @@ package atlantis.samples.platformer;
 
 import java.util.ArrayList;
 
+import atlantis.engine.Atlantis;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.state.State;
+import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
 
 public class GameState extends State {
@@ -35,10 +37,22 @@ public class GameState extends State {
 		this.layer.loadContent(content);
 		this.player.loadContent(content);
 		this.player.prepareAnimation(64, 64);
-		this.player.addAnimation("lef", new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 40);
-		//this.player.addAnimation("jumpLeft", new int[] { 14, 13, 12 }, 40);
-		//this.player.addAnimation("idle", new int[] { 45 }, 0);
+		//this.player.addAnimation("lef", new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 40);
+		//this.player.addAnimation("right", new int[] { 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12 }, 40);
+		this.player.addAnimation("left", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }, 60);
+		this.player.addAnimation("right", new int[] { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 }, 60);
 		this.player.setPosition(50, 150);
-		this.player.play("left");
+		this.player.play("right");
+	}
+	
+	public void update(GameTime gameTime) {
+		if (Atlantis.keyboard.left()) {
+			this.player.play("left");
+			this.player.setPosition(this.player.getX() - 2, this.player.getY());
+		}
+		else if (Atlantis.keyboard.right()) {
+			this.player.play("right");
+			this.player.setPosition(this.player.getX() + 2, this.player.getY());
+		}
 	}
 }

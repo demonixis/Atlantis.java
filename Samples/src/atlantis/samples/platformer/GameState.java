@@ -51,6 +51,9 @@ public class GameState extends State {
 		//this.player.addAnimation("right", new int[] { 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12 }, 40);
 		this.player.addAnimation("left", new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 30);
 		this.player.addAnimation("right", new int[] { 19, 18, 17, 16, 15, 14, 13, 12, 11, 10 }, 30);
+		this.player.addAnimation("jumpLeft", new int[] { 20, 21, 22 }, 30);
+		this.player.addAnimation("jumpRight", new int[] { 23, 24, 25 }, 30);
+		this.player.addAnimation("idle", new int[] { 26 }, 30);
 		this.player.setPosition(50, 350);
 		this.player.setSize(72, 72);
 		this.createLevel();
@@ -115,6 +118,14 @@ public class GameState extends State {
 		else if (Atlantis.keyboard.right()) {
 			this.player.play("right");
 			this.player.setPosition(this.player.getX() + 2, this.player.getY());
+		}
+		else {
+			this.player.play("idle");
+		}
+		
+		if (Atlantis.keyboard.space()) {
+			this.player.play("jumpLeft");
+			//this.player.setPosition(this.player.getX() + 2, this.player.getY());
 		}
 	}
 }

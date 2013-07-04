@@ -1,8 +1,6 @@
 package atlantis.samples.platformer;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,10 +26,9 @@ enum GameMode {
 
 public class GameState extends State {
 	private static Random random = new Random();
-	private Sprite background;
-	private Sprite layer;
-	private Sprite subLayer;
+	
 	private Sprite player;
+	private Sprite [] layers;
 	private ArrayList<Sprite> tiles;
 	private ArrayList<Sprite> items;
 	private Sprite[] overlays;
@@ -42,25 +39,19 @@ public class GameState extends State {
 	private Vector2 initialJumpPosition;
 	private float jumpSpeed;
 	
+	private Sprite tempSearchSprite;
+	
 	public GameState(String name) {
 		super(name);
-		this.background = new Sprite("img/Backgrounds/Layer0_0.png");
-		this.scene.add(this.background);
-		
-		this.layer = new Sprite("img/Backgrounds/Layer1_0.png");
-		this.scene.add(this.layer);
-		
-		this.subLayer = new Sprite("img/Backgrounds/Layer2_0.png");
-		this.scene.add(this.subLayer);
-		
-		this.player = new Sprite("img/Player.png");
-		this.scene.add(this.player);
+		this.layers = new Sprite[3];
 		
 		// Overlays
 		this.overlays = new Sprite[3];
 		this.overlays[0] = new Sprite("overlays/you_died.png");
 		this.overlays[1] = new Sprite("overlays/you_lose.png");
 		this.overlays[2] = new Sprite("overlays/you_win.png");
+		
+		this.player = new Sprite("img/Player.png");
 		
 		// Tiles and items for easily search
 		this.tiles = new ArrayList<Sprite>();
@@ -70,18 +61,18 @@ public class GameState extends State {
 		
 		// Jumping
 		this.movementState = MovementState.Walking;
-		this.jumpHeight = 90;
-		this.jumpSpeed = 6.5f;
+		this.jumpHeight = 120;
+		this.jumpSpeed = 8.5f;
 		this.initialJumpPosition = Vector2.Zero();
+		
+		// For prevent garbage collection in loop
+		tempSearchSprite = null;
 	}
 	
 	public void loadContent(ContentManager content) {
-		// Background and layer
-		this.background.loadContent(content);
-		this.layer.loadContent(content);
-		this.subLayer.loadContent(content);
+		super.loadContent(content);
 		
-		// Player
+		// Initialize the Player
 		this.player.loadContent(content);
 		this.player.prepareAnimation(64, 64);
 		this.player.addAnimation("left", new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 30);
@@ -91,12 +82,10 @@ public class GameState extends State {
 		this.player.addAnimation("idle", new int[] { 26 }, 30);
 		this.player.addAnimation("win", new int[] { 39, 38, 37, 36, 35, 34, 33, 32, 31, 30 }, 10);
 		this.player.addAnimation("die", new int[] { 40, 41, 42, 43, 44, 45, 46 }, 10);
-		this.player.setPosition(50, 350);
 		this.player.setSize(72, 72);
-		//this.player.forceInsideScreen(true);
 		
-		// Create level
-		this.createLevel(1);
+		// Create the level
+		this.createLevel(content, 3);
 		
 		// Overlays
 		for (Sprite overlay : this.overlays) {
@@ -107,53 +96,81 @@ public class GameState extends State {
 		}
 	}
 	
-	private void createLevel(int levelId) {
+	private void createLevel(ContentManager content, int levelId) {
 		BufferedReader reader = null;
 		StringBuilder jsonString = new StringBuilder();
 
 		try {
-			reader = new BufferedReader(new FileReader("Content/Platformer/levels/level" + levelId + ".json"));
+			reader = new BufferedReader(new FileReader("Content/Platformer/levels/level_" + levelId + ".json"));
 			String line;
 			while((line = reader.readLine()) != null) {
 				jsonString.append(line);
 			}
 			reader.close();
-			JSONArray json = new JSONArray(jsonString.toString());
-			JSONArray row = null;
-			Sprite tile;
 			
-			for (int y = 0, ly = json.length(); y < ly; y++) {
-				row = json.getJSONArray(y);
+			JSONObject json = new JSONObject(jsonString.toString());
+			
+			// 1 - Create and add background and layers
+			int layerId = json.getInt("layerId");
+			this.layers[0] = new Sprite("img/Backgrounds/Layer0_" + layerId + ".png");
+			this.layers[1] = new Sprite("img/Backgrounds/Layer1_" + layerId + ".png");
+			this.layers[2] = new Sprite("img/Backgrounds/Layer2_" + layerId + ".png");
+		
+			for (Sprite layer : this.layers) {
+				layer.loadContent(content);
+				this.scene.add(layer);
+			}
+			
+			JSONArray jsonLevel = json.getJSONArray("level");
+			JSONArray row = null;
+			Sprite tile = null;
+			String assetName = "";
+			
+			for (int y = 0, ly = jsonLevel.length(); y < ly; y++) {
+				row = jsonLevel.getJSONArray(y);
 				
 				for (int x = 0, lx = row.length(); x < lx; x++) {
 					int id = row.getInt(x);
+					assetName = "";
 					
-					if (id == 1) {
-						player.setPosition(x * 24, y * 32 - player.getHeight() / 2);
-					}
-					
-					else if (id == 2 || id == 5 || id == 6 || id == 9) {
-						String asset = "img/Tiles/Gem.png";
-						
-						asset = (id == 2) ? "img/Tiles/Exit.png" : asset;
-						asset = (id == 5) ? getRandomBlockName() : asset;
-						asset = (id == 6) ? "img/Tiles/Platform.png" : asset;
-						tile = new Sprite(asset);
-						tile.loadContent(Atlantis.content);
-						tile.setPosition(x * 40, y * 32);
-						this.scene.add(tile);
-			
-						if (id == 2 || id == 9) {
-							tile.setName((id == 9) ? "gem" : "exit");
-							this.items.add(tile);
+					switch (id) {
+						case 1:
+							this.player.setPosition(x * 24, y * 32 - player.getHeight() / 2);
+							this.scene.add(this.player);
+							break;
+						case 2:
+						case 3:
+						case 4:
+						case 5:
+						case 6: {
+							assetName = getAssetName(id);
+							tile = new Sprite("img/Tiles/" + assetName + ".png");
+							tile.loadContent(Atlantis.content);
+							tile.setPosition(x * 40, y * 32);
+							this.scene.add(tile);
+							
+							if (id == 2 || id == 5 || id == 6) {
+								switch (id) {
+									case 2: tile.setName("exit"); break;
+									case 5: tile.setName("gem"); break;
+									case 6: tile.setName("gem2"); break;
+								}
+								this.items.add(tile);
+							}
+							else if (id == 3 || id == 4) {
+								this.tiles.add(tile);
+							}
+							
+							break;
 						}
-						else if (id == 5 || id == 6) {
-							this.tiles.add(tile);
-						}
+						case 7:
+						case 8:
+						case 9:
+						case 10:
+							break;
 					}
 				}
 			}
-			
 		} 
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -161,8 +178,20 @@ public class GameState extends State {
 		}
 	}
 	
+	private String getAssetName(int id) {
+		String assetName = "";
+		switch (id) {
+			case 2: assetName = "Exit"; break;
+			case 3: assetName = getRandomBlockName(); break;
+			case 4: assetName = "Platform"; break;
+			case 5: assetName = "Gem"; break;
+			case 6: assetName = "YellowGem"; break;
+		}
+		return assetName;
+	}
+	
 	private String getRandomBlockName() {
-		return ("img/Tiles/BlockA" + random.nextInt(6) + ".png").toString();
+		return ("BlockA" + random.nextInt(6)).toString();
 	}
 	
 	public void update(GameTime gameTime) {
@@ -210,15 +239,21 @@ public class GameState extends State {
 			}
 			
 			for (int i = 0, l = this.items.size(); i < l; i++) {
-				if (this.player.getRectangle().contains(this.items.get(i).getRectangle())) {
-					if (this.items.get(i).getName() == "exit") {
+				tempSearchSprite = this.items.get(i);
+				
+				if (tempSearchSprite.isActive() && this.player.getRectangle().contains(tempSearchSprite.getRectangle())) {
+					if (tempSearchSprite.getName() == "exit") {
 						if (!this.overlays[2].isActive()) {
 							this.overlays[2].setActive(true);
 							this.gameMode = GameMode.Win;
 						}
 					}
 					else {
-						
+						tempSearchSprite.setActive(false);
+						// Add points to player
+						// Play a cool sound effect
+						// Add a fade animation
+						// Create a real class for items and override setActive (really ? you must do that first ;))
 					}
 				}
 			}

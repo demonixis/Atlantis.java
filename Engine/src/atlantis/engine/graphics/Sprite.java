@@ -313,6 +313,10 @@ public class Sprite extends BaseEntity {
 		this.viewport.width = width;
 		this.viewport.height = height;
 	}
+	
+	public Vector2 getPosition() {
+		return this.position;
+	}
 
 	/**
 	 * Gets the actual direction of the Sprite. 

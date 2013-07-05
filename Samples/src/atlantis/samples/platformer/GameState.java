@@ -75,13 +75,15 @@ public class GameState extends State {
 		// Initialize the Player
 		this.player.loadContent(content);
 		this.player.prepareAnimation(64, 64);
-		this.player.addAnimation("left", new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 30);
-		this.player.addAnimation("right", new int[] { 19, 18, 17, 16, 15, 14, 13, 12, 11, 10 }, 30);
-		this.player.addAnimation("jumpLeft", new int[] { 20, 21, 22 }, 30);
-		this.player.addAnimation("jumpRight", new int[] { 23, 24, 25 }, 30);
-		this.player.addAnimation("idle", new int[] { 26 }, 30);
-		this.player.addAnimation("win", new int[] { 39, 38, 37, 36, 35, 34, 33, 32, 31, 30 }, 10);
-		this.player.addAnimation("die", new int[] { 40, 41, 42, 43, 44, 45, 46 }, 10);
+		this.player.addAnimation("idle", new int[] { 0 }, 0);
+		this.player.addAnimation("left", new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 30);
+		this.player.addAnimation("right", new int[] { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 }, 30);
+		this.player.addAnimation("jumpLeft", new int[] { 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 }, 30);
+		this.player.addAnimation("jumpRight", new int[] { 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43 }, 30);
+		this.player.addAnimation("dieLeft", new int[] { 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54 }, 10);
+		this.player.addAnimation("dieRight", new int[] { 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65 }, 10);
+		this.player.addAnimation("winLeft", new int[] { 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76 }, 10);
+		this.player.addAnimation("winRight", new int[] { 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87 }, 10);
 		this.player.setSize(72, 72);
 		
 		// Create the level
@@ -259,7 +261,7 @@ public class GameState extends State {
 			}
 		}
 		else if (this.gameMode == GameMode.Win) {
-			this.player.play("win");
+			this.player.play("winLeft");
 		}
 	}
 	

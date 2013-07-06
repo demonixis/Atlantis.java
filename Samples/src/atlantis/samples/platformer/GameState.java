@@ -1,19 +1,24 @@
 package atlantis.samples.platformer;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.newdawn.easyogg.OggClip;
 
 import atlantis.engine.Atlantis;
+import atlantis.engine.Timer;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.state.State;
 import atlantis.framework.GameTime;
 import atlantis.framework.Vector2;
+import atlantis.framework.audio.SoundEffect;
 import atlantis.framework.content.ContentManager;
 
 enum MovementState {
@@ -28,9 +33,12 @@ public class GameState extends State {
 	private static Random random = new Random();
 	
 	private Sprite player;
+	private float playerGravity;
 	private Sprite [] layers;
 	private ArrayList<Sprite> tiles;
 	private ArrayList<Sprite> items;
+	private HashMap<String, SoundEffect> soundEffects;
+	private OggClip music;
 	private Sprite[] overlays;
 	private GameMode gameMode;
 	
@@ -39,7 +47,11 @@ public class GameState extends State {
 	private Vector2 initialJumpPosition;
 	private float jumpSpeed;
 	
+	private Timer restartTimer;
+	
 	private Sprite tempSearchSprite;
+	private int tilesSize;
+	private int itemsSize;
 	
 	public GameState(String name) {
 		super(name);
@@ -52,16 +64,29 @@ public class GameState extends State {
 		this.overlays[2] = new Sprite("overlays/you_win.png");
 		
 		this.player = new Sprite("img/Player.png");
+		this.playerGravity = 9f;
 		
 		// Tiles and items for easily search
 		this.tiles = new ArrayList<Sprite>();
+		this.tilesSize = 0;
 		this.items = new ArrayList<Sprite>();
+		this.itemsSize = 0;
+		
+		// Sounds
+		this.soundEffects = new HashMap<>(7);
+		try {
+			music = new OggClip(new FileInputStream("Content/Platformer/Sounds/Music.ogg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		this.gameMode = GameMode.Playing;
+		this.restartTimer = new Timer(3500);
 		
 		// Jumping
 		this.movementState = MovementState.Walking;
-		this.jumpHeight = 120;
+		this.jumpHeight = 125;
 		this.jumpSpeed = 8.5f;
 		this.initialJumpPosition = Vector2.Zero();
 		
@@ -71,6 +96,16 @@ public class GameState extends State {
 	
 	public void loadContent(ContentManager content) {
 		super.loadContent(content);
+		
+		String[] soundNames = {
+			"ExitReached", "GemCollected", "MonsterKilled",
+			"PlayerFall", "PlayerJump", "PlayerKilled",
+			"Powerup"
+		};
+		
+		for (String name : soundNames) {
+			this.soundEffects.put(name, content.loadSound("Sounds/" + name + ".wav"));
+		}
 		
 		// Initialize the Player
 		this.player.loadContent(content);
@@ -84,7 +119,7 @@ public class GameState extends State {
 		this.player.addAnimation("dieRight", new int[] { 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65 }, 10);
 		this.player.addAnimation("winLeft", new int[] { 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76 }, 10);
 		this.player.addAnimation("winRight", new int[] { 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87 }, 10);
-		this.player.setSize(72, 72);
+		//this.player.setSize(72, 72);
 		
 		// Create the level
 		this.createLevel(content, 3);
@@ -96,6 +131,8 @@ public class GameState extends State {
 			overlay.setActive(false);
 			this.scene.add(overlay);
 		}
+		
+		this.music.play();
 	}
 	
 	private void createLevel(ContentManager content, int levelId) {
@@ -173,6 +210,9 @@ public class GameState extends State {
 					}
 				}
 			}
+			
+			this.tilesSize = this.tiles.size();
+			this.itemsSize = this.items.size();
 		} 
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -240,7 +280,7 @@ public class GameState extends State {
 				}
 			}
 			
-			for (int i = 0, l = this.items.size(); i < l; i++) {
+			for (int i = 0; i < itemsSize; i++) {
 				tempSearchSprite = this.items.get(i);
 				
 				if (tempSearchSprite.isActive() && this.player.getRectangle().contains(tempSearchSprite.getRectangle())) {
@@ -248,10 +288,12 @@ public class GameState extends State {
 						if (!this.overlays[2].isActive()) {
 							this.overlays[2].setActive(true);
 							this.gameMode = GameMode.Win;
+							this.soundEffects.get("ExitReached").play();
 						}
 					}
 					else {
 						tempSearchSprite.setActive(false);
+						this.soundEffects.get("GemCollected").play();
 						// Add points to player
 						// Play a cool sound effect
 						// Add a fade animation
@@ -259,14 +301,41 @@ public class GameState extends State {
 					}
 				}
 			}
-		}
+			
+			if (this.movementState != MovementState.JumpingUp) {
+				this.player.setY((int) (this.player.getY() + this.playerGravity));
+				int i = 0;
+				boolean collide = false;
+				while(i < tilesSize && collide == false) {
+					if (this.player.getRectangle().contains(this.tiles.get(i).getRectangle())) {
+						collide = true;
+						this.player.setY(this.tiles.get(i).getY() - this.player.getHeight());
+						this.movementState = MovementState.Walking;
+					}
+					i++;
+				}
+			}
+			
+			if (this.player.getY() > Atlantis.height) {
+				if (!this.overlays[1].isActive()) {
+					this.overlays[1].setActive(true);
+					this.soundEffects.get("PlayerFall").play();
+				}
+				this.gameMode = GameMode.Lose;
+			}
+		} 
 		else if (this.gameMode == GameMode.Win) {
 			this.player.play("winLeft");
+			// Skip to next level or back menu
+		}
+		else if (this.gameMode == GameMode.Lose) {
+			// Restart the level after 5 seconds
 		}
 	}
 	
 	private void jump() {
 		if (this.movementState == MovementState.Walking) {
+			this.soundEffects.get("PlayerJump").play();
 			this.movementState = MovementState.JumpingUp;
 			this.initialJumpPosition = new Vector2(this.player.getX(), this.player.getY());
 		}

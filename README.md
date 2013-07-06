@@ -155,6 +155,14 @@ public class Soft3DRendering extends Game {
 }
 ```
 
+### ThirdParty libraries
+
+JSON in Java by Douglas Crockford https://github.com/douglascrockford/JSON-java
+Jorbis by JCraft http://www.jcraft.com/jorbis/
+EasyOgg by cokeandcode http://www.cokeandcode.com/index.html?page=libs
+
 ### License
 
-MIT License, take a look of LICENSE file for more informations.
+Framework and Engine are under MIT License, take a look of LICENSE file for more informations.
+Jorbis is under LGPL license
+JSON in Java and EasyOgg haven't license.

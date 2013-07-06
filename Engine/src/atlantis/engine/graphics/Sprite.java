@@ -209,6 +209,15 @@ public class Sprite extends BaseEntity {
 		this.rectangle.setPosition(x, y);
 	}
 	
+	public void setPosition (float x, float y) {
+		this.setPosition((int)x, (int)y);
+	}
+	
+	public void setPosition(Vector2 position) {
+		this.position = position;
+		this.rectangle.setPosition((int) position.x, (int) position.y);
+	}
+	
 	/**
 	 * Change the size of the sprite
 	 * @param width

@@ -16,6 +16,7 @@ public class Timer implements IUpdateable {
 	protected int counter;
 	protected long elapsedTime;
 	protected boolean enabled;
+	protected ITimerListener completedListener;
 	
 	public Timer(int interval) {
 		this.interval = interval;
@@ -23,12 +24,17 @@ public class Timer implements IUpdateable {
 		this.elapsedTime = 0;
 		this.counter = this.repeat;
 		this.enabled = false;
+		this.completedListener = null;
 	}
 	
 	public Timer(int interval, int repeat) {
 		this(interval);
 		this.repeat = repeat;
 		this.counter = this.repeat;
+	}
+	
+	public void addTimerCompletedListener(ITimerListener listener) {
+		this.completedListener = listener;
 	}
 	
 	public void start() {
@@ -67,9 +73,15 @@ public class Timer implements IUpdateable {
 					}
 					else {
 						this.counter--;
+						if (this.completedListener != null) {
+							this.completedListener.onRestart();
+						}
 					}
 				}
 				this.elapsedTime = 0;
+				if (this.completedListener != null) {
+					this.completedListener.onCompleted();
+				}
 			}
 		}
 	}

@@ -99,7 +99,7 @@ public class GameScreen extends State {
 		} 
 		
 		// Test if a laser touching an alien
-		if (this.alienGroup.getCount() > 0) {
+		if (this.alienGroup.count() > 0) {
 			for (Sprite alien : this.alienGroup.getEntities()) {
 				if (!alien.isActive()) {
 					continue;

@@ -315,7 +315,7 @@ public class JSONML {
         int             i;
         JSONObject   jo;
         String       key;
-        Iterator     keys;
+        Iterator<?>     keys;
         int             length;
         Object         object;
         StringBuffer sb = new StringBuffer();
@@ -398,7 +398,7 @@ public class JSONML {
         int          i;
         JSONArray    ja;
         String       key;
-        Iterator     keys;
+        Iterator<?>     keys;
         int          length;
         Object         object;
         String       tagName;

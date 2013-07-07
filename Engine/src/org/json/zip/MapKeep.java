@@ -35,9 +35,11 @@ import org.json.Kim;
  * integer value. When the keep is compacted, each key can be given a new
  * value.
  */
+@SuppressWarnings("rawtypes")
 class MapKeep extends Keep {
     private Object[] list;
-    private HashMap map;
+    
+	private HashMap map;
 
     /**
      * Create a new Keep.
@@ -56,7 +58,8 @@ class MapKeep extends Keep {
      * The keep contents can be reduced by deleting all elements with low use
      * counts, and by reducing the use counts of the survivors.
      */
-    private void compact() {
+    @SuppressWarnings("unchecked")
+	private void compact() {
         int from = 0;
         int to = 0;
         while (from < this.capacity) {
@@ -130,7 +133,8 @@ class MapKeep extends Keep {
      * time this value is encountered, its integer can be sent instead.
      * @param value A value.
      */
-    public void register(Object value) {
+    @SuppressWarnings("unchecked")
+	public void register(Object value) {
         if (JSONzip.probe) {
             int integer = find(value);
             if (integer >= 0) {

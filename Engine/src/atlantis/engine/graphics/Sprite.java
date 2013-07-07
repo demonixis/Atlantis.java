@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics;
 
+import atlantis.engine.Atlantis;
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
@@ -31,6 +32,8 @@ public class Sprite extends BaseEntity {
 	protected boolean allowAcrossScreen;
 	protected SpriteAnimator spriteAnimator;
 	protected boolean hasAnimation;
+	protected ISpriteMouseListener spriteMouseListener;
+	protected boolean hovered;
 	
 	public Sprite() {
 		this.rectangle = new Rectangle();
@@ -49,6 +52,8 @@ public class Sprite extends BaseEntity {
 		this.allowAcrossScreen = false;
 		this.spriteAnimator = new SpriteAnimator();
 		this.hasAnimation = false;
+		this.spriteMouseListener = null;
+		this.hovered = false;
 	}
 	
 	public Sprite(String textureName) {
@@ -141,7 +146,36 @@ public class Sprite extends BaseEntity {
                     this.position.y = this.viewport.y;
                 }
             }
-        }
+            
+            if (this.spriteMouseListener != null) {
+            	if (this.rectangle.contains(Atlantis.mouse.getPosition())) {
+            		this.spriteMouseListener.onMouseOver();
+            		this.hovered = true;
+            		
+            		int button = -1;
+            		button = Atlantis.mouse.click(0) ? 0 : button;
+            		button = Atlantis.mouse.click(1) ? 1 : button;
+            		button = Atlantis.mouse.click(2) ? 2 : button;
+            		
+            		if (button > -1) {
+            			this.spriteMouseListener.onMouseClick(button);
+            		}
+            		
+            		int jcButton = -1;
+            		jcButton = Atlantis.mouse.justClicked(0) ? 0 : jcButton;
+            		jcButton = Atlantis.mouse.justClicked(1) ? 1 : jcButton;
+            		jcButton = Atlantis.mouse.justClicked(2) ? 2 : jcButton;
+            		
+            		if (jcButton > -1) {
+            			this.spriteMouseListener.onMouseJustClicked(jcButton);
+            		}
+            	}
+            	else if (this.hovered) {
+                	this.hovered = false;
+                	this.spriteMouseListener.onMouseOut();
+                }
+            }
+		}
 	}
 		
 	@Override

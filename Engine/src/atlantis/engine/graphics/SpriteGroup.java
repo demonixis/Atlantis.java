@@ -23,6 +23,19 @@ public class SpriteGroup extends Sprite {
 	}
 	
 	/**
+	 * Compute the bouding rectangle of the group.
+	 */
+	public void computeBoundingRectangle() {
+		int maxWidth = 0;
+		int maxHeight = 0;
+		
+		for (int i = 0, l = this.entities.size(); i < l; i++) {
+			maxWidth = Math.max(maxWidth, this.entities.get(i).getRectangle().getRight());
+			maxHeight = Math.max(maxHeight, this.entities.get(i).getRectangle().getRight());
+		}
+	}
+	
+	/**
 	 * Initialize entities
 	 */
 	public void initialize() {
@@ -78,7 +91,7 @@ public class SpriteGroup extends Sprite {
 	 * Count the number of entity contains in the collection
 	 * @return
 	 */
-	public int getCount() {
+	public int count() {
 		return this.entities.size();
 	}
 	

@@ -282,7 +282,8 @@ public class Compressor extends JSONzip {
      *            or String, or Boolean, or JSONObject.NULL, or null.
      * @throws JSONException
      */
-    private void writeJSON(Object value) throws JSONException {
+    @SuppressWarnings("rawtypes")
+	private void writeJSON(Object value) throws JSONException {
         if (JSONObject.NULL.equals(value)) {
             write(zipNull, 3);
         } else if (Boolean.FALSE.equals(value)) {
@@ -348,7 +349,7 @@ public class Compressor extends JSONzip {
 // non-empty objects (zipObject).
 
         boolean first = true;
-        Iterator keys = jsonobject.keys();
+        Iterator<?> keys = jsonobject.keys();
         while (keys.hasNext()) {
             if (probe) {
                 log("\n");

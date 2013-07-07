@@ -97,6 +97,10 @@ public class Rectangle {
 		return (this.x <= rectangle.x) && (rectangle.x < this.getRight()) && (this.y <= rectangle.y) && (rectangle.y < this.getBottom());
 	}
 	
+	public static boolean contains(Rectangle rectA, Rectangle rectB) {
+		return rectA.contains(rectB);
+	}
+	
 	/**
 	 * Check if the specified rectangle intersects rectangle
 	 * @param rectangle
@@ -104,6 +108,10 @@ public class Rectangle {
 	 */
 	public boolean intersects(Rectangle rectangle) {
 		return (rectangle.getLeft() < this.getRight()) && (this.getLeft() < rectangle.getRight()) && (rectangle.getTop() < this.getBottom()) && (this.getTop() < rectangle.getBottom());  
+	}
+	
+	public static boolean intersects(Rectangle rectA, Rectangle rectB) {
+		return rectA.intersects(rectB);
 	}
 
 	public String toString() {

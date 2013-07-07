@@ -4,6 +4,8 @@
 package atlantis.framework.content;
 
 import java.util.HashMap;
+
+import atlantis.framework.audio.Song;
 import atlantis.framework.audio.SoundEffect;
 import atlantis.framework.graphics.Texture2D;
 
@@ -59,6 +61,25 @@ public class ContentManager {
 		}
 		
 		return sound;
+	}
+	
+	/**
+	 * Load a song from content folder. If the song isn't already loaded
+	 * it is loaded and added to the collection of assets.
+	 * @param assetName
+	 * @return Return a song.
+	 */
+	public Song loadSong(String assetName) {
+		Song song = null;
+		
+		song = (Song) this.assets.get(assetName);
+		
+		if (song == null) {
+			song = new Song(this.rootDirectory + "/" + assetName);
+			this.assets.put(assetName, song);
+		}
+		System.out.println(song);
+		return song;
 	}
 	
 	/**

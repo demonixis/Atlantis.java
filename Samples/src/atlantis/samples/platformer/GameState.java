@@ -1,10 +1,6 @@
 package atlantis.samples.platformer;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.HashMap;
-
-import org.newdawn.easyogg.OggClip;
 
 import atlantis.engine.Atlantis;
 import atlantis.engine.ITimerListener;
@@ -12,24 +8,23 @@ import atlantis.engine.Timer;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.state.State;
 import atlantis.framework.GameTime;
+import atlantis.framework.audio.Song;
 import atlantis.framework.audio.SoundEffect;
 import atlantis.framework.content.ContentManager;
 
-
-enum GameMode {
-	Playing, Died, Lose, Win
-}
-
 public class GameState extends State implements ITimerListener {
+	enum GameMode {
+		Playing, Died, Lose, Win
+	}
+	
 	private Player player;
 	private Level level;
 	private HashMap<String, SoundEffect> soundEffects;
-	private OggClip music;
+	private Song music;
 	private Sprite[] overlays;
 	private GameMode gameMode;
 	private Timer restartTimer;
 	private Sprite tempSearchSprite;
-
 	
 	public GameState(String name) {
 		super(name);
@@ -45,17 +40,12 @@ public class GameState extends State implements ITimerListener {
 		// Player
 		this.player = new Player();
 		
-		// Sounds
-		this.soundEffects = new HashMap<>(7);
-		try {
-			music = new OggClip(new FileInputStream("Content/Platformer/Sounds/Music.ogg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		this.gameMode = GameMode.Playing;
 		this.restartTimer = new Timer(3500);
 		this.restartTimer.addTimerCompletedListener(this);
+		
+		// Sound
+		this.soundEffects = new HashMap<>();
 		
 		// For prevent garbage collection in loop
 		tempSearchSprite = null;
@@ -88,6 +78,7 @@ public class GameState extends State implements ITimerListener {
 			this.scene.add(overlay);
 		}
 		
+		this.music = content.loadSong("Sounds/Music.ogg");
 		this.music.play();
 	}
 	

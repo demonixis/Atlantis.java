@@ -36,7 +36,7 @@ public final class Player extends Sprite {
 		// Jumping
 		this.movementState = MovementState.Walking;
 		this.jumpHeight = 125;
-		this.jumpSpeed = 8.5f;
+		this.jumpSpeed = 2.5f;
 		this.initialJumpPosition = Vector2.Zero();
 	}
 	
@@ -120,17 +120,25 @@ public final class Player extends Sprite {
 	public void updatePhysics(int blocksSize, ArrayList<Sprite> blocks) {
 		if (this.movementState != MovementState.JumpingUp) {
 			this.setY((int) (this.getY() + this.gravity));
-			int i = 0;
-			boolean collide = false;
-			
-			while(i < blocksSize && collide == false) {
-				if (this.getRectangle().contains(blocks.get(i).getRectangle())) {
+		}
+		
+		int i = 0;
+		boolean collide = false;
+	
+		while(i < blocksSize && collide == false) {
+			if (this.getRectangle().contains(blocks.get(i).getRectangle())) {
+				if(this.position.y < blocks.get(i).getY() && this.movementState == MovementState.JumpingUp) {
+						this.movementState = MovementState.JumpingDown;
+						this.setY(blocks.get(i).getRectangle().getBottom());
+						collide = true;
+				} 
+				else {
 					collide = true;
 					this.setY(blocks.get(i).getY() - this.getHeight());
 					this.movementState = MovementState.Walking;
 				}
-				i++;
 			}
+			i++;
 		}
 	}
 	

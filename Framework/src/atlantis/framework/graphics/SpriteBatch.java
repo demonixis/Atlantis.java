@@ -98,7 +98,8 @@ public class SpriteBatch {
 	 * @param position The position of the text.
 	 */
 	public void drawString(SpriteFont spriteFont, Vector2 position) {
-		
+		// TODO : Make SpriteBatch inherit from BufferedImage or Texture2D
+		this.graphicsDevice.getGraphics().drawString(spriteFont.getText(), (int)spriteFont.getX(), (int)spriteFont.getY());
 	}
 	
 	public void begin() {
@@ -189,5 +190,4 @@ class ComparatorBatchOperation implements Comparator<BatchOperation> {
 			return 0;
 		}
 	}
-	
 }

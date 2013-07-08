@@ -141,6 +141,13 @@ public final class Level {
 		}
 	}
 	
+	public void reload(ContentManager content, SpriteGroup scene, int levelId) {
+		scene.clear();
+		this.levelId = levelId;
+		this.loaded = false;
+		this.loadLevel(content, scene);
+	}
+	
 	/**
 	 * Helper to gets the correct asset name.
 	 * @param id

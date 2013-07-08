@@ -10,6 +10,7 @@ package atlantis.framework;
  */
 public class DrawableGameComponent extends GameComponent implements IDrawable {
 	protected boolean visible;
+	protected boolean assetLoaded;
 	
 	public DrawableGameComponent(Game game) {
 		super(game);
@@ -20,14 +21,14 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	 * Load assets of the component
 	 */
 	public void loadContent() {
-		
+		this.assetLoaded = true;
 	}
 	
 	/**
 	 * Unload and dispose all assets of the component
 	 */
 	public void unloadContent() {
-		
+		this.assetLoaded = false;
 	}
 	
 	/**

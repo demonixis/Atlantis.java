@@ -14,6 +14,7 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 	protected ArrayList<GameComponent> components;
 	protected ArrayList<DrawableGameComponent> drawableGameComponents;
 	protected boolean initialized;
+	protected boolean assetLoaded;
 	
 	
 	public GameComponentCollection() {
@@ -31,6 +32,7 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 				component.initialize();
 			}
 		}
+		this.initialized = true;
 	}
 	
 	/**
@@ -42,7 +44,7 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 				component.loadContent();
 			}
 		}
-		this.initialized = true;
+		this.assetLoaded = true;
 	}
 	
 	/**
@@ -54,7 +56,7 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 				component.unloadContent();
 			}
 		}
-		this.initialized = false;
+		this.assetLoaded = false;
 	}
 	
 	/**
@@ -95,8 +97,11 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 			DrawableGameComponent drawableGameComponent = (DrawableGameComponent) component;
 			
 			if (this.initialized) {
-				drawableGameComponent.loadContent();
 				drawableGameComponent.initialize();
+			}
+			
+			if (this.assetLoaded) {
+				drawableGameComponent.loadContent();
 			}
 			
 			drawableGameComponents.add(drawableGameComponent);

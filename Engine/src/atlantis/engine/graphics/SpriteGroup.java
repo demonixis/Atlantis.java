@@ -127,4 +127,11 @@ public class SpriteGroup extends Sprite {
 	public Sprite get(int position) {
 		return this.entities.get(position);
 	}
+	
+	/**
+	 * Clear the collection
+	 */
+	public void clear() {
+		this.entities.clear();
+	}
 }

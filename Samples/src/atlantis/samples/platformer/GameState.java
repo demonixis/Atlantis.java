@@ -20,6 +20,9 @@ public class GameState extends State implements ITimerListener {
 		Playing, Died, Lose, Win
 	}
 	
+	private final int LevelCount = 4;
+	
+	private int levelId;
 	private Player player;
 	private Level level;
 	private HashMap<String, SoundEffect> soundEffects;
@@ -32,6 +35,7 @@ public class GameState extends State implements ITimerListener {
 	private SpriteFont timeCounter;
 	private int playerScore;
 	private int timeRemaining;
+	private int elapsedTime;
 	
 	public GameState(String name) {
 		super(name);
@@ -42,15 +46,12 @@ public class GameState extends State implements ITimerListener {
 		this.overlays[1] = new Sprite("overlays/you_lose.png");
 		this.overlays[2] = new Sprite("overlays/you_win.png");
 		
-		this.level = new Level(3);
-		
-		this.timeRemaining = 250;
-		this.playerScore = 0;
+		this.levelId = 0;
+		this.level = new Level(this.levelId);
 		
 		// Player
 		this.player = new Player();
 		
-		this.gameMode = GameMode.Playing;
 		this.restartTimer = new Timer(3500);
 		this.restartTimer.addTimerCompletedListener(this);
 		
@@ -63,6 +64,20 @@ public class GameState extends State implements ITimerListener {
 		
 		// For prevent garbage collection in loop
 		tempSearchSprite = null;
+	}
+	
+	public void initialize() {
+		super.initialize();
+
+		this.playerScore = 0;
+		this.elapsedTime = 0;
+		this.timeRemaining = 250;
+		
+		for(Sprite overlay : this.overlays) {
+			overlay.setActive(false);
+		}
+		
+		this.gameMode = GameMode.Playing;
 	}
 	
 	public void loadContent(ContentManager content) {
@@ -102,6 +117,12 @@ public class GameState extends State implements ITimerListener {
 		this.restartTimer.update(gameTime);
 		
 		if (this.gameMode == GameMode.Playing) {
+			this.elapsedTime += gameTime.getElapsedTime();
+			if (this.elapsedTime >= 1000) {
+				this.timeRemaining--;
+				this.elapsedTime = 0;
+			}
+			
 			for (int i = 0; i < this.level.getItemsSize(); i++) {
 				tempSearchSprite = this.level.getItems().get(i);
 				
@@ -139,12 +160,28 @@ public class GameState extends State implements ITimerListener {
 			this.player.win();
 			
 			if (Atlantis.keyboard.space()) {
-				
+				this.restartGameState();
 			}
 		}
 		else if (this.gameMode == GameMode.Lose || this.gameMode == GameMode.Died) {
 			this.restartTimer.start();
 		}
+	}
+	
+	/**
+	 * Restart the game state.
+	 */
+	private void restartGameState() {
+		if (this.gameMode == GameMode.Win) {
+			this.levelId++;
+			this.levelId = (this.levelId >= LevelCount) ? 0 : this.levelId;
+		}
+		
+		this.level.reload(Atlantis.content, this.scene, levelId);
+		this.player.setStartPosition(this.level.getStartPosition());
+		this.scene.add(this.player);
+		
+		this.initialize();
 	}
 	
 	@Override

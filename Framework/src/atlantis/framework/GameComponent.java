@@ -23,7 +23,7 @@ public class GameComponent implements IUpdateable {
 	 * Initialize the component.
 	 */
 	public void initialize() { 
-		
+		this.initialized = true;
 	}
 
 	@Override

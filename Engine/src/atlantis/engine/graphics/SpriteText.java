@@ -53,9 +53,7 @@ public class SpriteText extends Sprite {
 	
 	@Override
 	public void draw(GameTime gameTime, SpriteBatch spriteBatch) {
-		if (this.visible) {
-			spriteBatch.drawString(spriteFont, position);
-		}
+
 	}
 	
 	public void setText(String text) {

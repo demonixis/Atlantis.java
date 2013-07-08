@@ -4,6 +4,7 @@
 package atlantis.framework.graphics;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -19,8 +20,11 @@ import atlantis.framework.Vector2;
  */
 public class SpriteBatch {
 	protected GraphicsDevice graphicsDevice;
+	protected Graphics2D graphics2D;
 	protected boolean beginStarted;
 	protected boolean readyToBatch;
+	protected Font previousFont;
+	protected Color previousColor;
 	protected ArrayList<BatchOperation> batchOperations;
 	private Rectangle tempRectangle;
 	
@@ -34,6 +38,8 @@ public class SpriteBatch {
 		this.readyToBatch = false;
 		this.batchOperations = new ArrayList<BatchOperation>();
 		this.tempRectangle = Rectangle.Empty();
+		this.previousColor = Color.WHITE;
+		this.previousFont = null;
 	}
 	
 	/**
@@ -92,14 +98,20 @@ public class SpriteBatch {
 		}
 	}
 
-	/**
-	 * Draw a string on screen.
-	 * @param spriteFont A spriteFont
-	 * @param position The position of the text.
-	 */
-	public void drawString(SpriteFont spriteFont, Vector2 position) {
+	public void drawString(SpriteFont spriteFont, String text, int x, int y, Color color) {
+		this.graphics2D = (Graphics2D)this.graphicsDevice.getGraphics();
+		
+		this.previousColor = this.graphics2D.getColor();
+		this.previousFont = this.graphics2D.getFont();
+		
+		this.graphics2D.setColor(color);
+		this.graphics2D.setFont(spriteFont.font);
+		
 		// TODO : Make SpriteBatch inherit from BufferedImage or Texture2D
-		this.graphicsDevice.getGraphics().drawString(spriteFont.getText(), (int)spriteFont.getX(), (int)spriteFont.getY());
+		this.graphics2D.drawString(text, x, y);
+		
+		this.graphics2D.setColor(this.previousColor);
+		this.graphics2D.setFont(this.previousFont);
 	}
 	
 	public void begin() {
@@ -120,16 +132,16 @@ public class SpriteBatch {
 		BatchOperation operation = null;
 		
 		BufferedImage render = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D graphics = (Graphics2D)render.getGraphics();
-		graphics.clearRect(0, 0, width, height);
+		this.graphics2D = (Graphics2D)render.getGraphics();
+		this.graphics2D.clearRect(0, 0, width, height);
 		Collections.sort(batchOperations, new ComparatorBatchOperation());
 		
 		for (int i = 0, l = batchOperations.size(); i < l; i++) {
 			operation = batchOperations.get(i);
-			graphics.rotate(operation.rotation);
+			this.graphics2D.rotate(operation.rotation);
 			
 			if (operation.sourceRectangle != null) {
-				graphics.drawImage(batchOperations.get(i).texture, 
+				this.graphics2D.drawImage(batchOperations.get(i).texture, 
 						operation.destinationRectangle.x, 
 						operation.destinationRectangle.y, 
 						operation.destinationRectangle.getRight(), 
@@ -141,7 +153,7 @@ public class SpriteBatch {
 						null);
 			}
 			else {
-				graphics.drawImage(batchOperations.get(i).texture, 
+				this.graphics2D.drawImage(batchOperations.get(i).texture, 
 						operation.destinationRectangle.x, 
 						operation.destinationRectangle.y, 
 						operation.destinationRectangle.getWidth(), 

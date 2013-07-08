@@ -3,74 +3,67 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework.graphics;
 
-import atlantis.framework.Vector2;
+import java.awt.Font;
 
 /**
  * Define a drawable text.
  * @author Yannick
  */
 public class SpriteFont {
-	protected String text;
-	protected Vector2 scale;
-	protected Vector2 position;
+	protected Font font;
+	protected Font tempOldFont;
+	protected int textSize;
+	protected int textFormat;
+	protected String fontName;
 	
 	/**
-	 * Create a spriteFont with a text
-	 * @param text Desired text.
+	 * Create a spriteFont
 	 */
-	public SpriteFont(String text) {
-		this.text = text;
-		this.position = Vector2.Zero();
-		this.scale = Vector2.One();
+	public SpriteFont() {
+		this("Arial", 12, Font.PLAIN);
 	}
 	
-	public String getText() {
-		return this.text;
+	public SpriteFont(int textSize) {
+		this("Arial", textSize, Font.PLAIN);
 	}
 	
-	public void setText(String text) {
-		this.text = text;
+	public SpriteFont(String fontName, int textSize) {
+		this(fontName, textSize, Font.PLAIN);
 	}
 	
-	public float getX() {
-		return this.position.x;
+	public SpriteFont(String fontName, int textSize, int textFormat) {
+		this.fontName = fontName;
+		this.textFormat = textFormat;
+		this.textSize = textSize;
+		this.font = new Font(this.fontName, this.textFormat, this.textSize);
+		this.tempOldFont = null;
 	}
 	
-	public void setX(float x) {
-		this.position.x = x;
+	/**
+	 * Sets a font
+	 * @param font A font to use.
+	 */
+	public void setFont(Font font) {
+		this.font = font;
 	}
 	
-	public float getY() {
-		return this.position.y;
+	/**
+	 * Change the font used to rendering the text.
+	 * @param fontName The font name to use.
+	 * @param textFormat The format @see Font class
+	 * @param textSize The size of the text.
+	 */
+	public void setFont(String fontName, int textFormat, int textSize) {
+		this.fontName = fontName;
+		this.textFormat = textFormat;
+		this.textSize = textSize;
+		this.createFont();
 	}
 	
-	public void setY(float y) {
-		this.position.y = y;
-	}
-	
-	public Vector2 getPosition() {
-		return this.position;
-	}
-	
-	public void setPosition(float x, float y) {
-		this.position.x = x;
-		this.position.y = y;
-	}
-	
-	public void setPosition(Vector2 position) {
-		this.position = position;
-	}
-	
-	public Vector2 getScale() {
-		return this.scale;
-	}
-	
-	public void setScale(Vector2 scale) {
-		this.scale = scale;
-	}
-	
-	public void setScale(float scale) {
-		this.scale.x = scale;
-		this.scale.y = scale;
+	/**
+	 * Create a font with local values.
+	 */
+	private void createFont() {
+		this.font = new Font(this.fontName, this.textFormat, this.textSize);
 	}
 }

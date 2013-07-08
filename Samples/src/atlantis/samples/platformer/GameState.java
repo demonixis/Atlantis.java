@@ -1,5 +1,7 @@
 package atlantis.samples.platformer;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.HashMap;
 
 import atlantis.engine.Atlantis;
@@ -11,6 +13,7 @@ import atlantis.framework.GameTime;
 import atlantis.framework.audio.Song;
 import atlantis.framework.audio.SoundEffect;
 import atlantis.framework.content.ContentManager;
+import atlantis.framework.graphics.SpriteFont;
 
 public class GameState extends State implements ITimerListener {
 	enum GameMode {
@@ -25,6 +28,10 @@ public class GameState extends State implements ITimerListener {
 	private GameMode gameMode;
 	private Timer restartTimer;
 	private Sprite tempSearchSprite;
+	private SpriteFont scoreCounter;
+	private SpriteFont timeCounter;
+	private int playerScore;
+	private int timeRemaining;
 	
 	public GameState(String name) {
 		super(name);
@@ -37,6 +44,9 @@ public class GameState extends State implements ITimerListener {
 		
 		this.level = new Level(3);
 		
+		this.timeRemaining = 250;
+		this.playerScore = 0;
+		
 		// Player
 		this.player = new Player();
 		
@@ -46,6 +56,10 @@ public class GameState extends State implements ITimerListener {
 		
 		// Sound
 		this.soundEffects = new HashMap<>();
+		
+		// Text
+		this.scoreCounter = new SpriteFont(Font.SANS_SERIF, 16, Font.BOLD);
+		this.timeCounter = new SpriteFont(Font.SANS_SERIF, 16, Font.BOLD);
 		
 		// For prevent garbage collection in loop
 		tempSearchSprite = null;
@@ -102,6 +116,7 @@ public class GameState extends State implements ITimerListener {
 					else {
 						tempSearchSprite.setActive(false);
 						this.soundEffects.get("GemCollected").play();
+						this.playerScore += 20;
 						// Add points to player
 						// Play a cool sound effect
 						// Add a fade animation
@@ -131,7 +146,15 @@ public class GameState extends State implements ITimerListener {
 			this.restartTimer.start();
 		}
 	}
-
+	
+	@Override
+	public void draw(GameTime gameTime) {
+		super.draw(gameTime);
+		
+		this.spriteBatch.drawString(this.scoreCounter, "SCORE: " + this.playerScore, 10, 20, Color.YELLOW);
+		this.spriteBatch.drawString(this.timeCounter, "TIME: " + this.timeRemaining, 10, 40, Color.YELLOW);
+	}
+	
 	@Override
 	public void onCompleted() {
 		

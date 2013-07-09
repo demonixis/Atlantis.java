@@ -126,7 +126,7 @@ public class GameState extends State implements ITimerListener {
 			for (int i = 0; i < this.level.getItemsSize(); i++) {
 				tempSearchSprite = this.level.getItems().get(i);
 				
-				if (tempSearchSprite.isActive() && this.player.getRectangle().contains(tempSearchSprite.getRectangle())) {
+				if (tempSearchSprite.isActive() && this.player.getBoundingRectangle().contains(tempSearchSprite.getBoundingRectangle())) {
 					if (tempSearchSprite.getName() == "exit") {
 						if (!this.overlays[2].isActive()) {
 							this.overlays[2].setActive(true);

@@ -1,5 +1,13 @@
+// AtlantisEngine.java - Copyright (C) Yannick Comte.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE', which is part of this source code package.
 package atlantis.engine.interpolation;
 
+/**
+ * A base class for making interpolator.
+ * @author Yannick
+ * @param <T> The type of interpolator.
+ */
 public abstract class BaseInterpolator<T> {
 	protected boolean enabled;
 	protected long desiredDuration;
@@ -9,7 +17,10 @@ public abstract class BaseInterpolator<T> {
 	protected T interpolatedValue;
 	protected boolean repeat;
 	protected IInterpolatorListener listener;
-	
+
+	/**
+	 * Create a new interpolator.
+	 */
 	public BaseInterpolator() {
 		this.enabled = false;
 		this.elapsedTime = 0;
@@ -20,7 +31,14 @@ public abstract class BaseInterpolator<T> {
 		this.repeat = false;
 		this.listener = null;
 	}
-	
+
+	/**
+	 * Start a new interpolation
+	 * @param startValue Start value 
+	 * @param endValue End value 
+	 * @param desiredDuration Desired duration
+	 * @param force Force the interpolator to start.
+	 */
 	public void startInterpolation(T startValue, T endValue, long desiredDuration, boolean force) {
 		if (!this.enabled || force) {
 			this.startValue = startValue;
@@ -34,15 +52,26 @@ public abstract class BaseInterpolator<T> {
 			}
 		}
 	}
-	
+
+	/**
+	 * Start a new interpolation
+	 * @param startValue Start value 
+	 * @param endValue End value 
+	 * @param desiredDuration Desired duration
+	 */
 	public void startInterpolation(T startValue, T endValue, long desiredDuration) {
 		this.startInterpolation(startValue, endValue, desiredDuration, false);
 	}
-	
+
+	/**
+	 * Update and get the interpolated value.
+	 * @param The time elapsed since last call.
+	 * @return The interpolated value.
+	 */
 	public void getInterpolatedValue(long elapsedTime) {
 		if (this.enabled) {
 			this.elapsedTime += elapsedTime;
-			
+
 			if (this.elapsedTime >= this.desiredDuration) {
 				if (this.repeat) {
 					this.enabled = true;
@@ -60,10 +89,14 @@ public abstract class BaseInterpolator<T> {
 				}
 			}
 		}
-		
+
 		float step = (float)(this.elapsedTime / (float)this.desiredDuration);
 		this.interpolateValue(step);
 	}
-	
+
+	/**
+	 * Interpolate the value.
+	 * @param step The step of interpolation.
+	 */
 	protected abstract void interpolateValue(float step);
 }

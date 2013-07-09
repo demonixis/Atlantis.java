@@ -126,10 +126,10 @@ public final class Player extends Sprite {
 		boolean collide = false;
 	
 		while(i < blocksSize && collide == false) {
-			if (this.getRectangle().contains(blocks.get(i).getRectangle())) {
+			if (this.getBoundingRectangle().contains(blocks.get(i).getBoundingRectangle())) {
 				if(this.position.y < blocks.get(i).getY() && this.movementState == MovementState.JumpingUp) {
 						this.movementState = MovementState.JumpingDown;
-						this.setY(blocks.get(i).getRectangle().getBottom());
+						this.setY(blocks.get(i).getBoundingRectangle().getBottom());
 						collide = true;
 				} 
 				else {

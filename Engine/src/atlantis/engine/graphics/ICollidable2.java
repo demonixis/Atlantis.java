@@ -4,12 +4,7 @@
 package atlantis.engine.graphics;
 
 import atlantis.framework.Rectangle;
-import atlantis.framework.Vector2;
 
-public interface ICollidable {
-	Vector2 getPosition();
-	Rectangle getRectangle();
-	float getX();
-	float getY();
-	float[] getColor();
+public interface ICollidable2 {
+	Rectangle getBoundingRectangle();
 }

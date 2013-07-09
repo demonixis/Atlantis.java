@@ -30,8 +30,8 @@ public class SpriteGroup extends Sprite {
 		int maxHeight = 0;
 		
 		for (int i = 0, l = this.entities.size(); i < l; i++) {
-			maxWidth = Math.max(maxWidth, this.entities.get(i).getRectangle().getRight());
-			maxHeight = Math.max(maxHeight, this.entities.get(i).getRectangle().getRight());
+			maxWidth = Math.max(maxWidth, this.entities.get(i).getBoundingRectangle().getRight());
+			maxHeight = Math.max(maxHeight, this.entities.get(i).getBoundingRectangle().getRight());
 		}
 	}
 	

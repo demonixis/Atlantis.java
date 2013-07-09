@@ -15,7 +15,7 @@ import atlantis.framework.graphics.Texture2D;
  * A sprite is a graphical object which can be a simple image or a more complex animated entity.
  * @author Yannick
  */
-public class Sprite extends BaseEntity {
+public class Sprite extends BaseEntity implements ICollidable2 {
 	protected Rectangle rectangle;
 	protected Vector2 position;
 	protected Texture2D texture;
@@ -230,8 +230,144 @@ public class Sprite extends BaseEntity {
 	}
 	
 	// ---
+	// --- Moving methods
+	// ---
+	
+	/**
+	 * Move the sprite.
+	 * @param x Value that will be added to the current position.
+	 * @param y Value that will be added to the current position.
+	 */
+	public void move(float x, float y) {
+		this.move((int)x, (int)y);
+	}
+	
+	/**
+	 * Move the sprite.
+	 * @param x Value that will be added to the current position.
+	 * @param y Value that will be added to the current position.
+	 */
+	public void move(int x, int y) {
+		this.setPosition(this.position.x + x, this.position.y + y);
+	}
+	
+	/**
+	 * Move the sprite.
+	 * @param moveToVector Vector that will be added to the current position.
+	 */
+	public void move(Vector2 moveToVector) {
+		this.setPosition(Vector2.add(this.position, moveToVector));
+	}
+	
+	// ---
 	// --- Getters and setters
 	// ---
+	
+	/**
+	 * Gets the X position on screen.
+	 * @return Return the X position.
+	 */
+	public int getX() {
+		return this.rectangle.x;
+	}
+	
+	/**
+	 * Gets the Y position on screen.
+	 * @return Return the Y position.
+	 */
+	public int getY() {
+		return this.rectangle.y;
+	}
+	
+	/**
+	 * Gets the width.
+	 * @return Return width.
+	 */
+	public int getWidth() {
+		return this.rectangle.width;
+	}
+	
+	/**
+	 * Gets the height.
+	 * @return Return height
+	 */
+	public int getHeight() {
+		return this.rectangle.height;
+	}
+	
+	/**
+	 * Gets the bounding rectangle of the sprite
+	 * @return Return the rectangle.
+	 */
+	public Rectangle getBoundingRectangle() {
+		return this.rectangle;
+	}
+	
+	/**
+	 * Gets the actual position of the sprite.
+	 * @return Return a Vector2 with the coordinates of the sprite on the screen.
+	 */
+	public Vector2 getPosition() {
+		return this.position;
+	}
+
+	/**
+	 * Gets the actual direction of the Sprite. 
+	 * X: -1 = left / 1 = right
+	 * Y: -1 = up / 1 = down
+	 * @return
+	 */
+	public Vector2 getDirection() {
+		return direction;
+	}
+
+	/**
+	 * Gets the previous position of the sprite.
+	 * @return Return the previous coordinates of the sprite.
+	 */
+	public Vector2 getPreviousPosition() {
+		return previousPosition;
+	}
+	
+	/**
+	 * Return the previous distance done by the sprite.
+	 * @return Return the previous distance.
+	 */
+	public Vector2 getPreviousDistance() {
+		return previousDistance;
+	}
+	
+	/**
+	 * Gets the acceleration value.
+	 * @return Return the acceleration value used.
+	 */
+	public Vector2 getAcceleration() {
+		return acceleration;
+	}
+
+	/**
+	 * Gets the velocity.
+	 * @return Return the velocity.
+	 */
+	public Vector2 getVelocity() {
+		return velocity;
+	}
+
+	/**
+	 * Gets the max velocity value.
+	 * @return Return the max velocity.
+	 */
+	public float getMaxVelocity() {
+		return maxVelocity;
+	}
+
+	/**
+	 * Gets the defaut viewport used by the sprite.
+	 * @return A rectangle of the viewport.
+	 */
+	public Rectangle getViewport() {
+		return viewport;
+	}
 	
 	/**
 	 * Set the position of the entity on the screen
@@ -243,10 +379,19 @@ public class Sprite extends BaseEntity {
 		this.rectangle.setPosition(x, y);
 	}
 	
+	/**
+	 * Set the position of the entity on the screen
+	 * @param x The X coordinate
+	 * @param y The Y coordinate
+	 */
 	public void setPosition (float x, float y) {
 		this.setPosition((int)x, (int)y);
 	}
 	
+	/**
+	 * Set the position of the entity on the screen
+	 * @param position A new position.
+	 */
 	public void setPosition(Vector2 position) {
 		this.position = position;
 		this.rectangle.setPosition((int) position.x, (int) position.y);
@@ -295,45 +440,6 @@ public class Sprite extends BaseEntity {
 		this.rectangle.height = height;
 	}
 
-	/**
-	 * Gets the X position on screen.
-	 * @return Return the X position.
-	 */
-	public int getX() {
-		return this.rectangle.x;
-	}
-	
-	/**
-	 * Gets the Y position on screen.
-	 * @return Return the Y position.
-	 */
-	public int getY() {
-		return this.rectangle.y;
-	}
-	
-	/**
-	 * Gets the width.
-	 * @return Return width.
-	 */
-	public int getWidth() {
-		return this.rectangle.width;
-	}
-	
-	/**
-	 * Gets the height.
-	 * @return Return height
-	 */
-	public int getHeight() {
-		return this.rectangle.height;
-	}
-	
-	/**
-	 * Gets the rectangle of the sprite
-	 * @return Return the rectangle.
-	 */
-	public Rectangle getRectangle() {
-		return this.rectangle;
-	}
 	
 	/**
 	 * Determine the viewport of the sprite.
@@ -356,53 +462,27 @@ public class Sprite extends BaseEntity {
 		this.viewport.width = width;
 		this.viewport.height = height;
 	}
-	
-	public Vector2 getPosition() {
-		return this.position;
-	}
 
 	/**
-	 * Gets the actual direction of the Sprite. 
-	 * X: -1 = left / 1 = right
-	 * Y: -1 = up / 1 = down
-	 * @return
+	 * Sets the acceleration. Be carefull because if this value is setted to (0, 0) the sprite will have its position to (0, 0) all the time.
+	 * @param acceleration Value of acceleration.
 	 */
-	public Vector2 getDirection() {
-		return direction;
-	}
-
-	public Vector2 getPreviousPosition() {
-		return previousPosition;
-	}
-
-	public Vector2 getPreviousDistance() {
-		return previousDistance;
-	}
-
-	public Vector2 getAcceleration() {
-		return acceleration;
-	}
-
-	public Vector2 getVelocity() {
-		return velocity;
-	}
-
-	public float getMaxVelocity() {
-		return maxVelocity;
-	}
-
-	public Rectangle getViewport() {
-		return viewport;
-	}
-
 	public void setAcceleration(Vector2 acceleration) {
 		this.acceleration = acceleration;
 	}
 
+	/**
+	 * Sets the max velocity. The less the value is lower, the more the velocity effect affect the sprite.
+	 * @param maxVelocity A vector for X and Y axis.
+	 */
 	public void setVelocity(Vector2 velocity) {
 		this.velocity = velocity;
 	}
 
+	/**
+	 * Sets the max velocity. The less the value is lower, the more the velocity effect affect the sprite.
+	 * @param maxVelocity A float number for X and Y axis.
+	 */
 	public void setMaxVelocity(float maxVelocity) {
 		this.maxVelocity = maxVelocity;
 	}

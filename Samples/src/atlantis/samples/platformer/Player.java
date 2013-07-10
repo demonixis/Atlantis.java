@@ -160,6 +160,13 @@ public final class Player extends Sprite {
 		this.canMove = false;
 	}
 	
+	public void reset() {
+		if (this.assetLoaded) {
+			this.play("idle");
+			this.canMove = true;
+		}
+	}
+	
 	public void die(int type) {
 		if (this.direction.x < 0) {
 			this.play("dieLeft");

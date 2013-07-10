@@ -17,6 +17,7 @@ public class PlatformerGame extends GameApplication {
 	}
 	
 	public void update(GameTime gameTime) {
+		super.update(gameTime);
 		if (Atlantis.keyboard.escape()) {
 			this.exit();
 		}

@@ -98,25 +98,28 @@ public final class Level {
 							this.startPosition = new Vector2(x, y);
 						}
 						// Blocks and items case
-						else if (id > 1 && id < 7) {
+						else if (id >= 2 && id <= 4) {
 							assetName = getAssetName(id);
 							sprite = new Sprite("img/Tiles/" + assetName + ".png");
 							sprite.loadContent(content);
 							sprite.setPosition(x * 40, y * 32);
 							scene.add(sprite);
-							
-							if (id == 3 || id == 4) {
-								this.blocks.add(sprite);
-							}
-							else {
-								// Using a name to find it easily
-								switch (id) {
-									case 2: sprite.setName("exit"); break;
-									case 5: sprite.setName("gem"); break;
-									case 6: sprite.setName("gem2"); break;
-								}
+						
+							if (id == 2) {
+								sprite.setName("exit");
 								this.items.add(sprite);
 							}
+							else {
+								sprite.setName("block");
+								this.blocks.add(sprite);
+							}
+						}
+						else if (id == 5 || id == 6) { 
+							sprite = new Gem(id);
+							sprite.loadContent(content);
+							sprite.setPosition(x * 40, y * 32);
+							scene.add(sprite);
+							this.items.add(sprite);
 						}
 						// Monsters case
 						else if (id > 7 && id < 11) {

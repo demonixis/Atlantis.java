@@ -27,11 +27,13 @@ public class Sprite extends BaseEntity {
 	protected Vector2 acceleration;
 	protected Vector2 velocity;
 	protected float maxVelocity;
+	protected Vector2 gravity;
+	protected float speed;
 	protected Rectangle viewport;
 	protected boolean forceInsideScreen;
 	protected boolean allowAcrossScreen;
 	protected SpriteAnimator spriteAnimator;
-	protected boolean hasAnimation;
+	protected boolean hasAnimation; // Todo : move it in SpriteAnimator
 	protected ISpriteMouseListener spriteMouseListener;
 	protected boolean hovered;
 	
@@ -44,10 +46,12 @@ public class Sprite extends BaseEntity {
 		this.direction = new Vector2();
 		this.previousPosition = new Vector2();
 		this.previousDistance = new Vector2();
-		this.acceleration = new Vector2();
+		this.acceleration = new Vector2(1.0f, 1.0f);
 		this.velocity = new Vector2();
 		this.maxVelocity = 1.0f;
-		this.viewport = new Rectangle();
+		this.gravity = new Vector2();
+		this.speed = 0;
+		this.viewport = new Rectangle(0, 0, Atlantis.width, Atlantis.height);
 		this.forceInsideScreen = false;
 		this.allowAcrossScreen = false;
 		this.spriteAnimator = new SpriteAnimator();
@@ -70,7 +74,7 @@ public class Sprite extends BaseEntity {
 		}
 	}
 	
-	public void update(GameTime gameTime) {
+	public void update(GameTime gameTime) { 
 		if (this.enabled) {
             // Determine the last distance and direction
             this.previousDistance.x = (this.position.x - this.previousPosition.x);
@@ -81,8 +85,8 @@ public class Sprite extends BaseEntity {
             this.previousPosition.y = (int)this.position.y;
 
             // Update physics
-            this.position.x = this.position.x + this.velocity.x * this.acceleration.x;
-            this.position.y = this.position.y + this.velocity.y * this.acceleration.y;
+            this.position.x = (this.position.x + this.velocity.x) * this.acceleration.x;
+            this.position.y = (this.position.y + this.velocity.y) * this.acceleration.y;
             this.velocity.multiply(this.maxVelocity);
 
             // Update the rectangle position

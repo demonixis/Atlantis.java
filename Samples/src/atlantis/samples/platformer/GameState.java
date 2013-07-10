@@ -77,6 +77,7 @@ public class GameState extends State implements ITimerListener {
 			overlay.setActive(false);
 		}
 		
+		this.player.reset();
 		this.gameMode = GameMode.Playing;
 	}
 	
@@ -137,7 +138,7 @@ public class GameState extends State implements ITimerListener {
 					else {
 						tempSearchSprite.setActive(false);
 						this.soundEffects.get("GemCollected").play();
-						this.playerScore += 20;
+						this.playerScore += ((Gem)tempSearchSprite).getPoints();
 						// Add points to player
 						// Play a cool sound effect
 						// Add a fade animation
@@ -194,7 +195,7 @@ public class GameState extends State implements ITimerListener {
 	
 	@Override
 	public void onCompleted() {
-		
+		this.restartGameState();
 	}
 
 	@Override

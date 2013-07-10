@@ -9,10 +9,13 @@ public class Gem extends Sprite {
 	
 	public int points;
 	
+	private float initialY;
+	private int sign;
+	
 	public Gem(int assetId) {
 		super();
 		
-		this.textureName = "img/Backgrounds/";
+		this.textureName = "img/Tiles/";
 		
 		if (assetId == GemNormal) {
 			this.textureName += "Gem.png";
@@ -24,6 +27,14 @@ public class Gem extends Sprite {
 			this.points = 50;
 			this.name = "GemG";
 		}
+		
+		this.initialY = 0;
+		this.sign = 1;
+	}
+	
+	public void setPosition(int x, int y) {
+		super.setPosition(x, y);
+		this.initialY = y;
 	}
 	
 	@Override
@@ -31,7 +42,7 @@ public class Gem extends Sprite {
 		super.update(gameTime);
 	
 		if (this.enabled) {
-			
+	
 		}
 	}
 	

@@ -4,6 +4,7 @@ atlantis.engine.graphics3d
 atlantis.engine.graphics3d.geometry
 atlantis.engine.graphics3d.importer.babylonjs
 atlantis.engine.input
+atlantis.engine.interpolation
 atlantis.engine.state
 atlantis.framework
 atlantis.framework.audio
@@ -11,5 +12,8 @@ atlantis.framework.content
 atlantis.framework.graphics
 atlantis.framework.input
 atlantis.framework.platform
+com.jcraft.jogg
+com.jcraft.jorbis
 org.json
 org.json.zip
+org.newdawn.easyogg

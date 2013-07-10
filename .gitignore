@@ -12,6 +12,7 @@
 *.[Cc]ache
 *.log
 *.directory
+*.project
 [Bb]in
 *~
 

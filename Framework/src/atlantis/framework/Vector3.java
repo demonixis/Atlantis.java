@@ -311,6 +311,9 @@ public class Vector3 {
 		return Math.sqrt(distanceSquared(vec1, vec2));
 	}
 	
+	/**
+	 * Gets the distance squared between to vectors.
+	 */
 	public static double distanceSquared(Vector3 vec1, Vector3 vec2) {
 		double dx = vec1.x - vec2.x;
 		double dy = vec1.y - vec2.y;
@@ -425,6 +428,7 @@ public class Vector3 {
 	/**
 	 * Normalize a vector.
 	 * @param vector A vector to normalize.
+	 * @return result A normalized vector.
 	 */
 	public static Vector3 normalize(Vector3 vector) {
 		Vector3 result = new Vector3(vector);
@@ -448,6 +452,12 @@ public class Vector3 {
 		return vector;
 	}
 	
+	/**
+	 * Gets an homogeneous transformed vector from a position and a matrix.
+	 * @param position
+	 * @param matrix
+	 * @return A tranformed vector.
+	 */
 	public static Vector3 transformCoordinate(Vector3 position, Matrix transform) {
 		 Vector4 vector = new Vector4();
          vector.x = (position.x * transform.M11) + (position.y * transform.M21) + (position.z * transform.M31) + transform.M41;

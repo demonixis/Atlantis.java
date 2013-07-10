@@ -515,6 +515,57 @@ public class Matrix {
 	}
 	
 	/**
+	 * Create an orthogonal projection matrix.
+	 * @param width
+	 * @param height
+	 * @param zNear
+	 * @param zFar
+	 * @return
+	 */
+	public static Matrix createOrthographic(float width, float height, float zNear, float zFar) {
+		Matrix matrix = new Matrix();
+	    matrix.M11 = 2.0f / width;
+	    matrix.M12 = matrix.M13 = matrix.M14 = 0.0f;
+	    matrix.M22 = 2.0f / height;
+	    matrix.M21 = matrix.M23 = matrix.M24 = 0.0f;
+	    matrix.M33 = 1.0f / (zNear - zFar);
+	    matrix.M31 = matrix.M32 = matrix.M34 = 0.0f;
+	    matrix.M41 = matrix.M42 = 0.0f;
+	    matrix.M43 = zNear / (zNear - zFar);
+	    matrix.M44 = 1.0f;
+	    return matrix;
+	}
+	
+	/**
+	 * Create a customized orthogonal projection matrix.
+	 * @param width
+	 * @param height
+	 * @param zNear
+	 * @param zFar
+	 * @return
+	 */
+	public static Matrix CreateOrthographicOffCenter (float left, float right, float bottom, float top, float zNear, float zFar) {
+		Matrix matrix = new Matrix();
+		matrix.M11 = (float)(2.0 / ((double)right - (double)left));
+		matrix.M12 = 0.0f;
+		matrix.M13 = 0.0f;
+		matrix.M14 = 0.0f;
+		matrix.M21 = 0.0f;
+		matrix.M22 = (float)(2.0 / ((double)top - (double)bottom));
+		matrix.M23 = 0.0f;
+		matrix.M24 = 0.0f;
+		matrix.M31 = 0.0f;
+		matrix.M32 = 0.0f;
+		matrix.M33 = (float)(1.0 / ((double)zNear - (double)zFar));
+		matrix.M34 = 0.0f;
+		matrix.M41 = (float)(((double)left + (double)right) / ((double)left - (double)right));
+		matrix.M42 = (float)(((double)top + (double)bottom) / ((double)bottom - (double)top));
+		matrix.M43 = (float)((double)zNear / ((double)zNear - (double)zFar));
+		matrix.M44 = 1.0f;
+		return matrix;
+	};
+	
+	/**
 	 * Create a perspective field of view matrix with Left hand notation.
 	 * @param fov Desired field of view (Math.PI / 4 is a good value)
 	 * @param aspect Desired aspect ratio (Screen width / height)

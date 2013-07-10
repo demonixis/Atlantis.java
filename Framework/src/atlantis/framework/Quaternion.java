@@ -90,6 +90,5 @@ public class Quaternion {
 		result.w = (cosYaw * cosPitch * cosRoll) - (sinYaw * sinPitch * sinRoll);
 		
 		return result;
-		
 	}
 }

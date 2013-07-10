@@ -21,6 +21,7 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 		this.components = new ArrayList<GameComponent>();
 		this.drawableGameComponents = new ArrayList<DrawableGameComponent>();
 		this.initialized = false;
+		this.assetLoaded = false;
 	}
 	
 	/**
@@ -93,12 +94,12 @@ public class GameComponentCollection implements IUpdateable, IDrawable {
 	public void add(GameComponent component) {
 		components.add(component);
 		
+		if (this.initialized) {
+			component.initialize();
+		}
+		
 		if (component instanceof DrawableGameComponent) {
 			DrawableGameComponent drawableGameComponent = (DrawableGameComponent) component;
-			
-			if (this.initialized) {
-				drawableGameComponent.initialize();
-			}
 			
 			if (this.assetLoaded) {
 				drawableGameComponent.loadContent();

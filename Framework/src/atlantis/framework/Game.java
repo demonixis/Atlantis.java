@@ -44,6 +44,7 @@ public class Game implements IDrawable, IUpdateable {
 		this.content = new ContentManager();
 		this.graphicsDevice = new GraphicsDevice(width, height);
 		this.initialized = false;
+		this.isRunning = false;
 		
 		// The window container
 		GameWindow window = new GameWindow(width, height, title);

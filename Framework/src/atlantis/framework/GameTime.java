@@ -17,6 +17,15 @@ public class GameTime {
 	}
 	
 	/**
+	 * Reset the timer.
+	 */
+	public void reset() {
+		this.elapsedTime = 0;
+		this.totalGameTime = 0;
+		this.currentTime = System.currentTimeMillis();
+	}
+	
+	/**
 	 * Update time.
 	 */
 	public void update() {
@@ -40,14 +49,5 @@ public class GameTime {
 	 */
 	public long getTotalGameTime() {
 		return (long)(this.totalGameTime);
-	}
-	
-	/**
-	 * Reset the timer.
-	 */
-	public void reset() {
-		this.elapsedTime = 0;
-		this.totalGameTime = 0;
-		this.currentTime = System.currentTimeMillis();
 	}
 }

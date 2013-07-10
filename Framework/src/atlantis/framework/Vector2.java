@@ -357,4 +357,26 @@ public class Vector2 {
 		this.x = x;
 		this.y = y;
 	}
+	
+	/*
+     * Gets the angle value between to vectors
+     * @param vb
+     * @return Angle between two vectors
+     */
+    public double getAngle(Vector2 vb) {
+        return Math.atan2((vb.y - this.y) * -1, vb.x - this.x);
+    }
+     
+     /**
+      * Gets a transformed position from a standard plan to isometric plan.
+      * @param x The coordinate on X axis on screen.
+      * @param y The coordinate on Y axis on screen.
+      * @return A new the position to iso position.
+      */
+    public static Vector2 toIso(float x, float y) {
+        float vy = (2 * y - x) / 2;
+        float vx = (x + vy);
+    
+        return new Vector2(vx, vy);
+    }
 }

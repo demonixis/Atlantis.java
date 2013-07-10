@@ -51,14 +51,6 @@ public class Rectangle {
 		this.width = rectangle.width;
 		this.height = rectangle.height;
 	}
-
-	/**
-	 * Gets the center of the rectangle
-	 * @return
-	 */
-	public Point getCenter() {
-		return new Point(this.x + (this.width / 2), this.y + (this.height / 2));
-	}
 	
 	/**
 	 * Check if the coordinates is inside the rectangle.
@@ -97,6 +89,12 @@ public class Rectangle {
 		return (this.x <= rectangle.x) && (rectangle.x < this.getRight()) && (this.y <= rectangle.y) && (rectangle.y < this.getBottom());
 	}
 	
+	/**
+	 * Check if two rectangle contains itself
+	 * @param rectA
+	 * @param rectB
+	 * @return true if rectA contains rectB, otherwise false
+	 */
 	public static boolean contains(Rectangle rectA, Rectangle rectB) {
 		return rectA.contains(rectB);
 	}
@@ -110,6 +108,11 @@ public class Rectangle {
 		return (rectangle.getLeft() < this.getRight()) && (this.getLeft() < rectangle.getRight()) && (rectangle.getTop() < this.getBottom()) && (this.getTop() < rectangle.getBottom());  
 	}
 	
+	/**
+	 * Check if the rectA intersects rectB
+	 * @param rectangle
+	 * @return true if rectA intersects rectB, otherwise false
+	 */
 	public static boolean intersects(Rectangle rectA, Rectangle rectB) {
 		return rectA.intersects(rectB);
 	}
@@ -118,26 +121,34 @@ public class Rectangle {
 		return "x: " + this.x + " y: " + this.y + " width: " + this.width + " height: " + this.height;
 	}
 	
-	/**
-	 * Sets the position of the rectangle
-	 * @param x
-	 * @param y
+	 /**
+     * gets the position.
+     * @return The position.
 	 */
-	public void setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
+    public Vector2 toVector2() {
+        return new Vector2(this.x, this.y);
+    }
+    
+    /**
+     * Gets the position.
+     * @return The position.
+     */
+    public Point toPoint() {
+    	return new Point(this.x, this.y);
+    }
 	
-	/**
-	 * Sets the size of the rectangle.
-	 * @param width
-	 * @param height
+	// ---
+	// --- Getters and setters
+	// ---
+	
+    /**
+	 * Gets the center of the rectangle
+	 * @return
 	 */
-	public void setSize(int width, int height) {
-		this.width = width;
-		this.height = height;
+	public Point getCenter() {
+		return new Point(this.x + (this.width / 2), this.y + (this.height / 2));
 	}
-	
+    
 	/**
 	 * Gets the top position.
 	 * @return Return the Y position.
@@ -170,17 +181,84 @@ public class Rectangle {
 		return this.x + this.width;
 	}
 	
+	/**
+	 * Gets width
+	 * @return
+	 */
 	public int getWidth() {
 		return this.width;
 	}
 	
+	/**
+	 * Gets height
+	 * @return
+	 */
 	public int getHeight() {
 		return this.height;
 	}
 	
-	public void set(int x, int y, int width, int height) {
+	/**
+     *  gets the top center.
+     * @return The top center of the rectangle
+	 */
+    public Vector2 getTopCenter() {
+        return new Vector2(this.x + this.width / 2, this.y);
+    }
+
+    /**
+     * gets the bottom center.
+     * @return The bottom center.
+	 */
+    public Vector2 getBottomCenter() {
+        return new Vector2(this.x + this.width / 2, this.y + this.height);
+    }
+
+    /**
+     * gets the left center.
+     * @return The left center.
+	 */
+    public Vector2 getLeftCenter() {
+        return new Vector2(this.x, this.y + this.height / 2);
+    }
+
+    /**
+     *  gets the right center.
+	 * @return The right center.
+	 */
+    public Vector2 getRightCenter() {
+        return new Vector2(this.x + this.width, this.y + this.height / 2);
+    }
+    
+    /**
+     * Sets values to rectangle.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    public void set(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+	
+	/**
+	 * Sets the position of the rectangle
+	 * @param x
+	 * @param y
+	 */
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	/**
+	 * Sets the size of the rectangle.
+	 * @param width
+	 * @param height
+	 */
+	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}

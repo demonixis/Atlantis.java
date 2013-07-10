@@ -88,6 +88,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
             this.position.x = (this.position.x + this.velocity.x) * this.acceleration.x;
             this.position.y = (this.position.y + this.velocity.y) * this.acceleration.y;
             this.velocity.multiply(this.maxVelocity);
+            //this.applyGravity();
 
             // Update the rectangle position
             this.rectangle.x = (int)this.position.x;
@@ -198,6 +199,14 @@ public class Sprite extends BaseEntity implements ICollidable2 {
         }
 	}
 	
+	/**
+	 * Apply gravity on sprite.
+	 */
+	protected void applyGravity() {
+		this.position.add(this.gravity);
+		this.rectangle.setPosition(this.position.x, this.position.y);
+	}
+	
 	// ---
 	// --- Animation methods
 	// ---
@@ -271,16 +280,16 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * Gets the X position on screen.
 	 * @return Return the X position.
 	 */
-	public int getX() {
-		return this.rectangle.x;
+	public float getX() {
+		return this.position.x;
 	}
 	
 	/**
 	 * Gets the Y position on screen.
 	 * @return Return the Y position.
 	 */
-	public int getY() {
-		return this.rectangle.y;
+	public float getY() {
+		return this.position.y;
 	}
 	
 	/**
@@ -379,8 +388,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * @param y The Y coordinate
 	 */
 	public void setPosition(int x, int y) {
-		this.position.set((float)x, (float)y);
-		this.rectangle.setPosition(x, y);
+		this.setPosition((float)x, (float)y);
 	}
 	
 	/**
@@ -389,7 +397,8 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * @param y The Y coordinate
 	 */
 	public void setPosition (float x, float y) {
-		this.setPosition((int)x, (int)y);
+		this.position.set(x, y);
+		this.rectangle.setPosition((int)x, (int)y);
 	}
 	
 	/**
@@ -414,18 +423,18 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * Sets the value of X coordinate of the entity
 	 * @param x New X value on screen.
 	 */
-	public void setX(int x) {
+	public void setX(float x) {
 		this.position.x = x;
-		this.rectangle.x = x;
+		this.rectangle.x = (int)x;
 	}
 	
 	/**
 	 * Sets the value of Y coordinate of the entity
 	 * @param y New Y value on screen.
 	 */
-	public void setY(int y) {
+	public void setY(float y) {
 		this.position.y = y;
-		this.rectangle.y = y;
+		this.rectangle.y = (int)y;
 	}
 	
 	/**

@@ -254,6 +254,15 @@ public class Rectangle {
 	}
 	
 	/**
+	 * Sets the position of the rectangle
+	 * @param x
+	 * @param y
+	 */
+	public void setPosition(float x, float y) {
+		this.setPosition((int)x, (int)y);
+	}
+	
+	/**
 	 * Sets the size of the rectangle.
 	 * @param width
 	 * @param height

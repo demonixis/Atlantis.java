@@ -162,7 +162,7 @@ class Starfield extends SpriteGroup {
 class Laser extends Sprite {
 	private float speed;
 	
-	public Laser(int x, int y) {
+	public Laser(float x, float y) {
 		super("laser.png");
 		this.setPosition(x, y);
 		this.speed = 0.65f;

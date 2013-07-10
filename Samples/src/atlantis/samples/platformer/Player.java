@@ -14,8 +14,6 @@ public final class Player extends Sprite {
 		JumpingUp, JumpingDown, Walking	
 	}
 	
-	private float gravity;
-	private float speed;
 	private MovementState movementState;
 	private int jumpHeight;
 	private Vector2 initialJumpPosition;
@@ -29,7 +27,7 @@ public final class Player extends Sprite {
 		this.soundEffects = new SoundEffect[3];
 		
 		// Physics
-		this.gravity = 9.0f;
+		this.gravity = new Vector2(0.0f, 9.0f);
 		this.speed = 2.0f;
 		this.canMove = true;
 		
@@ -107,7 +105,6 @@ public final class Player extends Sprite {
 			
 			if (this.getY() >= this.initialJumpPosition.y) {
 				this.movementState = MovementState.Walking;
-				this.setY((int) this.initialJumpPosition.y);
 			}
 		}
 	}
@@ -119,7 +116,7 @@ public final class Player extends Sprite {
 	 */
 	public void updatePhysics(int blocksSize, ArrayList<Sprite> blocks) {
 		if (this.movementState != MovementState.JumpingUp) {
-			this.setY((int) (this.getY() + this.gravity));
+			this.setY((int) (this.getY() + this.gravity.y));
 		}
 		
 		int i = 0;
@@ -167,7 +164,7 @@ public final class Player extends Sprite {
 		}
 	}
 	
-	public void die(int type) {
+	public void die(String type) {
 		if (this.direction.x < 0) {
 			this.play("dieLeft");
 		}
@@ -175,8 +172,8 @@ public final class Player extends Sprite {
 			this.play("dieRight");
 		}
 		
-		if (type == 0) {
-			this.soundEffects[1].play();
+		if (type == "Lose") {
+			this.soundEffects[0].play();
 		}
 		else {
 			this.soundEffects[2].play();

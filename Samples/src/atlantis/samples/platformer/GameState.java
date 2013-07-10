@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.util.HashMap;
 
 import atlantis.engine.Atlantis;
-import atlantis.engine.ITimerListener;
-import atlantis.engine.Timer;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.state.State;
 import atlantis.framework.GameTime;
@@ -15,7 +13,7 @@ import atlantis.framework.audio.SoundEffect;
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.SpriteFont;
 
-public class GameState extends State implements ITimerListener {
+public class GameState extends State {
 	enum GameMode {
 		Playing, Died, Lose, Win
 	}
@@ -29,7 +27,6 @@ public class GameState extends State implements ITimerListener {
 	private Song music;
 	private Sprite[] overlays;
 	private GameMode gameMode;
-	private Timer restartTimer;
 	private Sprite tempSearchSprite;
 	private SpriteFont scoreCounter;
 	private SpriteFont timeCounter;
@@ -51,9 +48,6 @@ public class GameState extends State implements ITimerListener {
 		
 		// Player
 		this.player = new Player();
-		
-		this.restartTimer = new Timer(3500);
-		this.restartTimer.addTimerCompletedListener(this);
 		
 		// Sound
 		this.soundEffects = new HashMap<>();
@@ -114,9 +108,7 @@ public class GameState extends State implements ITimerListener {
 	
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
-		
-		this.restartTimer.update(gameTime);
-		
+
 		if (this.gameMode == GameMode.Playing) {
 			this.elapsedTime += gameTime.getElapsedTime();
 			if (this.elapsedTime >= 1000) {
@@ -151,21 +143,20 @@ public class GameState extends State implements ITimerListener {
 			
 			if (this.player.getY() > Atlantis.height) {
 				if (!this.overlays[1].isActive()) {
-					this.overlays[1].setActive(true);
-					this.soundEffects.get("PlayerFall").play();
+					this.overlays[1].setActive(true);	
 				}
 				this.gameMode = GameMode.Lose;
+				this.player.die(this.gameMode.name());
 			}
 		} 
-		else if (this.gameMode == GameMode.Win) {
-			this.player.win();
+		else {
+			if (this.gameMode == GameMode.Win) {
+				this.player.win();
+			}
 			
 			if (Atlantis.keyboard.space()) {
 				this.restartGameState();
 			}
-		}
-		else if (this.gameMode == GameMode.Lose || this.gameMode == GameMode.Died) {
-			this.restartTimer.start();
 		}
 	}
 	
@@ -191,15 +182,5 @@ public class GameState extends State implements ITimerListener {
 		
 		this.spriteBatch.drawString(this.scoreCounter, "SCORE: " + this.playerScore, 10, 20, Color.YELLOW);
 		this.spriteBatch.drawString(this.timeCounter, "TIME: " + this.timeRemaining, 10, 40, Color.YELLOW);
-	}
-	
-	@Override
-	public void onCompleted() {
-		this.restartGameState();
-	}
-
-	@Override
-	public void onRestart() {
-
 	}
 }

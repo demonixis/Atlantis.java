@@ -107,17 +107,17 @@ public class GameScreen extends State {
 				
 				for (Sprite laser : this.laserGroup.getEntities()) {
 					// Laser with alien
-					if (laser.getRectangle().intersects(alien.getRectangle())) {
+					if (laser.getBoundingRectangle().intersects(alien.getBoundingRectangle())) {
 						laser.setActive(false);
 						alien.setActive(false);
 					}
 				}
 				
 				// Player with alien
-				if (this.ship.getRectangle().intersects(alien.getRectangle())) {
+				if (this.ship.getBoundingRectangle().intersects(alien.getBoundingRectangle())) {
 					alien.setActive(false);
 					this.stateManager.setActive("menu", true);
-					System.out.println("\nShip: " + this.ship.getRectangle().toString() + "\nAlien: " + alien.getRectangle().toString());
+					System.out.println("\nShip: " + this.ship.getBoundingRectangle().toString() + "\nAlien: " + alien.getBoundingRectangle().toString());
 				}
 			}
 		}

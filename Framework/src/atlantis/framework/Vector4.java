@@ -31,4 +31,29 @@ public class Vector4 {
 	public Vector4(Vector4 vector) {
 		this(vector.x, vector.y, vector.z, vector.w);
 	}
+	
+	/**
+	 * Linear interpolation.
+	 * @param vector A vector to use for interpolation
+	 * @param amount Value between 0 and 1 indicating the weight of vector.
+	 */
+	public void lerp(Vector4 vector, float amount) {
+		this.x = MathHelper.lerp(this.x, vector.x, amount);
+		this.y = MathHelper.lerp(this.y, vector.y, amount);
+		this.z = MathHelper.lerp(this.z, vector.z, amount);
+		this.w = MathHelper.lerp(this.w, vector.w, amount);
+	}
+
+	/**
+	 * Linearly interpolates between two vectors.
+	 * @param vec1 First vector
+	 * @param vec2 Second vector
+	 * @param amount Value between 0 and 1 indicating the weight of vec2.
+	 * @return Return a interpolated Vector3.
+	 */
+	public static Vector4 lerp(Vector4 vec1, Vector4 vec2, float amount) {
+		Vector4 vector = new Vector4(vec1);
+		vector.lerp(vec2, amount);
+		return vector;
+	}
 }

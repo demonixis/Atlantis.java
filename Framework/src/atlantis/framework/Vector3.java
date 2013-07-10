@@ -337,7 +337,7 @@ public class Vector3 {
 	}
 	
 	/**
-	 * Linear interpolation between this vector and the vector passed in parameter.
+	 * Linear interpolation.
 	 * @param vector A vector to use for interpolation
 	 * @param amount Value between 0 and 1 indicating the weight of vector.
 	 */

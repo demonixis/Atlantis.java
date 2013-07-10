@@ -29,7 +29,7 @@ public class Gem extends Sprite {
 		}
 		
 		this.initialY = 0;
-		this.sign = 1;
+		this.sign = -1;
 	}
 	
 	public void setPosition(int x, int y) {

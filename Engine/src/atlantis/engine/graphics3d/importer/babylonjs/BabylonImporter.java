@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import atlantis.engine.graphics3d.Face3;
 import atlantis.engine.graphics3d.Mesh;
+import atlantis.engine.graphics3d.Vertex;
 import atlantis.framework.Vector3;
 
 /**
@@ -127,6 +128,12 @@ public class BabylonImporter {
                 float x = verticesArray[index * verticesStep];
                 float y = verticesArray[index * verticesStep + 1];
                 float z = verticesArray[index * verticesStep + 2];
+                
+                float nx = verticesArray[index * verticesStep + 3];
+                float ny = verticesArray[index * verticesStep + 4];
+                float nz = verticesArray[index * verticesStep + 5];
+                
+                Vertex vertex = new Vertex(new Vector3(x, y, z), new Vector3(x, y, z), Vector3.Zero());
                 mesh.setVertex(index, new Vector3(x, y, z));
             }
 

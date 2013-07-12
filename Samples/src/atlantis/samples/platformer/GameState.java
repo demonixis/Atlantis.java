@@ -34,7 +34,7 @@ public class GameState extends State {
 	private int timeRemaining;
 	private int elapsedTime;
 	
-	public GameState(String name) {
+	public GameState(String name, int levelStart) {
 		super(name);
 		
 		// Overlays
@@ -43,7 +43,7 @@ public class GameState extends State {
 		this.overlays[1] = new Sprite("overlays/you_lose.png");
 		this.overlays[2] = new Sprite("overlays/you_win.png");
 		
-		this.levelId = 0;
+		this.levelId = levelStart;
 		this.level = new Level(this.levelId);
 		
 		// Player

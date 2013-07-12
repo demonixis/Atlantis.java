@@ -12,7 +12,7 @@ public class PlatformerGame extends GameApplication {
 	
 	public void initialize() {
 		super.initialize();
-		GameState gameState = new GameState("game");
+		GameState gameState = new GameState("game", 3);
 		this.stateManager.add(gameState, true, false);
 	}
 	

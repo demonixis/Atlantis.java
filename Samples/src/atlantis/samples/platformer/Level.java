@@ -124,11 +124,11 @@ public final class Level {
 						// Monsters case
 						else if (id > 7 && id < 11) {
 							assetName = getAssetName(id);
-							sprite = new Sprite("img/Monsters/" + assetName + ".png");
+							sprite = new Monster(id);
 							sprite.loadContent(content);
-							sprite.setPosition(x * 32, y * 32);
-							//this.monsters.add(sprite);
-							// scene.add(sprite);
+							((Monster)(sprite)).setStartPosition(x, y);
+							this.monsters.add(sprite);
+							scene.add(sprite);
 						}
 					}
 				}
@@ -136,6 +136,8 @@ public final class Level {
 				this.blocksSize = this.blocks.size();
 				this.itemsSize = this.items.size();
 				this.monstersSize = this.monsters.size();
+			
+				Monster.setBlocks(this.blocks);
 			} 
 			catch (IOException e) {
 				System.out.println("[Level] Can't load level " + this.levelId);

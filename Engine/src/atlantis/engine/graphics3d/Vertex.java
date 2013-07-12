@@ -17,6 +17,12 @@ public class Vertex {
 		this.worldPosition = Vector3.Zero();
 	}
 	
+	public Vertex(Vertex vertex) {
+		this.position = vertex.position;
+		this.normal = vertex.normal;
+		this.worldPosition = vertex.worldPosition;
+	}
+	
 	public Vertex(Vector3 position, Vector3 normal, Vector3 worldPosition) {
 		this.position = position;
 		this.normal = normal;

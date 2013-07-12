@@ -107,8 +107,7 @@ public class BabylonImporter {
 	public static Mesh[] getMeshes(BabylonScene scene) {
 		Mesh[] meshesCollection = new Mesh[scene.meshes.length];
 
-        for (int i = 0, l = scene.meshes.length; i < l; i++)
-        {
+        for (int i = 0, l = scene.meshes.length; i < l; i++) {
             float[] verticesArray = scene.meshes[i].vertices;
             float[] indicesArray = scene.meshes[i].indices;
             int uvCount = scene.meshes[i].uvCount;
@@ -123,8 +122,7 @@ public class BabylonImporter {
 
             Mesh mesh = new Mesh(scene.meshes[i].name, verticesCount, facesCount);
 
-            for (int index = 0; index < verticesCount; index++)
-            {
+            for (int index = 0; index < verticesCount; index++) {
                 float x = verticesArray[index * verticesStep];
                 float y = verticesArray[index * verticesStep + 1];
                 float z = verticesArray[index * verticesStep + 2];
@@ -133,12 +131,11 @@ public class BabylonImporter {
                 float ny = verticesArray[index * verticesStep + 4];
                 float nz = verticesArray[index * verticesStep + 5];
                 
-                Vertex vertex = new Vertex(new Vector3(x, y, z), new Vector3(x, y, z), Vector3.Zero());
-                mesh.setVertex(index, new Vector3(x, y, z));
+                Vertex vertex = new Vertex(new Vector3(x, y, z), new Vector3(nx, ny, nz), Vector3.Zero());
+                mesh.setVertex(index, vertex);
             }
 
-            for (int index = 0; index < facesCount; index++)
-            {
+            for (int index = 0; index < facesCount; index++) {
                 int a = (int)indicesArray[index * 3];
                 int b = (int)indicesArray[index * 3 + 1];
                 int c = (int)indicesArray[index * 3 + 2];

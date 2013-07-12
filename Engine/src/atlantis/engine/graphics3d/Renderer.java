@@ -25,6 +25,7 @@ public class Renderer {
 	protected int backBufferHeight;
 	protected Color autoClearColor;
 	protected boolean autoClear;
+	public Vector3 pointLight = new Vector3(0, 10, 10);
 	
 	/**
 	 * Create a software renderer. The front and back buffer have the same size.
@@ -74,6 +75,20 @@ public class Renderer {
 		Vector3 temp = new Vector3(vectorB);
 		vectorB.set(vectorA.x, vectorA.y, vectorA.z);
 		vectorB.set(temp.x, temp.y, temp.z); 
+	}
+	
+	/**
+	 * Gets the intensity of the light on a vertex by computing the consine of the angle
+	 * between the light position and the vertex normal.
+	 * @param vertex A vertex.
+	 * @param lightPosition The position of the light.
+	 * @return Return a value between 0 and 1.
+	 */
+	public float computeNDotLight(Vector3 vertex, Vector3 normal, Vector3 lightPosition) {
+		Vector3 lightDirection = Vector3.subtract(lightPosition, vertex);
+		Vector3 normalVector = Vector3.normalize(normal);
+		lightDirection.normalize();
+		return Math.max(0,  Vector3.dot(normalVector, lightDirection));
 	}
 	
 	// ---
@@ -238,31 +253,48 @@ public class Renderer {
 	 * @param pointC Third point of the triangle.
 	 * @param color The color that be used to fill the triangle on screen.
 	 */
-	protected void drawTriangle(Vector3 pointA, Vector3 pointB, Vector3 pointC, Color color) {
+	protected void drawTriangle(Vertex vertexA, Vertex vertexB, Vertex vertexC, Color color) {
+		Vertex vecA = new Vertex(vertexA);
+		Vertex vecB = new Vertex(vertexB);
+		Vertex vecC = new Vertex(vertexC);
+		
 		// Sorting points for having P1 -> P2 -> P3 
 		//this.sortPoints(pointA, pointB, pointC);
-		if (pointA.y > pointB.y) {
-		    Vector3 temp = pointB;
-		    pointB = pointA;
-		    pointA = temp;
+		if (vecA.position.y > vecB.position.y) {
+		    Vertex temp = vecB;
+		    vecB = vecA;
+		    vecA = temp;
 		}
 		
-		if (pointB.y > pointC.y) {
-			Vector3 temp = pointC;
-			pointC = pointB;
-			pointB = temp;
+		if (vecB.position.y > vertexC.position.y) {
+			Vertex temp = vertexC;
+			vecC = vecB;
+			vecB = temp;
 		}
 		
-		if (pointA.y > pointB.y) {
-		    Vector3 temp = pointB;
-		    pointB = pointA;
-		    pointA = temp;
+		if (vertexA.position.y > vertexB.position.y) {
+		    Vertex temp = vecB;
+		    vecB = vecA;
+		    vecA = temp;
 		}
-
+		
+		Vector3 pointA = vecA.position;
+		Vector3 pointB = vecB.position;
+		Vector3 pointC = vecC.position;
+		
+		// Compute light
+		Vector3 vnFace = Vector3.divide(Vector3.add(Vector3.add(vecA.normal, vecB.normal), vecC.normal), new Vector3(3));
+		Vector3 centerPoint = Vector3.divide(Vector3.add(Vector3.add(vecA.worldPosition, vecB.worldPosition), vecC.worldPosition), new Vector3(3));
+		Vector3 lightPos = new Vector3(pointLight);
+		float nDotLight = computeNDotLight(centerPoint, vnFace, lightPos);
+		
+		ScanLineData data = new ScanLineData();
+		data.nDotLa = nDotLight;
+		
 		// Invert slopes
 		float dP1P2 = 0.0f;
 		float dP1P3 = 0.0f;
-
+		
 		if (pointB.y - pointA.y > 0) {
 			dP1P2 = (pointB.x - pointA.x) / (pointB.y - pointA.y);
 		}
@@ -274,33 +306,42 @@ public class Renderer {
 		// First case P2 is on right
 		if (dP1P2 > dP1P3) {
 			for (int y = (int)pointA.y; y <= (int)pointC.y; y++) {
+				data.y = y;
 				if (y < pointB.y) {
-					processScanLine(y, pointA, pointC, pointA, pointB, color);
+					processScanLine(data, vecA, vecC, vecA, vecB, color);
 				}
 				else {
-					processScanLine(y, pointA, pointC, pointB, pointC, color);
+					processScanLine(data, vecA, vecC, vecB, vecC, color);
 				}
 			}
 		}
 		else { // Second case P2 is on left
-			for (int y = (int)pointA.y; y < (int)pointC.y; y++) {
+			for (int y = (int)pointA.y; y <= (int)pointC.y; y++) {
 				if (y < pointB.y) {
-					processScanLine(y, pointA, pointB, pointA, pointC, color);
+					data.y = y;
+					processScanLine(data, vecA, vecB, vecA, vecC, color);
 				}
 				else {
-					processScanLine(y, pointB, pointC, pointA, pointC, color);
+					processScanLine(data, vecB, vecC, vecA, vecC, color);
 				}
 			}
 		} 
 	}
 	
-	protected void processScanLine(int y, Vector3 pointA, Vector3 pointB, Vector3 pointC, Vector3 pointD, Color color) {
-		float gradiant1 = pointA.y != pointB.y ? (y - pointA.y) / (pointB.y - pointA.y) : 1;
-		float gradiant2 = pointC.y != pointD.y ? (y - pointC.y) / (pointD.y - pointC.y) : 1;
+	protected void processScanLine(ScanLineData data, Vertex vertexA, Vertex vertexB, Vertex vertexC, Vertex vertexD, Color color) {
+		Vector3 pointA = vertexA.position;
+		Vector3 pointB = vertexB.position;
+		Vector3 pointC = vertexC.position;
+		Vector3 pointD = vertexD.position;
 		
+		float gradiant1 = (pointA.y != pointB.y) ? (data.y - pointA.y) / (pointB.y - pointA.y) : 1;
+		float gradiant2 = (pointC.y != pointD.y) ? (data.y - pointC.y) / (pointD.y - pointC.y) : 1;
+		
+		// Start/End position of the line
 		int startX = (int)interpolate(pointA.x, pointB.x, gradiant1);
 		int endX = (int)interpolate(pointC.x, pointD.x, gradiant2);
 		
+		// Start/End z
 		float z1 = interpolate(pointA.z, pointB.z, gradiant1);
 		float z2 = interpolate(pointC.z, pointD.z, gradiant2);
 		float z = Float.MIN_VALUE;
@@ -309,7 +350,14 @@ public class Renderer {
 		for (int x = startX; x < endX; x++) {
 			zGradiant = ((float)(x - startX) / (float)(endX - startX)); 
 			z = interpolate(z1, z2, zGradiant);
-			this.drawPoint(x, y, z, color);
+			int lightIntensity = (int)(data.nDotLa * 255);
+			
+			Color vertexColor = new Color(
+					(color.getRed() + lightIntensity) % 255, 
+					(color.getGreen() + lightIntensity) % 255, 
+					(color.getBlue() + lightIntensity) % 255, 
+					(color.getAlpha() + lightIntensity) % 255);
+			this.drawPoint(x, data.y, z, vertexColor);
 		}
 	}
 	
@@ -319,13 +367,17 @@ public class Renderer {
 	 * @param transformMatrix
 	 * @return Return 2D coordinates.
 	 */
-	protected Vector3 project(Vector3 coordinates, Matrix transformMatrix) {
-		Vector3 point = Vector3.transformCoordinate(coordinates, transformMatrix);
+	protected Vertex project(Vertex vertex, Matrix transformMatrix, Matrix worldMatrix) {
+		Vector3 point2d = Vector3.transformCoordinate(vertex.position, transformMatrix);
+		Vector3 point3d = Vector3.transformCoordinate(vertex.position, worldMatrix);
+		Vector3 normal3d = Vector3.transform(vertex.normal, worldMatrix);
+		
 		Vector3 projection = new Vector3();
-		projection.x = point.x * this.width + (this.width / 2);
-		projection.y = -point.y * this.height + (this.height / 2);
-		projection.z = point.z;
-		return projection;
+		projection.x = point2d.x * this.width + (this.width / 2);
+		projection.y = -point2d.y * this.height + (this.height / 2);
+		projection.z = point2d.z;
+		
+		return new Vertex(projection, normal3d, point3d);
 	}
 	
 	/**
@@ -339,27 +391,25 @@ public class Renderer {
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			Matrix scale = Matrix.createScale(meshes[i].scale);
-			//Matrix rotation = Matrix.multiply(Matrix.createRotationX(meshes[i].rotation.x), Matrix.createRotationY(meshes[i].rotation.y));
 			Matrix rotation = Matrix.createRotationYawPitchRoll(meshes[i].rotation.y, meshes[i].rotation.x, meshes[i].rotation.z);
-			
 			Matrix translation = Matrix.createTranslation(meshes[i].position);
 			Matrix world = Matrix.multiply(scale, rotation, translation);
 			
 			Matrix worldViewProject = Matrix.multiply(world, view, projection);
 			
 			for (int j = 0, m = meshes[i].faces.length; j < m; j++) {
-				 Vector3 vecA = meshes[i].getVertex(meshes[i].faces[j].a);
-                 Vector3 vecB = meshes[i].getVertex(meshes[i].faces[j].b);
-                 Vector3 vecC = meshes[i].getVertex(meshes[i].faces[j].c);
+				 Vertex vecA = meshes[i].getVertex(meshes[i].faces[j].a);
+                 Vertex vecB = meshes[i].getVertex(meshes[i].faces[j].b);
+                 Vertex vecC = meshes[i].getVertex(meshes[i].faces[j].c);
 
-                 Vector3 pointA = project(vecA, worldViewProject);
-                 Vector3 pointB = project(vecB, worldViewProject);
-                 Vector3 pointC = project(vecC, worldViewProject);
+                 Vertex pointA = project(vecA, worldViewProject, world);
+                 Vertex pointB = project(vecB, worldViewProject, world);
+                 Vertex pointC = project(vecC, worldViewProject, world);
                  
                  if (meshes[i].isWireframe()) {
-		             drawLine(pointA, pointB, meshes[i].color);
-		             drawLine(pointB, pointC, meshes[i].color);
-		             drawLine(pointC, pointA, meshes[i].color);
+		             drawLine(pointA.position, pointB.position, meshes[i].color);
+		             drawLine(pointB.position, pointC.position, meshes[i].color);
+		             drawLine(pointC.position, pointA.position, meshes[i].color);
                  }
                  else {
                 	 this.drawTriangle(pointA, pointB, pointC, meshes[i].color);

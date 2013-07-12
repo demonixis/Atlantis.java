@@ -29,28 +29,28 @@ public class BaseDemo3D extends Game {
 		this.keyboardState = this.keyboardManager.getState();
 		
 		if (keyboardState.isKeyDown(KeyEvent.VK_UP))
-            camera.translate(0.0f, 0.0f, -1.0f);
+            camera.translate(0.0f, 0.0f, -3.0f);
         
         else if (keyboardState.isKeyDown(KeyEvent.VK_DOWN))
-            camera.translate(0.0f, 0.0f, 1.0f);
+            camera.translate(0.0f, 0.0f, 3.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_LEFT))
-            camera.rotate(0.0f, 0.01f, 0.0f);
+            camera.rotate(0.0f, 0.05f, 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_RIGHT))
-            camera.rotate(0.0f, -0.01f, 0.0f);
+            camera.rotate(0.0f, -0.05f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_Q))
-            camera.translate(-0.1f, 0.0f, 0.0f);
+            camera.translate(-1f, 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_D))
-            camera.translate(0.1f, 0.0f, 0.0f);
+            camera.translate(1f, 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_UP))
-            camera.rotate(-0.01f, 0.0f, 0.0f);
+            camera.rotate(-0.05f, 0.0f, 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_DOWN))
-            camera.rotate(0.01f, 0.0f, 0.0f);
+            camera.rotate(0.05f, 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_A))
             camera.translate(0.0f, -0.05f, 0.0f);
@@ -58,9 +58,22 @@ public class BaseDemo3D extends Game {
         else if (keyboardState.isKeyDown(KeyEvent.VK_E))
             camera.translate(0.0f, 0.05f, 0.0f);
         
+        if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD8)) 
+        	renderer.pointLight.y -= 1f;
+        else if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD5)) 
+        	renderer.pointLight.y += 1f;
+        
+        if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD9)) 
+        	renderer.pointLight.z -= 1f;
+        else if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD6)) 
+        	renderer.pointLight.z += 1f;
+        
+        
+        
         if (keyboardState.isKeyDown(KeyEvent.VK_F5)) {
         	System.out.println("Position: " + camera.position.toString());
         	System.out.println("Rotation: " + camera.rotation.toString());
+        	System.out.println("Light: " + renderer.pointLight.toString());
         }
 		
 		if (keyboardState.isKeyDown(KeyEvent.VK_ESCAPE)) {

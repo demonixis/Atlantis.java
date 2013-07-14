@@ -14,6 +14,7 @@ public class Gem extends Sprite {
 	private float maxY;
 	private float minY;
 	private int sign;
+	private float speed;
 	
 	public Gem(int assetId) {
 		super();

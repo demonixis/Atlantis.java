@@ -9,6 +9,7 @@ import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.SpriteBatch;
+import atlantis.framework.graphics.SpriteEffect;
 import atlantis.framework.graphics.Texture2D;
 
 /**
@@ -21,9 +22,12 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	protected Texture2D texture;
 	protected String textureName;
 	protected Rectangle sourceRectangle;
+	protected float rotation;
+	protected int spriteEffect;
+	protected float layerDepth;
 	protected Vector2 direction;
-	protected Vector2 previousPosition;
-	protected Vector2 previousDistance;
+	protected Vector2 lastPosition;
+	protected Vector2 lastDistance;
 	protected Vector2 acceleration;
 	protected Vector2 velocity;
 	protected float maxVelocity;
@@ -43,9 +47,12 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		this.texture = null;
 		this.textureName = "";
 		this.sourceRectangle = new Rectangle();
+		this.rotation = 0.0f;
+		this.spriteEffect = SpriteEffect.None;
+		this.layerDepth = 1.0f;
 		this.direction = new Vector2();
-		this.previousPosition = new Vector2();
-		this.previousDistance = new Vector2();
+		this.lastPosition = new Vector2();
+		this.lastDistance = new Vector2();
 		this.acceleration = new Vector2(1.0f, 1.0f);
 		this.velocity = new Vector2();
 		this.maxVelocity = 1.0f;
@@ -77,12 +84,12 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	public void update(GameTime gameTime) { 
 		if (this.enabled) {
             // Determine the last distance and direction
-            this.previousDistance.x = (this.position.x - this.previousPosition.x);
-            this.previousDistance.y = (this.position.y - this.previousPosition.y);   
+            this.lastDistance.x = (this.position.x - this.lastPosition.x);
+            this.lastDistance.y = (this.position.y - this.lastPosition.y);   
 
             // Determine the last position
-            this.previousPosition.x = (int)this.position.x;
-            this.previousPosition.y = (int)this.position.y;
+            this.lastPosition.x = (int)this.position.x;
+            this.lastPosition.y = (int)this.position.y;
 
             // Update physics
             this.position.x = (this.position.x + this.velocity.x) * this.acceleration.x;
@@ -98,7 +105,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
             if (this.hasAnimation) {
                 this.spriteAnimator.update(gameTime);
                 
-                if (this.previousDistance.x == 0 && this.previousDistance.y == 0 && this.spriteAnimator.getCurrentAnimationName() != "") {
+                if (this.lastDistance.x == 0 && this.lastDistance.y == 0 && this.spriteAnimator.getCurrentAnimationName() != "") {
                 	this.sourceRectangle = this.spriteAnimator.getCurrentAnimation().getRectangle(0);
                 }
             }
@@ -111,8 +118,8 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 */
 	protected void postUpdate() {
 		if (this.enabled) {
-            this.direction.x = this.position.x - this.previousPosition.x;
-            this.direction.y = this.position.y - this.previousPosition.y;
+            this.direction.x = this.position.x - this.lastPosition.x;
+            this.direction.y = this.position.y - this.lastPosition.y;
 
             // Force the sprite to stay inside screen
             if (this.forceInsideScreen) {
@@ -338,16 +345,16 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * Gets the previous position of the sprite.
 	 * @return Return the previous coordinates of the sprite.
 	 */
-	public Vector2 getPreviousPosition() {
-		return previousPosition;
+	public Vector2 getLastPosition() {
+		return lastPosition;
 	}
 	
 	/**
 	 * Return the previous distance done by the sprite.
 	 * @return Return the previous distance.
 	 */
-	public Vector2 getPreviousDistance() {
-		return previousDistance;
+	public Vector2 getLastDistance() {
+		return lastDistance;
 	}
 	
 	/**
@@ -380,6 +387,14 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 */
 	public Rectangle getViewport() {
 		return viewport;
+	}
+	
+	/**
+	 * Gets the texture.
+	 * @return Return a Texture2D.
+	 */
+	public Texture2D getTexture() {
+		return this.texture;
 	}
 	
 	/**
@@ -498,6 +513,15 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 */
 	public void setMaxVelocity(float maxVelocity) {
 		this.maxVelocity = maxVelocity;
+	}
+	
+	/**
+	 * Sets the texture used for this sprite.
+	 * @param texture A texture to use.
+	 */
+	public void setTexture(Texture2D texture) {
+		this.texture = texture;
+		this.rectangle.setSize(texture.getWidth(), texture.getHeight());
 	}
 
 	/**

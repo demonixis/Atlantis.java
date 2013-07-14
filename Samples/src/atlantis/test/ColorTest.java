@@ -1,9 +1,26 @@
 package atlantis.test;
 
 import java.awt.Color;
+import atlantis.framework.graphics.Texture2D;
 
 public class ColorTest {
+
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
+		Texture2D texture = Texture2D.createFromPath("Content/background.png", 1);
+		Color[] colors = Texture2D.getData(texture);
+		Color tempColor = null;
+		for (int y = 0; y < texture.getHeight(); y++) {
+			String line = "";
+			for (int x = 0; x < texture.getWidth(); x++) {
+				tempColor = colors[x + y * texture.getWidth()];
+				line += ("[R:" + tempColor.getRed() + " G:" + tempColor.getGreen() + " B:" + tempColor.getBlue() + " A:" + tempColor.getAlpha() + "]");
+			}
+			System.out.println(line);
+		}
+		
 		Color color = new Color(1.0f, 0.0f, 0.65f, 0.0f);
 		Color nColor = colorAddValue(color, 0.75f);
 		System.out.println("Color: " + color + " nColor: " + nColor);

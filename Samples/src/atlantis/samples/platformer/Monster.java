@@ -13,6 +13,7 @@ public class Monster extends Sprite {
 	private final static Random random = new Random();
 	private final static int timeBeforeCheckNextAction = 3500;
 	private long elapsedTime;
+	private float gravity;
 	
 	public Monster(int id) {
 		this.textureName = "img/Monsters/monster";
@@ -23,6 +24,7 @@ public class Monster extends Sprite {
 			case 10: this.textureName += "D.png"; break;
 		}
 		
+		this.gravity = 9.0f;
 		this.elapsedTime = 0;
 	}
 	
@@ -80,7 +82,7 @@ public class Monster extends Sprite {
 	 * @param blocks Blocks that can be collided.
 	 */
 	public void updatePhysics() {
-		this.setY((int) (this.getY() + this.gravity.y));
+		this.setY((int) (this.getY() + this.gravity));
 		
 		int i = 0;
 		int size = levelBlocks.length;

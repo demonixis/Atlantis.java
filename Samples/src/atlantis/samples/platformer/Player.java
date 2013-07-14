@@ -21,6 +21,8 @@ public final class Player extends Sprite {
 	private float jumpSpeed;
 	private SoundEffect[] soundEffects;
 	private boolean canMove;
+	private float gravity;
+	private float speed;
 	
 	public Player() {
 		super("img/Player.png");
@@ -28,7 +30,7 @@ public final class Player extends Sprite {
 		this.soundEffects = new SoundEffect[3];
 		
 		// Physics
-		this.gravity = new Vector2(0.0f, 9.0f);
+		this.gravity = 9.0f;
 		this.speed = 2.0f;
 		this.canMove = true;
 		
@@ -117,7 +119,7 @@ public final class Player extends Sprite {
 	 */
 	public void updatePhysics(int blocksSize, ArrayList<Sprite> blocks) {
 		if (this.movementState != MovementState.JumpingUp) {
-			this.setY((int) (this.getY() + this.gravity.y));
+			this.setY((int) (this.getY() + this.gravity));
 		}
 		
 		int i = 0;

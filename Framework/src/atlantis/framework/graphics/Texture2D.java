@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.framework.graphics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
@@ -120,6 +121,31 @@ public class Texture2D extends BufferedImage {
 			return true;
 		}
 		return false;
+	}
+	
+	public static Color[] getData(BufferedImage image) {
+		if (image.getType() != BufferedImage.TYPE_4BYTE_ABGR) {
+			BufferedImage copyImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+			Graphics graphics = copyImage.createGraphics();
+			graphics.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+			graphics.dispose();
+			image = copyImage;
+		}
+		
+		Color[] colors = new Color[image.getWidth() * image.getHeight()];
+		DataBuffer buffer = image.getRaster().getDataBuffer();
+		int counter = 0;
+		
+		for (int i = 0, l = buffer.getSize(); i < l; i += 4) {
+			int alpha = buffer.getElem(i);
+			int blue = buffer.getElem(i + 1);
+			int green = buffer.getElem(i + 2);
+			int red = buffer.getElem(i + 3);
+			colors[counter] = new Color(red, green, blue, alpha);
+			counter++;
+		}
+		
+		return colors;
 	}
 	
 	/**

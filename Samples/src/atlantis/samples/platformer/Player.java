@@ -3,6 +3,7 @@ package atlantis.samples.platformer;
 import java.util.ArrayList;
 
 import atlantis.engine.Atlantis;
+import atlantis.engine.graphics.Collider2;
 import atlantis.engine.graphics.Sprite;
 import atlantis.framework.GameTime;
 import atlantis.framework.Vector2;
@@ -123,7 +124,7 @@ public final class Player extends Sprite {
 		boolean collide = false;
 	
 		while(i < blocksSize && collide == false) {
-			if (this.getBoundingRectangle().contains(blocks.get(i).getBoundingRectangle())) {
+			if (Collider2.rectangleCollide(this, blocks.get(i))) {
 				if(this.position.y < blocks.get(i).getY() && this.movementState == MovementState.JumpingUp) {
 						this.movementState = MovementState.JumpingDown;
 						this.setY(blocks.get(i).getBoundingRectangle().getBottom());

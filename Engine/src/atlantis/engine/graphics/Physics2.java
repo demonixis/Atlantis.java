@@ -15,7 +15,6 @@ public class Physics2 {
 	protected float speed;
 	protected float maxSpeed;
 	protected Vector2 gravity;
-	protected float friction;
 	
 	/**
 	 * Create a default physics configuration without acceleration, velocity and gravity.
@@ -25,7 +24,6 @@ public class Physics2 {
 		this.velocity = new Vector2();
 		this.maxVelocity = 1.0f;
 		this.gravity = new Vector2();
-		this.friction = 1.0f;
 		this.speed = 1;
 		this.maxSpeed = 5;
 	}
@@ -80,13 +78,6 @@ public class Physics2 {
 	 */
 	public final Vector2 getGravity() {
 		return gravity;
-	}
-
-	/**
-	 * @return the friction
-	 */
-	public final float getFriction() {
-		return friction;
 	}
 	
 	/**
@@ -143,12 +134,5 @@ public class Physics2 {
 	 */
 	public final void setGravity(Vector2 gravity) {
 		this.gravity = gravity;
-	}
-
-	/**
-	 * @param friction the friction to set
-	 */
-	public final void setFriction(float friction) {
-		this.friction = friction;
 	}
 }

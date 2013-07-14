@@ -1,7 +1,9 @@
 package atlantis.engine.graphics;
 
 import atlantis.framework.Vector2;
-
+//AtlantisEngine.java - Copyright (C) Yannick Comte.
+//This file is subject to the terms and conditions defined in
+//file 'LICENSE', which is part of this source code package.
 /**
  * A basic physics module for a 2D entity.
  * @author Yannick
@@ -10,27 +12,37 @@ public class Physics2 {
 	protected Vector2 acceleration;
 	protected Vector2 velocity;
 	protected float maxVelocity;
+	protected float speed;
+	protected float maxSpeed;
 	protected Vector2 gravity;
-	protected float friction;
-	protected boolean enableVelocity;
-	protected boolean enableGravity;
 	
+	/**
+	 * Create a default physics configuration without acceleration, velocity and gravity.
+	 */
 	public Physics2() {
 		this.acceleration = new Vector2(1.0f);
 		this.velocity = new Vector2();
 		this.maxVelocity = 1.0f;
 		this.gravity = new Vector2();
-		this.friction = 1.0f;
-		this.enableVelocity = true;
-		this.enableGravity = true;
+		this.speed = 0;
+		this.maxSpeed = 0;
 	}
-	
-	public void applyVelocity(Sprite sprite) {
-		sprite.position.x = (sprite.position.x + this.velocity.x) * this.acceleration.x;
-        sprite.position.y = (sprite.position.y + this.velocity.y) * this.acceleration.y;
+
+	/**
+	 * Apply the velocity on a sprite.
+	 * @param sprite A sprite to use.
+	 */
+	public void applyVelocity(Sprite sprite) { 
+		float speed = (this.speed + this.velocity.x * this.acceleration.x >= this.maxSpeed) ? this.speed : this.maxSpeed;
+		sprite.position.x = ((sprite.position.x + this.velocity.x) * this.acceleration.x) + speed;
+        sprite.position.y = ((sprite.position.y + this.velocity.y) * this.acceleration.y) + speed;
         this.velocity.multiply(this.maxVelocity);
 	}
 	
+	/**
+	 * Apply gravity on a sprite.
+	 * @param sprite A sprite to use.
+	 */
 	public void applyGravity(Sprite sprite) {
 		sprite.position.add(this.gravity);
 		sprite.rectangle.setPosition(sprite.position.x, sprite.position.y);
@@ -67,12 +79,33 @@ public class Physics2 {
 	public final Vector2 getGravity() {
 		return gravity;
 	}
+	
+	/**
+	 * @return the speed
+	 */
+	public final float getSpeed() {
+		return this.speed;
+	}
+	
+	/**
+	 * @return the max speed.
+	 */
+	public final float getMaxSpeed() {
+		return this.maxSpeed;
+	}
 
 	/**
-	 * @return the friction
+	 * @param speed the speed to set
 	 */
-	public final float getFriction() {
-		return friction;
+	public final void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
+	/**
+	 * @param maxSpeed the maxSpeed to set
+	 */
+	public final void setMaxSpeed(float maxSpeed) {
+		this.maxSpeed = maxSpeed;
 	}
 
 	/**
@@ -101,12 +134,5 @@ public class Physics2 {
 	 */
 	public final void setGravity(Vector2 gravity) {
 		this.gravity = gravity;
-	}
-
-	/**
-	 * @param friction the friction to set
-	 */
-	public final void setFriction(float friction) {
-		this.friction = friction;
 	}
 }

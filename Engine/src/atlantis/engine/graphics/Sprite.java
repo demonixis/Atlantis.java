@@ -371,6 +371,20 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	}
 	
 	/**
+	 * @return the color
+	 */
+	public final int getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public final void setColor(int color) {
+		this.color = color;
+	}
+
+	/**
 	 * Set the position of the entity on the screen
 	 * @param x The X coordinate
 	 * @param y The Y coordinate

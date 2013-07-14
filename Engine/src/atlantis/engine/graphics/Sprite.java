@@ -23,6 +23,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	protected String textureName;
 	protected Rectangle sourceRectangle;
 	protected float rotation;
+	protected int color;
 	protected int spriteEffect;
 	protected float layerDepth;
 	protected Vector2 direction;
@@ -46,6 +47,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		this.rotation = 0.0f;
 		this.spriteEffect = SpriteEffect.None;
 		this.layerDepth = 1.0f;
+		this.color = 0;
 		this.direction = new Vector2();
 		this.lastPosition = new Vector2();
 		this.lastDistance = new Vector2();
@@ -193,7 +195,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		
 		if (this.visible && this.assetLoaded) {
             if (this.hasAnimation) {
-                spriteBatch.draw(this.texture, this.rectangle, this.sourceRectangle, 0, 0);
+                spriteBatch.draw(this.texture, this.rectangle, this.sourceRectangle, this.color, this.rotation);
             }
             else {
             	spriteBatch.draw(this.texture, this.rectangle);

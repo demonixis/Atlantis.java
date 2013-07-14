@@ -82,7 +82,7 @@ public class Monster extends Sprite {
 	 * @param blocks Blocks that can be collided.
 	 */
 	public void updatePhysics() {
-		this.setY((int) (this.getY() + this.gravity));
+		//this.setY((int) (this.getY() + this.gravity));
 		
 		int i = 0;
 		int size = levelBlocks.length;

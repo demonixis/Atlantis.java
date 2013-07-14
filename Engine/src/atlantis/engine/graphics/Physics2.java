@@ -24,18 +24,18 @@ public class Physics2 {
 		this.velocity = new Vector2();
 		this.maxVelocity = 1.0f;
 		this.gravity = new Vector2();
-		this.speed = 1;
-		this.maxSpeed = 5;
+		this.speed = 0;
+		this.maxSpeed = 0;
 	}
 
 	/**
 	 * Apply the velocity on a sprite.
 	 * @param sprite A sprite to use.
 	 */
-	public void applyVelocity(Sprite sprite) {
-		float speed = (this.speed * this.velocity.x * this.acceleration.x >= this.maxSpeed) ? this.speed : this.maxSpeed;
-		sprite.position.x = ((sprite.position.x + this.velocity.x) * this.acceleration.x) * speed;
-        sprite.position.y = ((sprite.position.y + this.velocity.y) * this.acceleration.y) * speed;
+	public void applyVelocity(Sprite sprite) { 
+		float speed = (this.speed + this.velocity.x * this.acceleration.x >= this.maxSpeed) ? this.speed : this.maxSpeed;
+		sprite.position.x = ((sprite.position.x + this.velocity.x) * this.acceleration.x) + speed;
+        sprite.position.y = ((sprite.position.y + this.velocity.y) * this.acceleration.y) + speed;
         this.velocity.multiply(this.maxVelocity);
 	}
 	

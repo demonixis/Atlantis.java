@@ -25,7 +25,17 @@ public class Renderer {
 	protected int backBufferHeight;
 	protected Color autoClearColor;
 	protected boolean autoClear;
-	public Vector3 pointLight = new Vector3(0, 80, 10);
+	protected Light light;
+
+	protected float fieldOfView;
+	protected float aspectRatio;
+	protected float nearClip;
+	protected float farClip;
+	
+	private Matrix _viewMatrix;
+	private Matrix _projectionMatrix;
+	private Matrix _worldMeshMatrix;
+	private Matrix _worldViewProjectionMatrix;
 	
 	/**
 	 * Create a software renderer. The front and back buffer have the same size.
@@ -56,7 +66,12 @@ public class Renderer {
 		this.createFrontBuffer(this.width, this.height);
 		this.autoClear = autoClear;
 		this.autoClearColor = Color.black;
+		this.light = new Light(-35, -65, -70);
 		this.clear(Color.black);
+		this.fieldOfView = (float) Math.PI / 4;
+        this.aspectRatio = 1.0f;
+        this.nearClip = 0.01f;
+        this.farClip = 10.0f;
 	}
 	
 	// ---
@@ -230,36 +245,44 @@ public class Renderer {
 	protected void drawTriangle(Vertex vertexA, Vertex vertexB, Vertex vertexC, Color color) {
 		// Sorting points for having P1 -> P2 -> P3 
 		//this.sortPoints(pointA, pointB, pointC);
+		Vertex va = null;
+		Vertex vb = null;
+		Vertex vc = null;
+		
 		if (vertexA.position.y > vertexB.position.y) {
-		    Vertex temp = vertexB;
-		    vertexB = vertexA;
-		    vertexA = temp;
+			va = vertexB;
+			vb = vertexA;
 		}
 		
 		if (vertexB.position.y > vertexC.position.y) {
-			Vertex temp = vertexB;
-			vertexB = vertexC;
-			vertexC = temp;
+			vb = vertexC;
+			vc = vertexB;
 		}
 		
 		if (vertexA.position.y > vertexB.position.y) {
-		    Vertex temp = vertexB;
-		    vertexB = vertexA;
-		    vertexA = temp;
+			va = vertexB;
+			vb = vertexA;
 		}
 		
-		Vector3 pointA = vertexA.position;
-		Vector3 pointB = vertexB.position;
-		Vector3 pointC = vertexC.position;
+		va = (va == null) ? vertexA : va;
+		vb = (vb == null) ? vertexB : vb;
+		vc = (vc == null) ? vertexC : vc;
+		
+		Vector3 pointA = va.position;
+		Vector3 pointB = vb.position;
+		Vector3 pointC = vc.position;
 		
 		// Compute light
-		Vector3 vnFace = Vector3.divide(Vector3.add(Vector3.add(vertexA.normal, vertexB.normal), vertexC.normal), new Vector3(3));
-		Vector3 centerPoint = Vector3.divide(Vector3.add(Vector3.add(vertexA.worldPosition, vertexB.worldPosition), vertexC.worldPosition), new Vector3(3));
-		Vector3 lightPos = new Vector3(pointLight);
-		float nDotLight = computeNDotLight(centerPoint, vnFace, lightPos);
-		
 		ScanLineData data = new ScanLineData();
-		data.nDotLa = nDotLight;
+		float nl1 = computeNDotLight(va.worldPosition, va.normal, light.getPosition());
+		float nl2 = computeNDotLight(vb.worldPosition, vb.normal, light.getPosition());
+		float nl3 = computeNDotLight(vc.worldPosition, vc.normal, light.getPosition());
+		
+		if (light.enableFlatShading) {
+			Vector3 vnFace = Vector3.divide(Vector3.add(Vector3.add(va.normal, vb.normal), vc.normal), new Vector3(3));
+			Vector3 centerPoint = Vector3.divide(Vector3.add(Vector3.add(va.worldPosition, vb.worldPosition), vc.worldPosition), new Vector3(3));
+			nl1 = computeNDotLight(centerPoint, vnFace, light.getPosition());
+		}
 		
 		// Invert slopes
 		float dP1P2 = 0.0f;
@@ -278,10 +301,18 @@ public class Renderer {
 			for (int y = (int)pointA.y; y <= (int)pointC.y; y++) {
 				data.y = y;
 				if (y < pointB.y) {
-					processScanLine(data, vertexA, vertexC, vertexA, vertexB, color);
+					data.nDotLa = nl1;
+					data.nDotLb = nl3;
+					data.nDotLc = nl1;
+					data.nDotLd = nl2;
+					processScanLine(data, va, vc, va, vb, color);
 				}
 				else {
-					processScanLine(data, vertexA, vertexC, vertexB, vertexC, color);
+					data.nDotLa = nl1;
+					data.nDotLb = nl3;
+					data.nDotLc = nl2;
+					data.nDotLd = nl3;
+					processScanLine(data, va, vc, vb, vc, color);
 				}
 			}
 		}
@@ -289,10 +320,18 @@ public class Renderer {
 			for (int y = (int)pointA.y; y <= (int)pointC.y; y++) {
 				if (y < pointB.y) {
 					data.y = y;
-					processScanLine(data, vertexA, vertexB, vertexA, vertexC, color);
+					data.nDotLa = nl1;
+					data.nDotLb = nl2;
+					data.nDotLc = nl1;
+					data.nDotLd = nl3;
+					processScanLine(data, va, vb, va, vc, color);
 				}
 				else {
-					processScanLine(data, vertexB, vertexC, vertexA, vertexC, color);
+					data.nDotLa = nl2;
+					data.nDotLb = nl3;
+					data.nDotLc = nl1;
+					data.nDotLd = nl3;
+					processScanLine(data, vb, vc, va, vc, color);
 				}
 			}
 		} 
@@ -314,15 +353,20 @@ public class Renderer {
 		// Start/End z
 		float z1 = interpolate(pointA.z, pointB.z, gradiant1);
 		float z2 = interpolate(pointC.z, pointD.z, gradiant2);
+		
+		float startLight = interpolate(data.nDotLa, data.nDotLb, gradiant1);
+        float endLight = interpolate(data.nDotLc, data.nDotLd, gradiant2);
+		
+        // Temp var
 		float z = Float.MIN_VALUE;
 		float zGradiant = 0.0f;
-		
-		float lightIntensity = data.nDotLa;
-		Color vertexColor = colorAddValue(color, lightIntensity, false);
-
+		float lightFactor = 1.0f;
+	
 		for (int x = startX; x < endX; x++) {
 			zGradiant = ((float)(x - startX) / (float)(endX - startX)); 
 			z = interpolate(z1, z2, zGradiant);
+			lightFactor = light.isEnableFlatShading() ? data.nDotLa : interpolate(startLight, endLight, zGradiant);
+			Color vertexColor = colorAddValue(color, lightFactor, false);
 			this.drawPoint(x, data.y, z, vertexColor);
 		}
 	}
@@ -332,16 +376,16 @@ public class Renderer {
 		float g = (float)color.getGreen() / 255.0f;
 		float b = (float)color.getBlue() / 255.0f;
 		float a = (float)color.getAlpha() / 255.0f;
-		
+
 		float nr = (r * value) % 255;
 		float ng = (g * value) % 255;
 		float nb = (b * value) % 255;
 		float na = (a * value) % 255;
-		
+
 		if (!multiplyAlpha) {
 			na = (float)color.getAlpha() / 255.0f;
 		}
-		
+
 		return new Color(nr, ng, nb, na);
 	}
 	
@@ -354,7 +398,7 @@ public class Renderer {
 	protected Vertex project(Vertex vertex, Matrix transformMatrix, Matrix worldMatrix) {
 		Vector3 point2d = Vector3.transformCoordinate(vertex.position, transformMatrix);
 		Vector3 point3d = Vector3.transformCoordinate(vertex.position, worldMatrix);
-		Vector3 normal3d = Vector3.transform(vertex.normal, worldMatrix);
+		Vector3 normal3d = Vector3.transformCoordinate(vertex.normal, worldMatrix);
 		
 		Vector3 projection = new Vector3();
 		projection.x = point2d.x * this.backBufferWidth + (this.backBufferWidth / 2.0f);
@@ -378,7 +422,6 @@ public class Renderer {
 			Matrix rotation = Matrix.createRotationYawPitchRoll(meshes[i].rotation.y, meshes[i].rotation.x, meshes[i].rotation.z);
 			Matrix translation = Matrix.createTranslation(meshes[i].position);
 			Matrix world = Matrix.multiply(scale, rotation, translation);
-			
 			Matrix worldViewProject = Matrix.multiply(world, view, projection);
 			
 			for (int j = 0, m = meshes[i].faces.length; j < m; j++) {
@@ -455,5 +498,9 @@ public class Renderer {
 	 */
 	public Color getAutoClearColor() {
 		return this.autoClearColor;
+	}
+	
+	public Light getLight() {
+		return this.light;
 	}
 }

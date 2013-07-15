@@ -12,14 +12,10 @@ import atlantis.framework.Vector3;
  * A mesh is a 3D object composed by vertices and faces.
  * @author Yannick
  */
-public class Mesh {
-	protected String name;
+public class Mesh extends Object3D {
 	protected Vertex[] vertices;
 	protected Face3[] faces;
 	public Color color;
-	public Vector3 position;
-	public Vector3 rotation;
-	public Vector3 scale;
 	protected boolean wireframe;
 	
 	private Mesh() {
@@ -119,18 +115,6 @@ public class Mesh {
 	
 	public void setFace(int index, Face3 face) {
 		this.faces[index] = face;
-	}
-	
-	public void setPosition(Vector3 position) {
-		this.position = position;
-	}
-	
-	public void setRotation(Vector3 rotation) {
-		this.rotation = rotation;
-	}
-	
-	public void setScale(Vector3 scale) {
-		this.scale = scale;
 	}
 	
 	public void setWireframeMode(boolean isWireframe) {

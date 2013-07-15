@@ -66,7 +66,7 @@ public class Renderer {
 		this.createFrontBuffer(this.width, this.height);
 		this.autoClear = autoClear;
 		this.autoClearColor = Color.black;
-		this.light = new Light(-35, -65, -70);
+		this.light = new Light(0, 50, 50);
 		this.clear(Color.black);
 		this.fieldOfView = (float) Math.PI / 4;
         this.aspectRatio = 1.0f;
@@ -245,42 +245,37 @@ public class Renderer {
 	protected void drawTriangle(Vertex vertexA, Vertex vertexB, Vertex vertexC, Color color) {
 		// Sorting points for having P1 -> P2 -> P3 
 		//this.sortPoints(pointA, pointB, pointC);
-		Vertex va = null;
-		Vertex vb = null;
-		Vertex vc = null;
-		
 		if (vertexA.position.y > vertexB.position.y) {
-			va = vertexB;
-			vb = vertexA;
+		    Vertex temp = vertexB;
+		    vertexB = vertexA;
+		    vertexA = temp;
 		}
-		
+
 		if (vertexB.position.y > vertexC.position.y) {
-			vb = vertexC;
-			vc = vertexB;
+			Vertex temp = vertexB;
+			vertexB = vertexC;
+			vertexC = temp;
 		}
-		
+
 		if (vertexA.position.y > vertexB.position.y) {
-			va = vertexB;
-			vb = vertexA;
+		    Vertex temp = vertexB;
+		    vertexB = vertexA;
+		    vertexA = temp;
 		}
 		
-		va = (va == null) ? vertexA : va;
-		vb = (vb == null) ? vertexB : vb;
-		vc = (vc == null) ? vertexC : vc;
-		
-		Vector3 pointA = va.position;
-		Vector3 pointB = vb.position;
-		Vector3 pointC = vc.position;
+		Vector3 pointA = vertexA.position;
+		Vector3 pointB = vertexB.position;
+		Vector3 pointC = vertexC.position;
 		
 		// Compute light
 		ScanLineData data = new ScanLineData();
-		float nl1 = computeNDotLight(va.worldPosition, va.normal, light.getPosition());
-		float nl2 = computeNDotLight(vb.worldPosition, vb.normal, light.getPosition());
-		float nl3 = computeNDotLight(vc.worldPosition, vc.normal, light.getPosition());
+		float nl1 = computeNDotLight(vertexA.worldPosition, vertexA.normal, light.getPosition());
+		float nl2 = computeNDotLight(vertexB.worldPosition, vertexB.normal, light.getPosition());
+		float nl3 = computeNDotLight(vertexC.worldPosition, vertexC.normal, light.getPosition());
 		
 		if (light.enableFlatShading) {
-			Vector3 vnFace = Vector3.divide(Vector3.add(Vector3.add(va.normal, vb.normal), vc.normal), new Vector3(3));
-			Vector3 centerPoint = Vector3.divide(Vector3.add(Vector3.add(va.worldPosition, vb.worldPosition), vc.worldPosition), new Vector3(3));
+			Vector3 vnFace = Vector3.divide(Vector3.add(Vector3.add(vertexA.normal, vertexB.normal), vertexC.normal), new Vector3(3));
+			Vector3 centerPoint = Vector3.divide(Vector3.add(Vector3.add(vertexA.worldPosition, vertexB.worldPosition), vertexC.worldPosition), new Vector3(3));
 			nl1 = computeNDotLight(centerPoint, vnFace, light.getPosition());
 		}
 		
@@ -305,14 +300,14 @@ public class Renderer {
 					data.nDotLb = nl3;
 					data.nDotLc = nl1;
 					data.nDotLd = nl2;
-					processScanLine(data, va, vc, va, vb, color);
+					processScanLine(data, vertexA, vertexC, vertexA, vertexB, color);
 				}
 				else {
 					data.nDotLa = nl1;
 					data.nDotLb = nl3;
 					data.nDotLc = nl2;
 					data.nDotLd = nl3;
-					processScanLine(data, va, vc, vb, vc, color);
+					processScanLine(data, vertexA, vertexC, vertexB, vertexC, color);
 				}
 			}
 		}
@@ -324,14 +319,14 @@ public class Renderer {
 					data.nDotLb = nl2;
 					data.nDotLc = nl1;
 					data.nDotLd = nl3;
-					processScanLine(data, va, vb, va, vc, color);
+					processScanLine(data, vertexA, vertexB, vertexA, vertexC, color);
 				}
 				else {
 					data.nDotLa = nl2;
 					data.nDotLb = nl3;
 					data.nDotLc = nl1;
 					data.nDotLd = nl3;
-					processScanLine(data, vb, vc, va, vc, color);
+					processScanLine(data, vertexB, vertexC, vertexA, vertexC, color);
 				}
 			}
 		} 

@@ -71,12 +71,6 @@ public class Renderer {
 		return min + (max - min) * clamp(gradiant);
 	}
 	
-	protected void swap(Vector3 vectorA, Vector3 vectorB) {
-		Vector3 temp = new Vector3(vectorB);
-		vectorB.set(vectorA.x, vectorA.y, vectorA.z);
-		vectorB.set(temp.x, temp.y, temp.z); 
-	}
-	
 	/**
 	 * Gets the intensity of the light on a vertex by computing the consine of the angle
 	 * between the light position and the vertex normal.

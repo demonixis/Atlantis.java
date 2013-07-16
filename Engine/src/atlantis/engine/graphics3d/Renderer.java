@@ -32,10 +32,10 @@ public class Renderer {
 	protected float nearClip;
 	protected float farClip;
 	
-	private Matrix _viewMatrix;
-	private Matrix _projectionMatrix;
-	private Matrix _worldMeshMatrix;
-	private Matrix _worldViewProjectionMatrix;
+	private Matrix viewMatrix;
+	private Matrix projectionMatrix;
+	private Matrix worldMeshMatrix;
+	private Matrix worldViewProjectionMatrix;
 	
 	/**
 	 * Create a software renderer. The front and back buffer have the same size.
@@ -72,6 +72,10 @@ public class Renderer {
         this.aspectRatio = 1.0f;
         this.nearClip = 0.01f;
         this.farClip = 10.0f;
+        this.viewMatrix = new Matrix();
+        this.projectionMatrix = new Matrix();
+        this.worldMeshMatrix = new Matrix();
+        this.worldViewProjectionMatrix = new Matrix();
 	}
 	
 	// ---
@@ -84,12 +88,6 @@ public class Renderer {
 	
 	protected float interpolate(float min, float max, float gradiant) {
 		return min + (max - min) * clamp(gradiant);
-	}
-	
-	protected void swap(Vector3 vectorA, Vector3 vectorB) {
-		Vector3 temp = new Vector3(vectorB);
-		vectorB.set(vectorA.x, vectorA.y, vectorA.z);
-		vectorB.set(temp.x, temp.y, temp.z); 
 	}
 	
 	/**
@@ -284,11 +282,11 @@ public class Renderer {
 		float dP1P3 = 0.0f;
 		
 		if (pointB.y - pointA.y > 0) {
-			dP1P2 = (pointB.x - pointA.x) / (pointB.y - pointA.y);
+			dP1P2 = (pointB.x - pointA.x) / (float)(pointB.y - pointA.y);
 		}
 
 		if (pointC.y - pointA.y > 0) {
-			dP1P3 = (pointC.x - pointA.x) / (pointC.y - pointA.y);
+			dP1P3 = (pointC.x - pointA.x) / (float)(pointC.y - pointA.y);
 		}
 
 		// First case P2 is on right
@@ -313,8 +311,8 @@ public class Renderer {
 		}
 		else { // Second case P2 is on left
 			for (int y = (int)pointA.y; y <= (int)pointC.y; y++) {
+				data.y = y;
 				if (y < pointB.y) {
-					data.y = y;
 					data.nDotLa = nl1;
 					data.nDotLb = nl2;
 					data.nDotLc = nl1;
@@ -409,32 +407,32 @@ public class Renderer {
 	 * @param meshes A collection of 3D objects. (will be a scene later)
 	 */
 	protected void internalRender(Camera camera, Mesh[] meshes) {
-		Matrix view = camera.getViewMatrix();
-		Matrix projection = Matrix.createPerspetiveFieldOfViewRH((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
+		this.viewMatrix = camera.getViewMatrix();
+		this.projectionMatrix = Matrix.createPerspetiveFieldOfViewRH((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
-			Matrix scale = Matrix.createScale(meshes[i].scale);
-			Matrix rotation = Matrix.createRotationYawPitchRoll(meshes[i].rotation.y, meshes[i].rotation.x, meshes[i].rotation.z);
-			Matrix translation = Matrix.createTranslation(meshes[i].position);
-			Matrix world = Matrix.multiply(scale, rotation, translation);
-			Matrix worldViewProject = Matrix.multiply(world, view, projection);
+			this.worldMeshMatrix = Matrix.multiply(
+					Matrix.createScale(meshes[i].scale), 
+					Matrix.createRotationYawPitchRoll(meshes[i].rotation.y, meshes[i].rotation.x, meshes[i].rotation.z),
+					Matrix.createTranslation(meshes[i].position));
+			this.worldViewProjectionMatrix = Matrix.multiply(this.worldMeshMatrix, this.viewMatrix, this.projectionMatrix);
 			
 			for (int j = 0, m = meshes[i].faces.length; j < m; j++) {
-				 Vertex vecA = meshes[i].getVertex(meshes[i].faces[j].a);
-                 Vertex vecB = meshes[i].getVertex(meshes[i].faces[j].b);
-                 Vertex vecC = meshes[i].getVertex(meshes[i].faces[j].c);
+				 Vertex vertA = meshes[i].getVertex(meshes[i].faces[j].a);
+                 Vertex vertB = meshes[i].getVertex(meshes[i].faces[j].b);
+                 Vertex vertC = meshes[i].getVertex(meshes[i].faces[j].c);
 
-                 Vertex pointA = project(vecA, worldViewProject, world);
-                 Vertex pointB = project(vecB, worldViewProject, world);
-                 Vertex pointC = project(vecC, worldViewProject, world);
+                 Vertex pVertA = project(vertA, this.worldViewProjectionMatrix, this.worldMeshMatrix);
+                 Vertex pVertB = project(vertB, this.worldViewProjectionMatrix, this.worldMeshMatrix);
+                 Vertex pVertC = project(vertC, this.worldViewProjectionMatrix, this.worldMeshMatrix);
                  
                  if (meshes[i].isWireframe()) {
-		             drawLine(pointA.position, pointB.position, meshes[i].color);
-		             drawLine(pointB.position, pointC.position, meshes[i].color);
-		             drawLine(pointC.position, pointA.position, meshes[i].color);
+		             drawLine(pVertA.position, pVertB.position, meshes[i].color);
+		             drawLine(pVertB.position, pVertC.position, meshes[i].color);
+		             drawLine(pVertC.position, pVertA.position, meshes[i].color);
                  }
                  else {
-                	 this.drawTriangle(pointA, pointB, pointC, meshes[i].color);
+                	 this.drawTriangle(pVertA, pVertB, pVertC, meshes[i].color);
                  }
 			}
 		}

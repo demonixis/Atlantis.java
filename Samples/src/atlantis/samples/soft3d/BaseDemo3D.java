@@ -58,16 +58,22 @@ public class BaseDemo3D extends Game {
         else if (keyboardState.isKeyDown(KeyEvent.VK_E))
             camera.translate(0.0f, 0.05f, 0.0f);
         
+        
+        if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD7)) 
+        	renderer.getLight().getPosition().x -= 5.0f;
+        else if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD4)) 
+        	renderer.getLight().getPosition().x += 5.0f;
+        
+        
         if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD8)) 
-        	renderer.getLight().getPosition().y -= 1f;
+        	renderer.getLight().getPosition().y -= 5.0f;
         else if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD5)) 
-        	renderer.getLight().getPosition().y += 1f;
+        	renderer.getLight().getPosition().y += 5.0f;
         
         if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD9)) 
-        	renderer.getLight().getPosition().z -= 1f;
+        	renderer.getLight().getPosition().z -= 5.0f;
         else if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD6)) 
-        	renderer.getLight().getPosition().z += 1f;
-        
+        	renderer.getLight().getPosition().z += 5.0f;
         
         
         if (keyboardState.isKeyDown(KeyEvent.VK_F5)) {

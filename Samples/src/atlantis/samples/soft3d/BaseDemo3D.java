@@ -59,21 +59,21 @@ public class BaseDemo3D extends Game {
             camera.translate(0.0f, 0.05f, 0.0f);
         
         if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD8)) 
-        	renderer.pointLight.y -= 1f;
+        	renderer.getLight().getPosition().y -= 1f;
         else if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD5)) 
-        	renderer.pointLight.y += 1f;
+        	renderer.getLight().getPosition().y += 1f;
         
         if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD9)) 
-        	renderer.pointLight.z -= 1f;
+        	renderer.getLight().getPosition().z -= 1f;
         else if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD6)) 
-        	renderer.pointLight.z += 1f;
+        	renderer.getLight().getPosition().z += 1f;
         
         
         
         if (keyboardState.isKeyDown(KeyEvent.VK_F5)) {
         	System.out.println("Position: " + camera.position.toString());
         	System.out.println("Rotation: " + camera.rotation.toString());
-        	System.out.println("Light: " + renderer.pointLight.toString());
+        	System.out.println("Light: " + renderer.getLight().getPosition().toString());
         }
 		
 		if (keyboardState.isKeyDown(KeyEvent.VK_ESCAPE)) {

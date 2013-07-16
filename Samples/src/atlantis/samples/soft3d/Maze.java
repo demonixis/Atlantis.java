@@ -2,9 +2,9 @@ package atlantis.samples.soft3d;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
 import atlantis.engine.graphics3d.Mesh;
 import atlantis.engine.graphics3d.geometry.CubeGeometry;
-import atlantis.framework.Vector3;
 
 public class Maze extends BaseDemo3D {
 	int[][] level;
@@ -39,7 +39,7 @@ public class Maze extends BaseDemo3D {
 		CubeGeometry groundGeo = new CubeGeometry(width, 0.1f, depth);
 		Mesh ground = new Mesh("ground", groundGeo);
 		ground.color = Color.darkGray;
-		ground.position = new Vector3(width - 1, -0.9f, depth - 1);
+		ground.getPosition().set(width - 1, -0.9f, depth - 1);
 		mazeMeshes.add(ground);
 		
 		for (int y = 0; y < depth; y++) {
@@ -63,11 +63,11 @@ public class Maze extends BaseDemo3D {
 		int blockSize = 2;
 		CubeGeometry wallGeo = new CubeGeometry();
 		Mesh wallMesh = new Mesh("wall", wallGeo);
-		wallMesh.position = new Vector3(x * blockSize, 0, z * blockSize);
+		wallMesh.getPosition().set(x * blockSize, 0, z * blockSize);
 		wallMesh.color = color;
 		
 		if (sy < 1) {
-			wallMesh.position.y = -sy;
+			wallMesh.getPosition().y = -sy;
 		}
 		return wallMesh;
 	}

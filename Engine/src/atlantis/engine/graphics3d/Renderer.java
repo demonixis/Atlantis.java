@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import atlantis.framework.MathHelper;
+
 import atlantis.framework.Matrix;
 import atlantis.framework.Vector3;
 
@@ -60,7 +60,6 @@ public class Renderer {
 		this.height = screenHeight;
 		this.backBufferWidth = backBufferWidth;
 		this.backBufferHeight = backBufferHeight;
-		// Alpha Blue Green Red
 		this.backBuffer = new int[this.backBufferWidth * this.backBufferHeight * 4];
 		this.depthBuffer = new float[this.backBufferWidth * this.backBufferHeight];
 		this.createFrontBuffer(this.width, this.height);
@@ -69,13 +68,13 @@ public class Renderer {
 		this.light = new Light(0, 50, 50);
 		this.clear(Color.black);
 		this.fieldOfView = (float) Math.PI / 4;
-        this.aspectRatio = 1.0f;
-        this.nearClip = 0.01f;
-        this.farClip = 10.0f;
+        this.aspectRatio = (float)this.backBufferWidth / (float)this.backBufferHeight;
+        this.nearClip = 10f;
+        this.farClip = 105.0f;
         this.viewMatrix = new Matrix();
-        this.projectionMatrix = new Matrix();
         this.worldMeshMatrix = new Matrix();
         this.worldViewProjectionMatrix = new Matrix();
+        this.projectionMatrix = Matrix.createPerspectiveFieldOfViewRH(this.fieldOfView, this.aspectRatio, this.nearClip, this.farClip);
 	}
 	
 	// ---
@@ -408,7 +407,6 @@ public class Renderer {
 	 */
 	protected void internalRender(Camera camera, Mesh[] meshes) {
 		this.viewMatrix = camera.getViewMatrix();
-		this.projectionMatrix = Matrix.createPerspectiveFieldOfViewRH((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			this.worldMeshMatrix = Matrix.multiply(

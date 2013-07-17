@@ -58,8 +58,8 @@ public class Camera {
 	 * @return Return a view matrix.
 	 */
 	public Matrix getViewMatrix() {
-		Matrix rotationMatrix = Matrix.multiply(Matrix.createRotationX(this.rotation.x), Matrix.createRotationY(this.rotation.y), Matrix.createRotationZ(this.rotation.z));
-        Vector3 transformedRef = Vector3.transform(this.reference, rotationMatrix);
+		Matrix rotationMatrix = Matrix.createRotationYawPitchRoll(this.rotation.y, this.rotation.x, this.rotation.z);
+        Vector3 transformedRef = Vector3.transformCoordinate(this.reference, rotationMatrix);
         this.target.x = this.position.x + transformedRef.x;
         this.target.y = this.position.y + transformedRef.y;
         this.target.z = this.position.z + transformedRef.z;

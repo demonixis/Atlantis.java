@@ -6,7 +6,6 @@ import java.util.Random;
 import atlantis.engine.graphics.Sprite;
 import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
-import atlantis.samples.platformer.Player.MovementState;
 
 public class Monster extends Sprite {
 	private static Sprite[] levelBlocks;
@@ -72,7 +71,6 @@ public class Monster extends Sprite {
 			this.play("idle");
 			this.move(0, 0);
 		}
-		
 		this.updatePhysics();
 	}
 	
@@ -82,7 +80,6 @@ public class Monster extends Sprite {
 	 * @param blocks Blocks that can be collided.
 	 */
 	public void updatePhysics() {
-	
 	}
 	
 	private void getNextAction() {

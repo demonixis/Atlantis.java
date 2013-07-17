@@ -52,6 +52,13 @@ public class Rectangle {
 		this.height = rectangle.height;
 	}
 	
+	public void add(Rectangle rectangle) {
+		this.x += rectangle.x;
+		this.y += rectangle.y;
+		this.width += rectangle.width;
+		this.height += rectangle.height;
+	}
+	
 	/**
 	 * Check if the coordinates is inside the rectangle.
 	 * @param x

@@ -99,6 +99,18 @@ public class Matrix {
 	}
 	
 	/**
+	 * Gets an array of values setted to 0.
+	 * @return
+	 */
+	public float[] getZeroValues() {
+		float[] values = new float[16];
+		for (int i = 0; i < 16; i++) {
+			values[i] = 0.0f;
+		}
+		return values;
+	}
+	
+	/**
 	 * Gets an identity matrix.
 	 * @return Return an identity matrix.
 	 */
@@ -544,7 +556,7 @@ public class Matrix {
 	 * @param zFar
 	 * @return
 	 */
-	public static Matrix CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNear, float zFar) {
+	public static Matrix createOrthographicOffCenter(float left, float right, float bottom, float top, float zNear, float zFar) {
 		Matrix matrix = new Matrix();
 		matrix.M11 = (float)(2.0 / ((double)right - (double)left));
 		matrix.M12 = 0.0f;
@@ -631,6 +643,71 @@ public class Matrix {
 		matrix.M34 *= -1.0f;
 		return matrix;
 	}
+	
+	/**
+	 * Invert the current Matrix.
+	 */
+	public void invert() {
+		float b0 = (this.M31 * this.M42) - (this.M32 * this.M41);
+        float b1 = (this.M31 * this.M43) - (this.M33 * this.M41);
+        float b2 = (this.M34 * this.M41) - (this.M31 * this.M44);
+        float b3 = (this.M32 * this.M43) - (this.M33 * this.M42);
+        float b4 = (this.M34 * this.M42) - (this.M32 * this.M44);
+        float b5 = (this.M33 * this.M44) - (this.M34 * this.M43);
+
+        float d11 = this.M22 * b5 + this.M23 * b4 + this.M24 * b3;
+        float d12 = this.M21 * b5 + this.M23 * b2 + this.M24 * b1;
+        float d13 = this.M21 * -b4 + this.M22 * b2 + this.M24 * b0;
+        float d14 = this.M21 * b3 + this.M22 * -b1 + this.M23 * b0;
+
+        float det = this.M11 * d11 - this.M12 * d12 + this.M13 * d13 - this.M14 * d14;
+        
+        if (Math.abs(det) == 0.0f) {
+            this.set(this.getZeroValues());
+            return;
+        }
+
+        det = 1.0f / det;
+
+        float a0 = (this.M11 * this.M22) - (this.M12 * this.M21);
+        float a1 = (this.M11 * this.M23) - (this.M13 * this.M21);
+        float a2 = (this.M14 * this.M21) - (this.M11 * this.M24);
+        float a3 = (this.M12 * this.M23) - (this.M13 * this.M22);
+        float a4 = (this.M14 * this.M22) - (this.M12 * this.M24);
+        float a5 = (this.M13 * this.M24) - (this.M14 * this.M23);
+
+        float d21 = this.M12 * b5 + this.M13 * b4 + this.M14 * b3;
+        float d22 = this.M11 * b5 + this.M13 * b2 + this.M14 * b1;
+        float d23 = this.M11 * -b4 + this.M12 * b2 + this.M14 * b0;
+        float d24 = this.M11 * b3 + this.M12 * -b1 + this.M13 * b0;
+
+        float d31 = this.M42 * a5 + this.M43 * a4 + this.M44 * a3;
+        float d32 = this.M41 * a5 + this.M43 * a2 + this.M44 * a1;
+        float d33 = this.M41 * -a4 + this.M42 * a2 + this.M44 * a0;
+        float d34 = this.M41 * a3 + this.M42 * -a1 + this.M43 * a0;
+
+        float d41 = this.M32 * a5 + this.M33 * a4 + this.M34 * a3;
+        float d42 = this.M31 * a5 + this.M33 * a2 + this.M34 * a1;
+        float d43 = this.M31 * -a4 + this.M32 * a2 + this.M34 * a0;
+        float d44 = this.M31 * a3 + this.M32 * -a1 + this.M33 * a0;
+
+        this.M11 = +d11 * det; this.M12 = -d21 * det; this.M13 = +d31 * det; this.M14 = -d41 * det;
+        this.M21 = -d12 * det; this.M22 = +d22 * det; this.M23 = -d32 * det; this.M24 = +d42 * det;
+        this.M31 = +d13 * det; this.M32 = -d23 * det; this.M33 = +d33 * det; this.M34 = -d43 * det;
+        this.M41 = -d14 * det; this.M42 = +d24 * det; this.M43 = -d34 * det; this.M44 = +d44 * det;
+	}
+	
+	/**
+	 * Calculate the inverse of the specified matrix.
+	 * @param matrix The matrix to use.
+	 * @return Return the inverse of the matrix.
+	 */
+	public static Matrix invert(Matrix matrix) {
+		Matrix mat = new Matrix(matrix);
+		mat.invert();
+		return mat;
+	}
+	
 	/**
 	 * Multiply this matrix by another matrix.
 	 * @param matrix A matrix to multiply.

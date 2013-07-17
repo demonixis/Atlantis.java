@@ -408,7 +408,7 @@ public class Renderer {
 	 */
 	protected void internalRender(Camera camera, Mesh[] meshes) {
 		this.viewMatrix = camera.getViewMatrix();
-		this.projectionMatrix = Matrix.createPerspetiveFieldOfViewRH((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
+		this.projectionMatrix = Matrix.createPerspectiveFieldOfViewRH((float)(MathHelper.Pi / 4), (float)((float)this.width / (float)this.height), 0.01f, 1.0f);
 		
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			this.worldMeshMatrix = Matrix.multiply(

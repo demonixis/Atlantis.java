@@ -15,12 +15,19 @@ public class BaseDemo3D extends Game {
 	protected Camera camera;
 	protected Mesh[] meshes;
 	protected KeyboardState keyboardState;
+	protected float moveSpeed;
+	protected float rotateSpeed;
+	protected float strafeSpeed;
+	protected float viewSpeed;
 	
 	public BaseDemo3D(String title) {
 		super(1024, 768, title);
 		this.camera = new Camera();
 		this.renderer = new Renderer(this.width, this.height);
 		this.meshes = new Mesh[0];
+		this.moveSpeed = 0.01f;
+		this.rotateSpeed = 0.0005f;
+		this.strafeSpeed = -0.005f;
 	}
 		
 	public void update(GameTime gameTime) {
@@ -29,34 +36,34 @@ public class BaseDemo3D extends Game {
 		this.keyboardState = this.keyboardManager.getState();
 		
 		if (keyboardState.isKeyDown(KeyEvent.VK_UP))
-            camera.translate(0.0f, 0.0f, -3.0f);
+            camera.translate(0.0f, 0.0f, -this.moveSpeed * gameTime.getElapsedTime());
         
         else if (keyboardState.isKeyDown(KeyEvent.VK_DOWN))
-            camera.translate(0.0f, 0.0f, 3.0f);
+            camera.translate(0.0f, 0.0f, this.moveSpeed * gameTime.getElapsedTime());
 
         if (keyboardState.isKeyDown(KeyEvent.VK_LEFT))
-            camera.rotate(0.0f, 0.05f, 0.0f);
+            camera.rotate(0.0f, this.rotateSpeed * gameTime.getElapsedTime(), 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_RIGHT))
-            camera.rotate(0.0f, -0.05f, 0.0f);
+            camera.rotate(0.0f, -this.rotateSpeed * gameTime.getElapsedTime(), 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_Q))
-            camera.translate(-1f, 0.0f, 0.0f);
+            camera.translate(this.strafeSpeed * gameTime.getElapsedTime(), 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_D))
-            camera.translate(1f, 0.0f, 0.0f);
+            camera.translate(-this.strafeSpeed * gameTime.getElapsedTime(), 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_UP))
-            camera.rotate(-0.05f, 0.0f, 0.0f);
+            camera.rotate(this.strafeSpeed * gameTime.getElapsedTime(), 0.0f, 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_DOWN))
-            camera.rotate(0.05f, 0.0f, 0.0f);
+            camera.rotate(this.strafeSpeed * gameTime.getElapsedTime(), 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_A))
-            camera.translate(0.0f, -0.05f, 0.0f);
+            camera.translate(0.0f, -this.strafeSpeed * gameTime.getElapsedTime(), 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_E))
-            camera.translate(0.0f, 0.05f, 0.0f);
+            camera.translate(0.0f, this.strafeSpeed * gameTime.getElapsedTime(), 0.0f);
         
         
         if (keyboardState.isKeyDown(KeyEvent.VK_NUMPAD7)) 
@@ -91,5 +98,6 @@ public class BaseDemo3D extends Game {
 		super.draw(gameTime);
 		renderer.clear(Color.black);
 		renderer.render(this.graphicsDevice().getGraphics(), camera, meshes);
+		this.graphicsDevice().getRenderTarget().getGraphics().drawString("FPS: " + gameTime.getFramePerSeconds(), 20, 20);
 	}
 }

@@ -11,6 +11,7 @@ public class GameTime {
 	private long currentTime;
 	protected long elapsedTime;
 	protected long totalGameTime;
+	protected float fps;
 	
 	public GameTime() {
 		this.reset();
@@ -23,6 +24,7 @@ public class GameTime {
 		this.elapsedTime = 0;
 		this.totalGameTime = 0;
 		this.currentTime = System.currentTimeMillis();
+		this.fps = 0.0f;
 	}
 	
 	/**
@@ -32,6 +34,7 @@ public class GameTime {
 		long now = System.currentTimeMillis();
 		this.elapsedTime = now - this.currentTime;
 		this.totalGameTime += this.elapsedTime;
+		this.fps = 1000.0f / (float)(now - this.currentTime);
 		this.currentTime = now;
 	}
 
@@ -49,5 +52,9 @@ public class GameTime {
 	 */
 	public long getTotalGameTime() {
 		return (long)(this.totalGameTime);
+	}
+	
+	public float getFramePerSeconds() {
+		return this.fps;
 	}
 }

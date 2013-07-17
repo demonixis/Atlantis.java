@@ -544,7 +544,7 @@ public class Matrix {
 	 * @param zFar
 	 * @return
 	 */
-	public static Matrix CreateOrthographicOffCenter (float left, float right, float bottom, float top, float zNear, float zFar) {
+	public static Matrix CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNear, float zFar) {
 		Matrix matrix = new Matrix();
 		matrix.M11 = (float)(2.0 / ((double)right - (double)left));
 		matrix.M12 = 0.0f;
@@ -590,13 +590,13 @@ public class Matrix {
 	 * @param far Far clip
 	 * @return Return a matrix of this type of perspective.
 	 */
-	public static Matrix createPerspetiveFieldOfViewRH(float fov, float aspect, float zNear, float zFar) {
-		Matrix matrix = createPerspectiveFieldOfView(fov, aspect, zNear, zFar);
-		matrix.M31 *= -1.0f;
-		matrix.M32 *= -1.0f;
-		matrix.M33 *= -1.0f;
-		matrix.M34 *= -1.0f;
-		return matrix;
+	public static Matrix createPerspectiveFieldOfViewRH(float fov, float aspect, float zNear, float zFar) {
+		float yScale = (float)(1.0f / Math.tan(fov * 0.5f));
+		float xScale = yScale / aspect;
+		float halfWidth = zNear / xScale;
+		float halfHeight = zNear / yScale;
+		
+		return createPerspectiveOffCenterRH(-halfWidth, halfWidth, -halfHeight, halfHeight, zNear, zFar);
 	}
 	
 	/**
@@ -623,6 +623,14 @@ public class Matrix {
 		return matrix;
 	}
 	
+	public static Matrix createPerspectiveOffCenterRH(float left, float right, float bottom, float top, float zNear, float zFar) {
+		Matrix matrix = createPerspectiveOffCenter(left, right, bottom, top, zNear, zFar);
+		matrix.M31 *= -1.0f;
+		matrix.M32 *= -1.0f;
+		matrix.M33 *= -1.0f;
+		matrix.M34 *= -1.0f;
+		return matrix;
+	}
 	/**
 	 * Multiply this matrix by another matrix.
 	 * @param matrix A matrix to multiply.

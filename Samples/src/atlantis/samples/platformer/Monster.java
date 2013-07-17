@@ -60,8 +60,6 @@ public class Monster extends Sprite {
 			this.direction.x *= -1;
 		}
 		
-		this.updatePhysics();
-		
 		if (this.direction.x < 0) {
 			this.play("left");
 			this.move(-1, 0);
@@ -74,6 +72,8 @@ public class Monster extends Sprite {
 			this.play("idle");
 			this.move(0, 0);
 		}
+		
+		this.updatePhysics();
 	}
 	
 	/**
@@ -82,28 +82,7 @@ public class Monster extends Sprite {
 	 * @param blocks Blocks that can be collided.
 	 */
 	public void updatePhysics() {
-		//this.setY((int) (this.getY() + this.gravity));
-		
-		int i = 0;
-		int size = levelBlocks.length;
-		boolean collide = false;
-	/*
-		while(i < size && collide == false) {
-			if (this.getBoundingRectangle().contains(levelBlocks[i].getBoundingRectangle())) {
-				if(this.position.y < levelBlocks[i].getY()) {
-					this.setY(levelBlocks[i].getBoundingRectangle().getBottom());
-				} 
-				else {
-					this.setY(levelBlocks[i].getY() - this.getHeight());
-				}
-				collide = true;
-			}
-			i++;
-		}
-		*/
-		if (collide) {
-			this.direction.x *= -1;
-		}
+	
 	}
 	
 	private void getNextAction() {

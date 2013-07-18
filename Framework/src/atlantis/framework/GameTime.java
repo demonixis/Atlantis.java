@@ -54,7 +54,11 @@ public class GameTime {
 		return (long)(this.totalGameTime);
 	}
 	
-	public float getFramePerSeconds() {
+	/**
+	 * Gets the current FPS indice.
+	 * @return Return the current FPS.
+	 */
+	public float getFPS() {
 		return this.fps;
 	}
 }

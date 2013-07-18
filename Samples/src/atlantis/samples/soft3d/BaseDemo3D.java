@@ -98,6 +98,6 @@ public class BaseDemo3D extends Game {
 		super.draw(gameTime);
 		renderer.clear(Color.black);
 		renderer.render(this.graphicsDevice().getGraphics(), camera, meshes);
-		this.graphicsDevice().getRenderTarget().getGraphics().drawString("FPS: " + gameTime.getFramePerSeconds(), 20, 20);
+		this.graphicsDevice().getRenderTarget().getGraphics().drawString("FPS: " + gameTime.getFPS(), 20, 20);
 	}
 }

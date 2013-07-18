@@ -41,7 +41,7 @@ public class DrawableGameComponent extends GameComponent implements IDrawable {
 	
 	/**
 	 * Gets the visibility of the component
-	 * @return true if visible then false
+	 * @return Return true if visible otherwise return false
 	 */
 	public boolean isVisible() {
 		return visible;

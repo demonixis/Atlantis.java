@@ -38,7 +38,7 @@ public final class GraphicsDevice {
 	
 	/**
 	 * Gets the back buffer width.
-	 * @return
+	 * @return Return the width of the back buffer.
 	 */
 	public int getWidth() {
 		return width;
@@ -46,7 +46,7 @@ public final class GraphicsDevice {
 	
 	/**
 	 * Gets the back buffer height.
-	 * @return
+	 * @return Return the height of the back buffer.
 	 */
 	public int getHeight() {
 		return height;

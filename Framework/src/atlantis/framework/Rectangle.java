@@ -52,11 +52,48 @@ public class Rectangle {
 		this.height = rectangle.height;
 	}
 	
+	/**
+	 * Add a rectangle to this rectangle
+	 * @param rectangle The rectangle to add.
+	 */
 	public void add(Rectangle rectangle) {
 		this.x += rectangle.x;
 		this.y += rectangle.y;
 		this.width += rectangle.width;
 		this.height += rectangle.height;
+	}
+	
+	/**
+	 * Divide a rectangle to this rectangle
+	 * @param rectangle The rectangle to divide.
+	 */
+	public void divide(Rectangle rectangle) {
+		this.x /= rectangle.x;
+		this.y /= rectangle.y;
+		this.width /= rectangle.width;
+		this.height /= rectangle.height;
+	}
+	
+	/**
+	 * Multiply a rectangle to this rectangle
+	 * @param rectangle The rectangle to multiply.
+	 */
+	public void multiply(Rectangle rectangle) {
+		this.x *= rectangle.x;
+		this.y *= rectangle.y;
+		this.width *= rectangle.width;
+		this.height *= rectangle.height;
+	}
+	
+	/**
+	 * Subtract a rectangle to this rectangle
+	 * @param rectangle The rectangle to adsubtractd.
+	 */
+	public void subtract(Rectangle rectangle) {
+		this.x -= rectangle.x;
+		this.y -= rectangle.y;
+		this.width -= rectangle.width;
+		this.height -= rectangle.height;
 	}
 	
 	/**

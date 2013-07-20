@@ -35,7 +35,7 @@ public class Material {
         this.backFaceCulling = true;
     }
 
-    public void Load()
+    public void load()
     {
         if (diffuseTextureName != "") {
             this.diffuseTexture = Texture2D.createFromPath(this.diffuseTextureName, 1);

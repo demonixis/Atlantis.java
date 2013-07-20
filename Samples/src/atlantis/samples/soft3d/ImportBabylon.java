@@ -29,6 +29,10 @@ public class ImportBabylon extends BaseDemo3D {
 	
 		for (int i = 0; i < meshes.length; i++) {
 			meshes[i].color = Color.lightGray;
+			
+			if (meshes[i].getMaterial().getDiffuseTextureName() != "") {
+				meshes[i].getMaterial().load();
+			}
 		}
 	}
 	

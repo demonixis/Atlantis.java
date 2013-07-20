@@ -36,7 +36,14 @@ public class BabylonImporter {
 			}
 			reader.close();
 			
-			return getMeshes(createBabylonScene(jsonString.toString()));
+			String[] temp = filename.split("/");
+			StringBuilder builder = new StringBuilder();
+			for (int i = 0, l = temp.length - 1; i < l; i++) {
+				builder.append(temp[i]);
+				builder.append("/");
+			}
+			
+			return getMeshes(createBabylonScene(jsonString.toString(), builder.toString()));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -45,7 +52,7 @@ public class BabylonImporter {
         return mesh;
     }
 	
-	public static BabylonScene createBabylonScene(String jsonString) {
+	public static BabylonScene createBabylonScene(String jsonString, String path) {
 		BabylonScene scene = new BabylonScene();
 		
 		JSONObject json = new JSONObject(jsonString);
@@ -73,7 +80,7 @@ public class BabylonImporter {
 			JSONObject dTexture = bMaterial.getJSONObject("diffuseTexture");
 			if (dTexture != null) {
 				scene.materials[i].diffuseTexture = new BabylonTexture();
-				scene.materials[i].diffuseTexture.name = dTexture.getString("name");
+				scene.materials[i].diffuseTexture.name = path + dTexture.getString("name");
 				scene.materials[i].diffuseTexture.level = (float)dTexture.getDouble("level");
 				scene.materials[i].diffuseTexture.hasAlpha = (float)dTexture.getDouble("hasAlpha");
 				scene.materials[i].diffuseTexture.coordinatesMode = dTexture.getInt("coordinatesMode");
@@ -162,7 +169,7 @@ public class BabylonImporter {
 			material.setName(bMaterial.name);
 			material.setAlpha(bMaterial.alpha);
 			material.setAmbientColor(new Color(bMaterial.ambient[0], bMaterial.ambient[1], bMaterial.ambient[2]));
-			material.setDiffuseTextureName(bMaterial.name);
+			material.setDiffuseTextureName(bMaterial.diffuseTexture != null ? bMaterial.diffuseTexture.name : "");
 			material.setDiffuseColor(new Color(bMaterial.diffuse[0], bMaterial.diffuse[1], bMaterial.diffuse[2]));
 			material.setSpecularColor(new Color(bMaterial.specular[0], bMaterial.specular[1], bMaterial.specular[2]));
 			material.setSpecularPower(bMaterial.specularPower);

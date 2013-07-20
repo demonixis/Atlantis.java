@@ -17,6 +17,7 @@ public class Mesh extends Object3D {
 	protected Face3[] faces;
 	public Color color;
 	protected boolean wireframe;
+	protected Material material;
 	
 	private Mesh() {
 		this.position = new Vector3();
@@ -24,6 +25,7 @@ public class Mesh extends Object3D {
 		this.scale = new Vector3(1.0f);
 		this.color = Color.yellow;
 		this.wireframe = false;
+		this.material = new Material();
 	}
 	
 	public Mesh(String name, int verticesCount, int facesCount) {
@@ -115,6 +117,14 @@ public class Mesh extends Object3D {
 	
 	public void setFace(int index, Face3 face) {
 		this.faces[index] = face;
+	}
+	
+	public Material getMaterial() {
+		return this.material;
+	}
+	
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 	
 	public void setWireframeMode(boolean isWireframe) {

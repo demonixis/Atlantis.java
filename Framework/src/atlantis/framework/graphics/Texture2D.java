@@ -148,6 +148,23 @@ public class Texture2D extends BufferedImage {
 		return colors;
 	}
 	
+	public Color getColorUV(float tu, float tv) {
+        int u = Math.abs((int)(tu * this.getWidth()) % this.getWidth());
+        int v = Math.abs((int)(tv * this.getHeight()) % this.getHeight());
+        int position = (u + v * this.getWidth()) * 4;
+        
+        if (this.getType() == BufferedImage.TYPE_4BYTE_ABGR || this.getType() == BufferedImage.TYPE_4BYTE_ABGR_PRE) {
+	        int alpha = dataBuffer.getElem(position);
+	        int blue = dataBuffer.getElem(position + 1);
+	        int green = dataBuffer.getElem(position + 2);
+	        int red = dataBuffer.getElem(position + 3);
+	        
+	        return new Color(red, green, blue, alpha);
+        }
+        
+        return Color.white;
+	}
+	
 	/**
 	 * Gets the size of the data array.
 	 * @return Return the size of the buffer array.

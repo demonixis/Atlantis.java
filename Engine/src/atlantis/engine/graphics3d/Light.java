@@ -6,11 +6,13 @@ package atlantis.engine.graphics3d;
 import atlantis.framework.Vector3;
 
 public class Light extends Object3D {
-	public boolean enableFlatShading;
+	protected boolean enableFlatShading;
+	protected boolean enabled;
 
-    public Light(float x, float y, float z) {
+	public Light(float x, float y, float z) {
         this.position.set(x, y, z);
         this.enableFlatShading = false;
+        this.enabled = true;
     }
 
     public Vector3 normalize() {
@@ -23,5 +25,19 @@ public class Light extends Object3D {
 
 	public final void setEnableFlatShading(boolean enableFlatShading) {
 		this.enableFlatShading = enableFlatShading;
+	}
+	
+	/**
+	 * @return the enabled
+	 */
+	public final boolean isEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public final void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }

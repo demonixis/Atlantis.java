@@ -10,6 +10,7 @@ import java.awt.image.DataBufferByte;
 
 import atlantis.framework.Matrix;
 import atlantis.framework.Vector3;
+import atlantis.framework.graphics.Texture2D;
 
 /**
  * The graphics device. It's responsible to draw 3D object on screen. 
@@ -239,8 +240,7 @@ public class Renderer {
 	 * @param pointC Third point of the triangle.
 	 * @param color The color that be used to fill the triangle on screen.
 	 */
-	protected void drawTriangle(Vertex vertexA, Vertex vertexB, Vertex vertexC, Color color) {
-		// Sorting points for having P1 -> P2 -> P3 
+	protected void drawTriangle(Vertex vertexA, Vertex vertexB, Vertex vertexC, Color color, Texture2D texture) {
 		//this.sortPoints(pointA, pointB, pointC);
 		if (vertexA.position.y > vertexB.position.y) {
 		    Vertex temp = vertexB;
@@ -266,15 +266,22 @@ public class Renderer {
 		
 		// Compute light
 		ScanLineData data = new ScanLineData();
-		float nl1 = computeNDotLight(vertexA.worldPosition, vertexA.normal, light.getPosition());
-		float nl2 = computeNDotLight(vertexB.worldPosition, vertexB.normal, light.getPosition());
-		float nl3 = computeNDotLight(vertexC.worldPosition, vertexC.normal, light.getPosition());
+		
+		
+		float nl1 = 1.0f;
+        float nl2 = 1.0f;
+        float nl3 = 1.0f;
 		
 		if (light.enableFlatShading) {
 			Vector3 vnFace = Vector3.divide(Vector3.add(Vector3.add(vertexA.normal, vertexB.normal), vertexC.normal), new Vector3(3));
-			Vector3 centerPoint = Vector3.divide(Vector3.add(Vector3.add(vertexA.worldPosition, vertexB.worldPosition), vertexC.worldPosition), new Vector3(3));
+			Vector3 centerPoint = Vector3.divide(Vector3.add(Vector3.add(vertexA.worldCoordinate, vertexB.worldCoordinate), vertexC.worldCoordinate), new Vector3(3));
 			nl1 = computeNDotLight(centerPoint, vnFace, light.getPosition());
-		}
+        }
+        else {
+        	nl1 = computeNDotLight(vertexA.worldCoordinate, vertexA.normal, light.getPosition());
+    		nl2 = computeNDotLight(vertexB.worldCoordinate, vertexB.normal, light.getPosition());
+    		nl3 = computeNDotLight(vertexC.worldCoordinate, vertexC.normal, light.getPosition());
+        }
 		
 		// Invert slopes
 		float dP1P2 = 0.0f;
@@ -297,14 +304,36 @@ public class Renderer {
 					data.nDotLb = nl3;
 					data.nDotLc = nl1;
 					data.nDotLd = nl2;
-					processScanLine(data, vertexA, vertexC, vertexA, vertexB, color);
+					
+					data.UA = vertexA.textureCoordinate.x;
+                    data.UB = vertexC.textureCoordinate.x;
+                    data.UC = vertexA.textureCoordinate.x;
+                    data.UD = vertexB.textureCoordinate.x;
+
+                    data.VA = vertexA.textureCoordinate.y;
+                    data.VB = vertexC.textureCoordinate.y;
+                    data.VC = vertexA.textureCoordinate.y;
+                    data.VD = vertexB.textureCoordinate.y;
+                    
+					processScanLine(data, vertexA, vertexC, vertexA, vertexB, color, texture);
 				}
 				else {
 					data.nDotLa = nl1;
 					data.nDotLb = nl3;
 					data.nDotLc = nl2;
 					data.nDotLd = nl3;
-					processScanLine(data, vertexA, vertexC, vertexB, vertexC, color);
+					
+					data.UA = vertexA.textureCoordinate.x;
+                    data.UB = vertexC.textureCoordinate.x;
+                    data.UC = vertexB.textureCoordinate.x;
+                    data.UD = vertexC.textureCoordinate.x;
+
+                    data.VA = vertexA.textureCoordinate.y;
+                    data.VB = vertexC.textureCoordinate.y;
+                    data.VC = vertexB.textureCoordinate.y;
+                    data.VD = vertexC.textureCoordinate.y;
+                    
+					processScanLine(data, vertexA, vertexC, vertexB, vertexC, color, texture);
 				}
 			}
 		}
@@ -316,20 +345,42 @@ public class Renderer {
 					data.nDotLb = nl2;
 					data.nDotLc = nl1;
 					data.nDotLd = nl3;
-					processScanLine(data, vertexA, vertexB, vertexA, vertexC, color);
+					
+					data.UA = vertexA.textureCoordinate.x;
+                    data.UB = vertexB.textureCoordinate.x;
+                    data.UC = vertexA.textureCoordinate.x;
+                    data.UD = vertexC.textureCoordinate.x;
+
+                    data.VA = vertexA.textureCoordinate.y;
+                    data.VB = vertexB.textureCoordinate.y;
+                    data.VC = vertexA.textureCoordinate.y;
+                    data.VD = vertexC.textureCoordinate.y;
+                    
+					processScanLine(data, vertexA, vertexB, vertexA, vertexC, color, texture);
 				}
 				else {
 					data.nDotLa = nl2;
 					data.nDotLb = nl3;
 					data.nDotLc = nl1;
 					data.nDotLd = nl3;
-					processScanLine(data, vertexB, vertexC, vertexA, vertexC, color);
+					
+					data.UA = vertexB.textureCoordinate.x;
+                    data.UB = vertexC.textureCoordinate.x;
+                    data.UC = vertexA.textureCoordinate.x;
+                    data.UD = vertexC.textureCoordinate.x;
+
+                    data.VA = vertexB.textureCoordinate.y;
+                    data.VB = vertexC.textureCoordinate.y;
+                    data.VC = vertexA.textureCoordinate.y;
+                    data.VD = vertexC.textureCoordinate.y;
+                    
+					processScanLine(data, vertexB, vertexC, vertexA, vertexC, color, texture);
 				}
 			}
 		} 
 	}
 	
-	protected void processScanLine(ScanLineData data, Vertex vertexA, Vertex vertexB, Vertex vertexC, Vertex vertexD, Color color) {
+	protected void processScanLine(ScanLineData data, Vertex vertexA, Vertex vertexB, Vertex vertexC, Vertex vertexD, Color color, Texture2D texture) {
 		Vector3 pointA = vertexA.position;
 		Vector3 pointB = vertexB.position;
 		Vector3 pointC = vertexC.position;
@@ -346,19 +397,35 @@ public class Renderer {
 		float z1 = interpolate(pointA.z, pointB.z, gradiant1);
 		float z2 = interpolate(pointC.z, pointD.z, gradiant2);
 		
-		float startLight = interpolate(data.nDotLa, data.nDotLb, gradiant1);
-        float endLight = interpolate(data.nDotLc, data.nDotLd, gradiant2);
+		float startNormal = interpolate(data.nDotLa, data.nDotLb, gradiant1);
+        float endNormal = interpolate(data.nDotLc, data.nDotLd, gradiant2);
 		
+        float startU = interpolate(data.UA, data.UB, gradiant1);
+        float endU = interpolate(data.UC, data.UD, gradiant2);
+        float startV = interpolate(data.VA, data.VB, gradiant1);
+        float endV = interpolate(data.VC, data.VD, gradiant2);
+        
         // Temp var
 		float z = Float.MIN_VALUE;
-		float zGradiant = 0.0f;
+		float gradiant = 0.0f;
 		float lightFactor = 1.0f;
+		Color vertexColor = color;
 	
 		for (int x = startX; x < endX; x++) {
-			zGradiant = ((float)(x - startX) / (float)(endX - startX)); 
-			z = interpolate(z1, z2, zGradiant);
-			lightFactor = light.isEnableFlatShading() ? data.nDotLa : interpolate(startLight, endLight, zGradiant);
-			Color vertexColor = colorAddValue(color, lightFactor, false);
+			gradiant = ((float)(x - startX) / (float)(endX - startX)); 
+			z = interpolate(z1, z2, gradiant);
+			
+			if (this.light.enabled) {
+				lightFactor = light.isEnableFlatShading() ? data.nDotLa : interpolate(startNormal, endNormal, gradiant);
+				vertexColor = colorAddValue(color, lightFactor, false);
+				
+				float u = interpolate(startU, endU, gradiant);
+				float v = interpolate(startV, endV, gradiant);
+				 
+				if (texture != null) {
+					vertexColor = colorAddColor(vertexColor, texture.getColorUV(u, v), false);
+				}
+			}
 			this.drawPoint(x, data.y, z, vertexColor);
 		}
 	}
@@ -381,6 +448,29 @@ public class Renderer {
 		return new Color(nr, ng, nb, na);
 	}
 	
+	private Color colorAddColor(Color color1, Color color2, boolean multiplyAlpha) {
+		float r1 = (float)color1.getRed() / 255.0f;
+		float g1 = (float)color1.getGreen() / 255.0f;
+		float b1 = (float)color1.getBlue() / 255.0f;
+		float a1 = (float)color1.getAlpha() / 255.0f;
+		
+		float r2 = (float)color2.getRed() / 255.0f;
+		float g2 = (float)color2.getGreen() / 255.0f;
+		float b2 = (float)color2.getBlue() / 255.0f;
+		float a2 = (float)color2.getAlpha() / 255.0f;
+
+		float nr = (r1 * r2) % 255;
+		float ng = (g1 * g2) % 255;
+		float nb = (b1 * b2) % 255;
+		float na = (a1 * a2) % 255;
+		
+		if (!multiplyAlpha) {
+			na = (float)color1.getAlpha() / 255.0f;
+		}
+
+		return new Color(nr, ng, nb, na);
+	}
+	
 	/**
 	 * Gets 2D coordinates from 3D coordinates.
 	 * @param coordinates 
@@ -397,7 +487,7 @@ public class Renderer {
 		projection.y = -point2d.y * this.backBufferHeight + (this.backBufferHeight / 2.0f);
 		projection.z = point2d.z;
 		
-		return new Vertex(projection, normal3d, point3d);
+		return new Vertex(projection, normal3d, point3d, vertex.textureCoordinate);
 	}
 	
 	/**
@@ -430,7 +520,7 @@ public class Renderer {
 		             drawLine(pVertC.position, pVertA.position, meshes[i].color);
                  }
                  else {
-                	 this.drawTriangle(pVertA, pVertB, pVertC, meshes[i].color);
+                	 this.drawTriangle(pVertA, pVertB, pVertC, meshes[i].color, meshes[i].getMaterial().getTexture());
                  }
 			}
 		}

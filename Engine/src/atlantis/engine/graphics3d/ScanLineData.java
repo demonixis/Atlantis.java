@@ -13,4 +13,14 @@ public final class ScanLineData {
 	public float nDotLb;
 	public float nDotLc;
 	public float nDotLd;
+	
+	public float UA;
+    public float UB;
+    public float UC;
+    public float UD;
+
+    public float VA;
+    public float VB;
+    public float VC;
+    public float VD;
 }

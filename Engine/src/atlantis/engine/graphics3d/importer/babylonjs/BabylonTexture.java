@@ -18,6 +18,7 @@ public class BabylonTexture {
     public float vScale;
     public float uAng;
     public float vAng;
+    public float wAng;
     public boolean wrapU;
     public boolean wrapV;
     public int coordinatesIndex;

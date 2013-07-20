@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics3d;
 
+import atlantis.framework.Vector2;
 import atlantis.framework.Vector3;
 
 /**
@@ -11,24 +12,28 @@ import atlantis.framework.Vector3;
  */
 public class Vertex {
 	public Vector3 position;
-	public Vector3 worldPosition;
+	public Vector3 worldCoordinate;
 	public Vector3 normal;
+	public Vector2 textureCoordinate;
 	
 	public Vertex() {
 		this.position = Vector3.Zero();
 		this.normal = Vector3.Zero();
-		this.worldPosition = Vector3.Zero();
+		this.worldCoordinate = Vector3.Zero();
+		this.textureCoordinate = Vector2.Zero();
 	}
 	
 	public Vertex(Vertex vertex) {
 		this.position = vertex.position;
 		this.normal = vertex.normal;
-		this.worldPosition = vertex.worldPosition;
+		this.worldCoordinate = vertex.worldCoordinate;
+		this.textureCoordinate = vertex.textureCoordinate;
 	}
 	
-	public Vertex(Vector3 position, Vector3 normal, Vector3 worldPosition) {
+	public Vertex(Vector3 position, Vector3 normal, Vector3 worldPosition, Vector2 textureCoordinate) {
 		this.position = position;
 		this.normal = normal;
-		this.worldPosition = worldPosition;
+		this.worldCoordinate = worldPosition;
+		this.textureCoordinate = textureCoordinate;
 	}
 }

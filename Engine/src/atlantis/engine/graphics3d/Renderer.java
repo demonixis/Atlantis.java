@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 import atlantis.framework.Matrix;
+import atlantis.framework.Quaternion;
 import atlantis.framework.Vector3;
 import atlantis.framework.graphics.Texture2D;
 
@@ -418,14 +419,15 @@ public class Renderer {
 			if (this.light.enabled) {
 				lightFactor = light.isEnableFlatShading() ? data.nDotLa : interpolate(startNormal, endNormal, gradiant);
 				vertexColor = colorAddValue(color, lightFactor, false);
-				
-				float u = interpolate(startU, endU, gradiant);
-				float v = interpolate(startV, endV, gradiant);
-				 
-				if (texture != null) {
-					vertexColor = colorAddColor(vertexColor, texture.getColorUV(u, v), false);
-				}
 			}
+			
+			float u = interpolate(startU, endU, gradiant);
+			float v = interpolate(startV, endV, gradiant);
+			 
+			if (texture != null) {
+				vertexColor = colorAddColor(vertexColor, texture.getColorUV(u, v), false);
+			}
+			
 			this.drawPoint(x, data.y, z, vertexColor);
 		}
 	}
@@ -497,7 +499,13 @@ public class Renderer {
 	 */
 	protected void internalRender(Camera camera, Mesh[] meshes) {
 		this.viewMatrix = camera.getViewMatrix();
-		
+		/*
+		this.viewMatrix = Matrix.createLookAt(camera.position, camera.target, Vector3.Up());
+		Quaternion rotation = Quaternion.createFromRotationMatrix(Matrix.invert(this.viewMatrix));
+		Matrix matrix = Matrix.createFromQuaternion(rotation);
+		matrix.setTranslation(camera.position);
+		this.viewMatrix = Matrix.invert(matrix);
+		*/
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			this.worldMeshMatrix = Matrix.multiply(
 					Matrix.createScale(meshes[i].scale), 

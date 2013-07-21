@@ -307,6 +307,32 @@ public class Matrix {
 		return matrix;
 	}
 	
+	public static Matrix createFromQuaternion(Quaternion quaternion) {
+		Matrix result = Matrix.getMatrixIdentity();
+		
+		float xx = quaternion.x * quaternion.x;
+        float yy = quaternion.y * quaternion.y;
+        float zz = quaternion.z * quaternion.z;
+        float xy = quaternion.x * quaternion.y;
+        float zw = quaternion.z * quaternion.w;
+        float zx = quaternion.z * quaternion.x;
+        float yw = quaternion.y * quaternion.w;
+        float yz = quaternion.y * quaternion.z;
+        float xw = quaternion.x * quaternion.w;
+
+        result.M11 = 1.0f - (2.0f * (yy + zz));
+        result.M12 = 2.0f * (xy + zw);
+        result.M13 = 2.0f * (zx - yw);
+        result.M21 = 2.0f * (xy - zw);
+        result.M22 = 1.0f - (2.0f * (zz + xx));
+        result.M23 = 2.0f * (yz + xw);
+        result.M31 = 2.0f * (zx + yw);
+        result.M32 = 2.0f * (yz - xw);
+        result.M33 = 1.0f - (2.0f * (yy + xx));
+        
+        return result;
+	}
+	
 	/**
 	 * Create a rotation matrix on X axis.
 	 * @param rotation An angle in radians

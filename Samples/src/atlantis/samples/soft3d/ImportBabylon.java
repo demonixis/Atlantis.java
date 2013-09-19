@@ -31,7 +31,7 @@ public class ImportBabylon extends BaseDemo3D {
 			meshes[i].color = Color.lightGray;
 			
 			if (meshes[i].getMaterial().getDiffuseTextureName() != "") {
-				meshes[i].getMaterial().load();
+				//meshes[i].getMaterial().load();
 			}
 		}
 	}
@@ -49,10 +49,6 @@ public class ImportBabylon extends BaseDemo3D {
 		
 		if (this.keyboardManager.getState().isKeyDown(KeyEvent.VK_ENTER)) {
 			this.autoRotate = !this.autoRotate;
-		}
-		
-		if (this.keyboardManager.getState().isKeyDown(KeyEvent.VK_F1)) {
-			this.renderer.getLight().setEnableFlatShading(!this.renderer.getLight().isEnableFlatShading());
 		}
 	}
 

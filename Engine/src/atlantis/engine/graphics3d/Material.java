@@ -1,7 +1,6 @@
 package atlantis.engine.graphics3d;
 
 import java.awt.Color;
-
 import atlantis.framework.graphics.Texture2D;
 
 /**
@@ -191,5 +190,9 @@ public class Material {
 	 */
 	public final void setBackFaceCulling(boolean backFaceCulling) {
 		this.backFaceCulling = backFaceCulling;
+	}
+	
+	public final void setTexture(Texture2D texture) {
+		this.diffuseTexture = texture;
 	}
 }

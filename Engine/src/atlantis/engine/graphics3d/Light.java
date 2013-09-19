@@ -11,8 +11,8 @@ public class Light extends Object3D {
 
 	public Light(float x, float y, float z) {
         this.position.set(x, y, z);
-        this.enableFlatShading = false;
-        this.enabled = false;
+        this.enableFlatShading = true;
+        this.enabled = true;
     }
 
     public Vector3 normalize() {

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.HashMap;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.state.State;
 import atlantis.framework.GameTime;
@@ -97,7 +97,7 @@ public class GameState extends State {
 		// Overlays
 		for (Sprite overlay : this.overlays) {
 			overlay.loadContent(content);
-			overlay.setPosition(Atlantis.width / 2 - overlay.getWidth() / 2, Atlantis.height / 2 - overlay.getHeight() / 2);
+			overlay.setPosition(Application.width / 2 - overlay.getWidth() / 2, Application.height / 2 - overlay.getHeight() / 2);
 			overlay.setActive(false);
 			this.scene.add(overlay);
 		}
@@ -141,7 +141,7 @@ public class GameState extends State {
 			
 			this.player.updatePhysics(this.level.getBlocksSize(), this.level.getBlocks());
 			
-			if (this.player.getY() > Atlantis.height) {
+			if (this.player.getY() > Application.height) {
 				if (!this.overlays[1].isActive()) {
 					this.overlays[1].setActive(true);	
 				}
@@ -154,7 +154,7 @@ public class GameState extends State {
 				this.player.win();
 			}
 			
-			if (Atlantis.keyboard.space()) {
+			if (Application.keyboard.space()) {
 				this.restartGameState();
 			}
 		}
@@ -169,7 +169,7 @@ public class GameState extends State {
 			this.levelId = (this.levelId >= LevelCount) ? 0 : this.levelId;
 		}
 		
-		this.level.reload(Atlantis.content, this.scene, levelId);
+		this.level.reload(Application.content, this.scene, levelId);
 		this.player.setStartPosition(this.level.getStartPosition());
 		this.scene.add(this.player);
 		

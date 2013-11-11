@@ -4,6 +4,7 @@
 package atlantis.framework.platform;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -26,6 +27,11 @@ public class JPanelRenderer extends JPanel implements IWindowRenderer {
 		this.setDoubleBuffered(true);
 		this.renderTargets = new ArrayList<RenderTarget2D>();
 		this.renderTargetCount = 0;
+	}
+	
+	public JPanelRenderer(int width, int height) {
+		this();
+		this.setPreferredSize(new Dimension(width, height));
 	}
 	
 	public void paintComponent(Graphics graphics) {

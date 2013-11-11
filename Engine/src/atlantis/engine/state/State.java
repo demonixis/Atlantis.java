@@ -3,7 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.state;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.engine.graphics.SpriteGroup;
 import atlantis.framework.GameTime;
 import atlantis.framework.IDrawable;
@@ -33,7 +33,7 @@ public class State implements IUpdateable, IDrawable {
 		this.assetLoaded = false;
 		this.enabled = true;
 		this.visible = true;
-		this.spriteBatch = new SpriteBatch(Atlantis.game.graphicsDevice());
+		this.spriteBatch = new SpriteBatch(Application.game.graphicsDevice());
 	}
 	
 	public State(String name) {

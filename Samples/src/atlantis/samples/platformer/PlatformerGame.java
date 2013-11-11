@@ -1,6 +1,6 @@
 package atlantis.samples.platformer;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.engine.GameApplication;
 import atlantis.framework.GameTime;
 
@@ -18,7 +18,7 @@ public class PlatformerGame extends GameApplication {
 	
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
-		if (Atlantis.keyboard.escape()) {
+		if (Application.keyboard.escape()) {
 			this.exit();
 		}
 	}

@@ -26,14 +26,14 @@ public class GameApplication extends Game {
 		this.components.add(keyboardComponent);
 		this.components.add(mouseComponent);
 		
-		Atlantis.game = this;
-		Atlantis.stateManager = stateManager;
-		Atlantis.content = this.content;
-		Atlantis.components = this.components;
-		Atlantis.keyboard = keyboardComponent;
-		Atlantis.mouse = mouseComponent;
-		Atlantis.width = this.width;
-		Atlantis.height = this.height;
+		Application.game = this;
+		Application.stateManager = stateManager;
+		Application.content = this.content;
+		Application.components = this.components;
+		Application.keyboard = keyboardComponent;
+		Application.mouse = mouseComponent;
+		Application.width = this.width;
+		Application.height = this.height;
 	}
 	
 	public GameApplication(int width, int height) {

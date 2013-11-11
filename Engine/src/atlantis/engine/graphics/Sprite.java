@@ -3,7 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
@@ -52,7 +52,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		this.lastPosition = new Vector2();
 		this.lastDistance = new Vector2();
 		this.physics = new Physics2();
-		this.viewport = new Rectangle(0, 0, Atlantis.width, Atlantis.height);
+		this.viewport = new Rectangle(0, 0, Application.width, Application.height);
 		this.forceInsideScreen = false;
 		this.allowAcrossScreen = false;
 		this.spriteAnimator = new SpriteAnimator();
@@ -157,23 +157,23 @@ public class Sprite extends BaseEntity implements ICollidable2 {
             }
             
             if (this.spriteMouseListener != null) {
-            	if (this.rectangle.contains(Atlantis.mouse.getPosition())) {
+            	if (this.rectangle.contains(Application.mouse.getPosition())) {
             		this.spriteMouseListener.onMouseOver();
             		this.hovered = true;
             		
             		int button = -1;
-            		button = Atlantis.mouse.click(0) ? 0 : button;
-            		button = Atlantis.mouse.click(1) ? 1 : button;
-            		button = Atlantis.mouse.click(2) ? 2 : button;
+            		button = Application.mouse.click(0) ? 0 : button;
+            		button = Application.mouse.click(1) ? 1 : button;
+            		button = Application.mouse.click(2) ? 2 : button;
             		
             		if (button > -1) {
             			this.spriteMouseListener.onMouseClick(button);
             		}
             		
             		int jcButton = -1;
-            		jcButton = Atlantis.mouse.justClicked(0) ? 0 : jcButton;
-            		jcButton = Atlantis.mouse.justClicked(1) ? 1 : jcButton;
-            		jcButton = Atlantis.mouse.justClicked(2) ? 2 : jcButton;
+            		jcButton = Application.mouse.justClicked(0) ? 0 : jcButton;
+            		jcButton = Application.mouse.justClicked(1) ? 1 : jcButton;
+            		jcButton = Application.mouse.justClicked(2) ? 2 : jcButton;
             		
             		if (jcButton > -1) {
             			this.spriteMouseListener.onMouseJustClicked(jcButton);

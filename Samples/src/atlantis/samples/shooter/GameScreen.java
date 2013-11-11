@@ -1,6 +1,6 @@
 package atlantis.samples.shooter;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.engine.Timer;
 import atlantis.engine.graphics.Sprite;
 import atlantis.engine.graphics.SpriteGroup;
@@ -22,7 +22,7 @@ public class GameScreen extends State {
 		
 		this.starfield = new Starfield();
 		this.ship = new Sprite("ShipR.png");
-		this.ship.setViewport(0, 0, Atlantis.width, Atlantis.height);
+		this.ship.setViewport(0, 0, Application.width, Application.height);
 		this.laserGroup = new SpriteGroup();
 		this.alienGroup = new SpriteGroup();
 		
@@ -44,7 +44,7 @@ public class GameScreen extends State {
 		this.ship.addAnimation("idle", new int[] { 0 }, 85);
 		this.ship.addAnimation("move", new int[] { 1, 2 }, 85);
 		this.ship.play("idle");
-		this.ship.setPosition(50, Atlantis.height / 2 - this.ship.getHeight() / 2);
+		this.ship.setPosition(50, Application.height / 2 - this.ship.getHeight() / 2);
 		this.ship.forceInsideScreen(true);
 	}
 	
@@ -56,13 +56,13 @@ public class GameScreen extends State {
 		
 		// Spawn a new alien
 		if (!this.spawnTimer.isEnabled()) {
-			Alien alien = new Alien(Atlantis.width + 50, (int)(Math.random() * Atlantis.height));
-			alien.loadContent(Atlantis.content);
+			Alien alien = new Alien(Application.width + 50, (int)(Math.random() * Application.height));
+			alien.loadContent(Application.content);
 			this.alienGroup.add(alien);
 			this.spawnTimer.start();
 		}
 		
-		if (Atlantis.keyboard.up() || Atlantis.keyboard.down() ||	Atlantis.keyboard.right() || Atlantis.keyboard.left()) {
+		if (Application.keyboard.up() || Application.keyboard.down() ||	Application.keyboard.right() || Application.keyboard.left()) {
 			this.ship.play("move");
 		}
 		else {
@@ -70,29 +70,29 @@ public class GameScreen extends State {
 		}
 		
 		// Move the ship
-		if (Atlantis.keyboard.left()) {
+		if (Application.keyboard.left()) {
 			this.ship.setX((int) (this.ship.getX() - this.shipSpeed * gameTime.getElapsedTime()));
 		} 
-		else if (Atlantis.keyboard.right()) {
+		else if (Application.keyboard.right()) {
 			this.ship.setX((int) (this.ship.getX() + this.shipSpeed * gameTime.getElapsedTime()));
 		}
 		
-		if (Atlantis.keyboard.up()) {
+		if (Application.keyboard.up()) {
 			this.ship.setY((int) (this.ship.getY() - this.shipSpeed * gameTime.getElapsedTime()));
 		}
-		else if (Atlantis.keyboard.down()) {
+		else if (Application.keyboard.down()) {
 			this.ship.setY((int) (this.ship.getY() + this.shipSpeed * gameTime.getElapsedTime()));
 		}
 		
-		if (Atlantis.keyboard.escape()) {
+		if (Application.keyboard.escape()) {
 			this.stateManager.setActive("menu", true);
 		}
 		
 		// Shoot a laser
-		if (Atlantis.keyboard.space()) {
+		if (Application.keyboard.space()) {
 			if (!this.shootTimer.isEnabled()) {
 				Laser laser = new Laser(this.ship.getX() + this.ship.getWidth() + 1, this.ship.getY() + 25);
-				laser.loadContent(Atlantis.content);
+				laser.loadContent(Application.content);
 				this.laserGroup.add(laser);
 				this.shootTimer.start();
 			}
@@ -171,7 +171,7 @@ class Laser extends Sprite {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		
-		if (this.rectangle.getRight() > Atlantis.width) {
+		if (this.rectangle.getRight() > Application.width) {
 			this.setActive(false);
 		}
 		else {

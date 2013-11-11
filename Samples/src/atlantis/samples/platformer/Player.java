@@ -2,7 +2,7 @@ package atlantis.samples.platformer;
 
 import java.util.ArrayList;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.engine.graphics.Collider2;
 import atlantis.engine.graphics.Sprite;
 import atlantis.framework.GameTime;
@@ -71,11 +71,11 @@ public final class Player extends Sprite {
 		super.update(gameTime);
 		
 		if (this.canMove) {
-			if (Atlantis.keyboard.left()) {
+			if (Application.keyboard.left()) {
 				this.play("left");
 				this.setPosition((int) (this.getX() - this.speed), this.getY());
 			}
-			else if (Atlantis.keyboard.right()) {
+			else if (Application.keyboard.right()) {
 				this.play("right");
 				this.setPosition((int) (this.getX() + this.speed), this.getY());
 			}
@@ -83,7 +83,7 @@ public final class Player extends Sprite {
 				this.play("idle");
 			}
 			
-			if (Atlantis.keyboard.space()) {
+			if (Application.keyboard.space()) {
 				if (this.getDirection().x < 0) {
 					this.play("jumpLeft");
 				}

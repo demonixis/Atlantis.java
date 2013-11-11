@@ -14,7 +14,7 @@ import atlantis.framework.content.ContentManager;
  * Registry objects used by the game
  * @author Yannick
  */
-public class Atlantis {
+public class Application {
 	public static Game game;
 	public static ContentManager content;
 	public static GameComponentCollection components;

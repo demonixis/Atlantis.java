@@ -6,7 +6,7 @@ package atlantis.engine.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.framework.GameTime;
 import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.SpriteBatch;
@@ -105,7 +105,7 @@ public class SpriteGroup extends Sprite {
 		}
 		
 		if (this.assetLoaded) {
-			entity.loadContent(Atlantis.content);
+			entity.loadContent(Application.content);
 		}
 		
 		this.entities.add(entity);

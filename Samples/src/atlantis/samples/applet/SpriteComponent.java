@@ -1,6 +1,6 @@
 package atlantis.samples.applet;
 
-import atlantis.engine.Atlantis;
+import atlantis.engine.Application;
 import atlantis.engine.graphics.Sprite;
 import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.Game;
@@ -20,20 +20,20 @@ public class SpriteComponent extends DrawableGameComponent {
 		this.tree = new Sprite("Tree.png");
 		this.tree2 = new Sprite("Tree2.png");
 		this.femaleSprite = new Sprite("BRivera-femaleelfwalk.png");
-		this.femaleSprite.setViewport(0, 0, Atlantis.width, Atlantis.height);
+		this.femaleSprite.setViewport(0, 0, Application.width, Application.height);
 		this.femaleSprite.forceInsideScreen(true);
 		this.spriteBatch = new SpriteBatch(game.graphicsDevice());
 	}
 		
 	public void loadContent() {
 		this.background.loadContent(this.game.contentManager());
-		this.background.setSize(Atlantis.width, Atlantis.height);
+		this.background.setSize(Application.width, Application.height);
 		
 		this.tree.loadContent(this.game.contentManager());
 		this.tree.setPosition(150, 150);
 		this.tree2.loadContent(this.game.contentManager());
 		this.tree2.setSize(128, 128);
-		this.tree2.setPosition(Atlantis.width - 250, Atlantis.height - 250);
+		this.tree2.setPosition(Application.width - 250, Application.height - 250);
 		
 		this.femaleSprite.loadContent(this.game.contentManager());
 		this.femaleSprite.prepareAnimation(64, 64);
@@ -44,8 +44,8 @@ public class SpriteComponent extends DrawableGameComponent {
 	    
 	    this.femaleSprite.setSize(72, 72);
 	    this.femaleSprite.setPosition(
-	    		Atlantis.width / 2 - this.femaleSprite.getWidth() / 2,
-	    		Atlantis.height / 2 - this.femaleSprite.getHeight() / 2);
+	    		Application.width / 2 - this.femaleSprite.getWidth() / 2,
+	    		Application.height / 2 - this.femaleSprite.getHeight() / 2);
 	}
 	
 	public void update(GameTime gameTime) {
@@ -53,20 +53,20 @@ public class SpriteComponent extends DrawableGameComponent {
 		
 		this.femaleSprite.update(gameTime);
 		
-		if (Atlantis.keyboard.up()) {
+		if (Application.keyboard.up()) {
 			this.femaleSprite.play("up");
 			this.femaleSprite.setY(this.femaleSprite.getY() - 1);
 		}
-		else if (Atlantis.keyboard.down()) {
+		else if (Application.keyboard.down()) {
 			this.femaleSprite.play("down");
 			this.femaleSprite.setY(this.femaleSprite.getY() + 1);
 		}
 		
-		if (Atlantis.keyboard.right()) {
+		if (Application.keyboard.right()) {
 			this.femaleSprite.play("right");
 			this.femaleSprite.setX(this.femaleSprite.getX() + 1);
 		}
-		else if (Atlantis.keyboard.left()) {
+		else if (Application.keyboard.left()) {
 			this.femaleSprite.play("left");
 			this.femaleSprite.setX(this.femaleSprite.getX() - 1);
 		}

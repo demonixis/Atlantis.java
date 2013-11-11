@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 import atlantis.framework.Matrix;
-import atlantis.framework.Quaternion;
 import atlantis.framework.Vector3;
 import atlantis.framework.graphics.Texture2D;
 
@@ -523,12 +522,12 @@ public class Renderer {
                  Vertex pVertC = project(vertC, this.worldViewProjectionMatrix, this.worldMeshMatrix);
                  
                  if (meshes[i].isWireframe()) {
-		             drawLine(pVertA.position, pVertB.position, meshes[i].color);
-		             drawLine(pVertB.position, pVertC.position, meshes[i].color);
-		             drawLine(pVertC.position, pVertA.position, meshes[i].color);
+		             drawLine(pVertA.position, pVertB.position, meshes[i].faces[j].color);
+		             drawLine(pVertB.position, pVertC.position, meshes[i].faces[j].color);
+		             drawLine(pVertC.position, pVertA.position, meshes[i].faces[j].color);
                  }
                  else {
-                	 this.drawTriangle(pVertA, pVertB, pVertC, meshes[i].color, meshes[i].getMaterial().getTexture());
+                	 this.drawTriangle(pVertA, pVertB, pVertC, meshes[i].faces[j].color, meshes[i].getMaterial().getTexture());
                  }
 			}
 		}

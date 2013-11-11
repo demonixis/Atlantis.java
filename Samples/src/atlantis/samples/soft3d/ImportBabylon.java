@@ -1,6 +1,5 @@
 package atlantis.samples.soft3d;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import atlantis.engine.graphics3d.importer.babylonjs.BabylonImporter;
@@ -28,7 +27,6 @@ public class ImportBabylon extends BaseDemo3D {
 		meshes = BabylonImporter.loadBabyonScene("Content/models/spaceship.babylon");
 	
 		for (int i = 0; i < meshes.length; i++) {
-			meshes[i].color = Color.lightGray;
 			
 			if (meshes[i].getMaterial().getDiffuseTextureName() != "") {
 				//meshes[i].getMaterial().load();

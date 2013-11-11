@@ -3,6 +3,8 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine.graphics3d;
 
+import java.awt.Color;
+
 /**
  * A class that represent a face on a mesh. It's a collection of 3 points
  * @author Yannick
@@ -11,6 +13,7 @@ public class Face3 {
 	public int a;
 	public int b;
 	public int c;
+	public Color color;
 	
 	/**
 	 * Create a face3 with all values to 0.
@@ -19,6 +22,7 @@ public class Face3 {
 		this.a = 0;
 		this.b = 0;
 		this.c = 0;
+		this.color = Color.lightGray;
 	}
 	
 	/**
@@ -31,6 +35,7 @@ public class Face3 {
 		this.a = a;
 		this.b = b;
 		this.c = c;
+		this.color = Color.lightGray;
 	}
 	
 	/**
@@ -38,8 +43,6 @@ public class Face3 {
 	 * @param face A face.
 	 */
 	public Face3(Face3 face) {
-		this.a = face.a;
-		this.b = face.b;
-		this.c = face.c;
+		this(face.a, face.b, face.c);
 	}
 }

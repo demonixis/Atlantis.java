@@ -15,7 +15,6 @@ import atlantis.framework.Vector3;
 public class Mesh extends Object3D {
 	protected Vertex[] vertices;
 	protected Face3[] faces;
-	public Color color;
 	protected boolean wireframe;
 	protected Material material;
 	
@@ -23,7 +22,6 @@ public class Mesh extends Object3D {
 		this.position = new Vector3();
 		this.rotation = new Vector3();
 		this.scale = new Vector3(1.0f);
-		this.color = Color.yellow;
 		this.wireframe = false;
 		this.material = new Material();
 	}
@@ -86,6 +84,19 @@ public class Mesh extends Object3D {
 	// ---
 	// --- Gettters and setters
 	// --- 
+	
+	public void setFacesColor(Color color) {
+		for (int i = 0, l = this.faces.length; i < l; i++) {
+			this.faces[i].color = color;
+		}
+	}
+	
+	public void setFace4Color(int index, Color color) {
+		int workingIndex = (index >= this.faces.length - 1) ? this.faces.length - 2 : index;
+		
+		this.faces[workingIndex].color = color;
+		this.faces[workingIndex + 1].color = color;
+	}
 	
 	public Vertex[] getVertices() {
 		return this.vertices;

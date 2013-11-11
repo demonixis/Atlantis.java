@@ -26,7 +26,7 @@ public class SceneBabylon extends BaseDemo3D {
 		meshes = BabylonImporter.loadBabyonScene("Content/models/hellskitchen.babylon");
 	
 		for (int i = 0; i < meshes.length; i++) {
-			meshes[i].color = Color.lightGray;
+			meshes[i].setFacesColor(Color.lightGray);
 		}
 	}
 	

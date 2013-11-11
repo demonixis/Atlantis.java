@@ -38,7 +38,7 @@ public class Maze extends BaseDemo3D {
 		
 		CubeGeometry groundGeo = new CubeGeometry(width, 0.1f, depth);
 		Mesh ground = new Mesh("ground", groundGeo);
-		ground.color = Color.darkGray;
+		ground.setFacesColor(Color.darkGray);
 		ground.getPosition().set(width - 1, -0.9f, depth - 1);
 		mazeMeshes.add(ground);
 		
@@ -64,7 +64,7 @@ public class Maze extends BaseDemo3D {
 		CubeGeometry wallGeo = new CubeGeometry();
 		Mesh wallMesh = new Mesh("wall", wallGeo);
 		wallMesh.getPosition().set(x * blockSize, 0, z * blockSize);
-		wallMesh.color = color;
+		wallMesh.setFacesColor(color);
 		
 		if (sy < 1) {
 			wallMesh.getPosition().y = -sy;

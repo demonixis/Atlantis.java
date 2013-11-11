@@ -24,33 +24,47 @@ public class ProceduralGeometries extends BaseDemo3D {
 		meshes = new Mesh[6];
 				
 		Mesh cube = new Mesh("cube", new CubeGeometry());
-		cube.color = Color.GREEN;
+		cube.setFace4Color(0, Color.red);
+		cube.setFace4Color(2, Color.white);
+		cube.setFace4Color(4, Color.red);
+		cube.setFace4Color(6, Color.white);
+		cube.setFace4Color(8, Color.red);
 		cube.getPosition().set(-2.5f, -2.5f, 0);
-		cube.setWireframeMode(true);
+		//cube.setWireframeMode(true);
 		meshes[0] = cube;
 		
 		Mesh cube2 = new Mesh("cube2", new CubeGeometry());
-		cube2.color = Color.BLUE;
+		cube2.setFace4Color(0, Color.red);
+		cube2.setFace4Color(2, Color.white);
+		cube2.setFace4Color(4, Color.orange);
+		cube2.setFace4Color(6, Color.blue);
+		cube2.setFace4Color(8, Color.gray);
 		cube2.getPosition().set(2.5f, 2.5f, 0);
 		meshes[1] = cube2;
 		
 		Mesh plane = new Mesh("plane", new PlaneGeometry());
-		plane.color = Color.PINK;
+		plane.setFacesColor(Color.PINK);
 		plane.getPosition().set(-2.5f, 2.5f, 0.0f);
 		meshes[2] = plane;
 		
 		Mesh pyramid = new Mesh("triangle", new PyramidGeometry());
-		pyramid.color = Color.YELLOW;
+		pyramid.setFace4Color(0, Color.cyan);
+		pyramid.setFace4Color(2, Color.green);
+		pyramid.setFace4Color(4, Color.orange);
+		pyramid.setFace4Color(6, Color.magenta);
 		pyramid.getPosition().set(2.5f, -2.5f, 0);
 		meshes[3] = pyramid;
 		
 		Mesh pyramid2 = new Mesh("triangle", new PyramidGeometry());
-		pyramid2.color = Color.ORANGE;
+		pyramid2.setFace4Color(0, Color.red);
+		pyramid2.setFace4Color(2, Color.green);
+		pyramid2.setFace4Color(4, Color.pink);
+		pyramid2.setFace4Color(6, Color.magenta);
 		pyramid2.getPosition().set(7.5f, 2.5f, 0);
 		meshes[4] = pyramid2;
 		
 		Mesh plane2 = new Mesh("plane", new PlaneGeometry());
-		plane2.color = Color.RED;
+		plane2.setFacesColor(Color.RED);
 		plane2.getPosition().set(-7.5f, 2.5f, 0.0f);
 		meshes[5] = plane2;
 	}

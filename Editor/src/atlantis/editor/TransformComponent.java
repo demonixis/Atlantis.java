@@ -1,7 +1,6 @@
 package atlantis.editor;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -9,7 +8,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import atlantis.framework.Vector3;
+
 public class TransformComponent extends JPanel {
+	private static final long serialVersionUID = 3820593234844534864L;
 	protected TransformLine[] transformProperties;
 	
 	public TransformComponent() {
@@ -25,7 +27,22 @@ public class TransformComponent extends JPanel {
 		}
 	}
 	
+	public void Setup(Vector3 position, Vector3 rotation, Vector3 scale) {
+		this.transformProperties[0].x.setText(String.valueOf(position.x));
+		this.transformProperties[0].y.setText(String.valueOf(position.y));
+		this.transformProperties[0].z.setText(String.valueOf(position.z));
+		
+		this.transformProperties[1].x.setText(String.valueOf(rotation.x));
+		this.transformProperties[1].y.setText(String.valueOf(rotation.y));
+		this.transformProperties[1].z.setText(String.valueOf(rotation.z));
+		
+		this.transformProperties[2].x.setText(String.valueOf(scale.x));
+		this.transformProperties[2].y.setText(String.valueOf(scale.y));
+		this.transformProperties[2].z.setText(String.valueOf(scale.z));
+	}
+	
 	class TransformLine extends JPanel {
+		private static final long serialVersionUID = -5143179592272375443L;
 		protected JLabel title;
 		protected JTextField x;
 		protected JTextField y;

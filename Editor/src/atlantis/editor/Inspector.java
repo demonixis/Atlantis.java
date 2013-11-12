@@ -11,7 +11,8 @@ import atlantis.framework.Vector3;
 public class Inspector extends JPanel {
 	private static final long serialVersionUID = -4807953315895255574L;
 	protected TransformComponent transformComponent;
-	protected JTree sceneTree;
+	protected LightComponent lightComponent;
+	protected SceneTreeComponent sceneComponent;
 	
 	public Inspector() {
 		this.setPreferredSize(new Dimension(200, 600));
@@ -19,9 +20,11 @@ public class Inspector extends JPanel {
 		this.transformComponent = new TransformComponent();
 		this.add(this.transformComponent);
 		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Scene");
-		this.sceneTree = new JTree(root);
-		this.add(this.sceneTree, BorderLayout.SOUTH);
+		this.lightComponent = new LightComponent();
+		this.add(this.lightComponent);
+		
+		this.sceneComponent = new SceneTreeComponent();
+		this.add(this.sceneComponent);
 	}
 	
 	public void SetupTransform(Vector3 position, Vector3 rotation, Vector3 scale) {

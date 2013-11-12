@@ -4,11 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
 import atlantis.engine.graphics3d.Camera;
@@ -50,6 +56,9 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 	protected Camera camera;
 	protected Mesh[] meshes;
 	
+	private float mouseX;
+	private float mouseY;
+	
 	public EditorWindow() {
 		this.isRunning = true;
 		this.setTitle("Atlantis 3D Editor");
@@ -59,10 +68,18 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 		this.setVisible(true);
 		this.setRenderer(new JPanelRenderer());
 
+		FileActionHandler fileHandler = new FileActionHandler();
+		SceneActionHandler sceneHandler = new SceneActionHandler();
+		AboutActionHandler aboutHandler = new AboutActionHandler();
+		
 		this.newItemMenu = new JMenuItem("New");
+		this.newItemMenu.addActionListener(fileHandler);
 		this.openItemMenu = new JMenuItem("Open");
+		this.openItemMenu.addActionListener(fileHandler);
 		this.saveItemMenu = new JMenuItem("Save");
+		this.saveItemMenu.addActionListener(fileHandler);
 		this.exitItemMenu = new JMenuItem("Exit");
+		this.exitItemMenu.addActionListener(fileHandler);
 		
 		this.menuBar = new JMenuBar();
 		this.fileMenu = new JMenu("File");
@@ -75,11 +92,15 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 		this.menuBar.add(this.fileMenu);
 		
 		this.sceneMenu = new JMenu("Scene");
+		
 		this.cubeAddItem = new JMenuItem("Cube");
-		this.cubeAddItem.addActionListener(this);
+		this.cubeAddItem.addActionListener(sceneHandler);
 		this.planeAddItem = new JMenuItem("Plane");
+		this.planeAddItem.addActionListener(sceneHandler);
 		this.pyramidAddItem = new JMenuItem("Pyramid");
+		this.pyramidAddItem.addActionListener(sceneHandler);
 		this.sceneSettingsItem = new JMenuItem("Settings");
+		this.sceneSettingsItem.addActionListener(sceneHandler);
 		this.sceneMenu.add(this.cubeAddItem);
 		this.sceneMenu.add(this.planeAddItem);
 		this.sceneMenu.add(this.pyramidAddItem);
@@ -89,7 +110,9 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 		
 		this.aboutMenu = new JMenu("Help");
 		this.aboutItemMenu = new JMenuItem("About the editor");
+		this.aboutItemMenu.addActionListener(aboutHandler);
 		this.aboutAtlantisMenu = new JMenuItem("About Atlantis Engine");
+		this.aboutAtlantisMenu.addActionListener(aboutHandler);
 		this.aboutMenu.add(this.aboutItemMenu);
 		this.aboutMenu.add(this.aboutAtlantisMenu);
 		this.menuBar.add(this.aboutMenu);
@@ -103,10 +126,31 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 		
 		this.inspector = new Inspector();
 		this.add(inspector, BorderLayout.EAST);
+
+		this.jpanelRenderer.addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				camera.position.z += e.getWheelRotation();				
+			}
+		});
+		
+		this.jpanelRenderer.addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+		
+			}
+		});
 	
 		this.renderer = new Renderer(this.jpanelRenderer.getPreferredSize().width, this.jpanelRenderer.getPreferredSize().height);
 		this.renderer.getLight().setPosition(new Vector3(0, -50, -50));
-		//this.renderer.getLight().setEnabled(false);
+		this.renderer.getLight().setEnabled(true);
+		this.renderer.getLight().setEnableFlatShading(false);
 		this.camera = new Camera();
 		this.camera.position.z = 20;
 		this.meshes = new Mesh[0];
@@ -188,5 +232,68 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 		
 		newArray[currentSize] = mesh;
 		this.meshes = newArray;
+	}
+	
+	class FileActionHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == EditorWindow.this.newItemMenu) {
+				EditorWindow.this.meshes = new Mesh[0];
+			}
+			else if (e.getSource() == EditorWindow.this.openItemMenu) {
+				
+			}
+			else if (e.getSource() == EditorWindow.this.saveItemMenu) {
+				
+			}
+			else if (e.getSource() == EditorWindow.this.exitItemMenu) {
+				EditorWindow.this.exit();
+			}
+		}
+	}
+	
+	class SceneActionHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == EditorWindow.this.sceneSettingsItem) {
+				
+			}
+			else {
+				MeshGeometry geometry = null;
+				
+				if (e.getSource() == EditorWindow.this.cubeAddItem) {
+					geometry = new CubeGeometry();
+				}
+				else if (e.getSource() == EditorWindow.this.planeAddItem) {
+					geometry = new PlaneGeometry();
+				}
+				else if (e.getSource() == EditorWindow.this.pyramidAddItem) {
+					geometry = new PyramidGeometry();
+				}
+				
+				Mesh mesh = new Mesh("mesh", geometry);
+				
+				EditorWindow.this.addMesh(mesh);
+			}
+		}
+	}
+	
+	class AboutActionHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String title = "About ";
+			String message = "";
+			
+			if (e.getSource() == EditorWindow.this.aboutItemMenu) {
+				title += "the editor";
+				message = "This is a work in progress 3D editor for the 3D software renderer engine of AtlantisEngine.java";
+			}
+			else if (e.getSource() == EditorWindow.this.aboutAtlantisMenu) {
+				title += "AtlantisEngine.java";
+				message = "AtlantisEngine.java is a lightweight Engine based on YnaEngine and have a Framework close to XNA API.";
+			}
+			
+			JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 }

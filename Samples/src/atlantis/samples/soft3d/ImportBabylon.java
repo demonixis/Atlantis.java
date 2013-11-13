@@ -1,7 +1,10 @@
 package atlantis.samples.soft3d;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
+import atlantis.engine.graphics3d.Mesh;
+import atlantis.engine.graphics3d.geometry.PlaneGeometry;
 import atlantis.engine.graphics3d.importer.babylonjs.BabylonImporter;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
@@ -21,17 +24,22 @@ public class ImportBabylon extends BaseDemo3D {
 	 */
 	public void loadContent() {
 		super.loadContent();
+		ArrayList<Mesh> meshArray = new ArrayList<Mesh>();
 		//meshes = BabylonImporter.loadBabyonScene("Content/models/repaireArea.babylon");
 		//meshes = BabylonImporter.loadBabyonScene("Content/models/object.babylon");
 		//meshes = BabylonImporter.loadBabyonScene("Content/models/smallScene.babylon");
-		meshes = BabylonImporter.loadBabyonScene("Content/models/spaceship.babylon");
-	
-		for (int i = 0; i < meshes.length; i++) {
-			
-			if (meshes[i].getMaterial().getDiffuseTextureName() != "") {
-				//meshes[i].getMaterial().load();
-			}
+		Mesh[] bbMeshes = BabylonImporter.loadBabyonScene("Content/models/spaceship.babylon");
+		
+		for (Mesh m : bbMeshes) {
+			meshArray.add(m);
+			m.randomizeFaceColor();
 		}
+		
+		Mesh ground = new Mesh("ground", new PlaneGeometry(20, 20));
+		ground.getPosition().set(-10, -0.9f, -10);
+		meshArray.add(ground);
+		
+		meshes = meshArray.toArray(meshes);
 	}
 	
 	/**
@@ -40,8 +48,12 @@ public class ImportBabylon extends BaseDemo3D {
 	public void update(GameTime gameTime) {
 		super.update(gameTime);
 		if (this.autoRotate) {
-			for (int i = 0, l = meshes.length; i < l; i++) {
+			for (int i = 0, l = meshes.length - 1; i < l; i++) {
 				meshes[i].getRotation().y += 0.005f;
+				
+				if (keyboardState.isKeyDown(KeyEvent.VK_R)) {
+					meshes[i].randomizeFaceColor();
+				}
 			}
 		}
 		

@@ -4,6 +4,7 @@
 package atlantis.engine.graphics3d;
 
 import java.awt.Color;
+import java.util.Random;
 
 import atlantis.engine.graphics3d.geometry.MeshGeometry;
 import atlantis.framework.Vector3;
@@ -96,6 +97,22 @@ public class Mesh extends Object3D {
 		
 		this.faces[workingIndex].color = color;
 		this.faces[workingIndex + 1].color = color;
+	}
+	
+	public void randomizeFaceColor() {
+		int counter = 0;
+		Color current;
+		
+		Random random = new Random();
+		Color faceAColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
+		Color faceBColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
+		
+		for (int i = 0, l = this.faces.length - 2; i < l; i += 2) {
+			current = (counter % 2 == 0) ? faceAColor : faceBColor;
+			this.faces[i].color = current;
+			this.faces[i + 1].color = current;
+			counter++;
+		}
 	}
 	
 	public Vertex[] getVertices() {

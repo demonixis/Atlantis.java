@@ -23,6 +23,7 @@ import atlantis.engine.graphics3d.Renderer;
 import atlantis.engine.graphics3d.geometry.CubeGeometry;
 import atlantis.engine.graphics3d.geometry.MeshGeometry;
 import atlantis.engine.graphics3d.geometry.PlaneGeometry;
+import atlantis.engine.graphics3d.geometry.QuadGeometry;
 import atlantis.engine.graphics3d.geometry.PyramidGeometry;
 import atlantis.engine.input.MouseComponent;
 import atlantis.framework.Vector2;
@@ -150,7 +151,8 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 		this.renderer.getLight().setEnableFlatShading(false);
 		this.camera = new Camera();
 		this.camera.position.z = 20;
-		this.meshes = new Mesh[0];
+		this.meshes = new Mesh[1];
+		this.meshes[0] = new Mesh("grid", new PlaneGeometry(10, 10));
 		
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
@@ -222,7 +224,7 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 			geometry = new CubeGeometry();
 		}
 		else if (arg0.getSource() == this.planeAddItem) {
-			geometry = new PlaneGeometry();
+			geometry = new QuadGeometry();
 		}
 		else if (arg0.getSource() == this.pyramidAddItem) {
 			geometry = new PyramidGeometry();
@@ -276,7 +278,7 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 					geometry = new CubeGeometry();
 				}
 				else if (e.getSource() == EditorWindow.this.planeAddItem) {
-					geometry = new PlaneGeometry();
+					geometry = new QuadGeometry();
 				}
 				else if (e.getSource() == EditorWindow.this.pyramidAddItem) {
 					geometry = new PyramidGeometry();

@@ -88,6 +88,12 @@ public class BaseDemo3D extends Game {
 		else if (keyboardState.isKeyDown(KeyEvent.VK_F2)) 
 			this.renderer.getLight().setEnableFlatShading(false);
 		
+		else if (keyboardState.isKeyDown(KeyEvent.VK_F3))
+			this.renderer.getLight().setEnabled(false);
+		
+		else if (keyboardState.isKeyDown(KeyEvent.VK_F4))
+			this.renderer.getLight().setEnabled(true);
+		
         
         if (keyboardState.isKeyDown(KeyEvent.VK_F5)) {
         	System.out.println("Position: " + camera.position.toString());

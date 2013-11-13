@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import atlantis.engine.graphics3d.Mesh;
 import atlantis.engine.graphics3d.geometry.CubeGeometry;
+import atlantis.engine.graphics3d.geometry.PlaneGeometry;
 
 public class Maze extends BaseDemo3D {
 	int[][] level;
@@ -36,10 +37,10 @@ public class Maze extends BaseDemo3D {
 		
 		ArrayList<Mesh> mazeMeshes = new ArrayList<Mesh>();
 		
-		CubeGeometry groundGeo = new CubeGeometry(width, 0.1f, depth);
+		PlaneGeometry groundGeo = new PlaneGeometry(width * 2, depth * 2);
 		Mesh ground = new Mesh("ground", groundGeo);
-		ground.setFacesColor(Color.darkGray);
-		ground.getPosition().set(width - 1, -0.9f, depth - 1);
+		
+		ground.getPosition().set(0, -0.9f, 0);
 		mazeMeshes.add(ground);
 		
 		for (int y = 0; y < depth; y++) {

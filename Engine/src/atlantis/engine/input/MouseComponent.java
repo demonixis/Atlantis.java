@@ -9,17 +9,23 @@ import atlantis.framework.Game;
 import atlantis.framework.GameComponent;
 import atlantis.framework.GameTime;
 import atlantis.framework.Vector2;
+import atlantis.framework.input.MouseManager;
 import atlantis.framework.input.MouseState;
 
 public class MouseComponent extends GameComponent {
+	private MouseManager manager;
 	private MouseState mouseState;
 	private MouseState previousMouseState;
 	private Vector2 delta;
 
 	public MouseComponent(Game game) {
 		super(game);
-		this.mouseState = game.mouseManager().getState();
-		this.previousMouseState = this.mouseState;
+		if (game != null) {
+			this.manager = game.mouseManager();
+			this.mouseState = manager.getState();
+			this.previousMouseState = this.mouseState;
+		}
+
 		this.delta = new Vector2();
 	}
 	
@@ -27,11 +33,17 @@ public class MouseComponent extends GameComponent {
 		super.update(gameTime);
 		// Update states
 		this.previousMouseState = this.mouseState;
-		this.mouseState = this.game.mouseManager().getState();
+		this.mouseState = this.manager.getState();
 
 		// Calculate the delta
 		this.delta.x = this.mouseState.getX() - this.previousMouseState.getX();
 		this.delta.y = this.mouseState.getY() - this.previousMouseState.getY();
+	}
+	
+	public void setMouseManager(MouseManager manager) {
+		this.manager = manager;
+		this.mouseState = manager.getState();
+		this.previousMouseState = this.mouseState;
 	}
 	
 	public int getX() {

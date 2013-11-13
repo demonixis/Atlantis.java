@@ -24,8 +24,11 @@ import atlantis.engine.graphics3d.geometry.CubeGeometry;
 import atlantis.engine.graphics3d.geometry.MeshGeometry;
 import atlantis.engine.graphics3d.geometry.PlaneGeometry;
 import atlantis.engine.graphics3d.geometry.PyramidGeometry;
+import atlantis.engine.input.MouseComponent;
+import atlantis.framework.Vector2;
 import atlantis.framework.Vector3;
 import atlantis.framework.graphics.RenderTarget2D;
+import atlantis.framework.input.MouseManager;
 import atlantis.framework.platform.IGameWindow;
 import atlantis.framework.platform.IWindowRenderer;
 import atlantis.framework.platform.JPanelRenderer;
@@ -55,9 +58,9 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 	protected Renderer renderer;
 	protected Camera camera;
 	protected Mesh[] meshes;
-	
-	private float mouseX;
-	private float mouseY;
+
+	private MouseManager mouseManager;
+	private MouseComponent mouseComponent;
 	
 	public EditorWindow() {
 		this.isRunning = true;
@@ -134,18 +137,12 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 			}
 		});
 		
-		this.jpanelRenderer.addMouseMotionListener(new MouseMotionListener() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();
-			}
-			
-			@Override
-			public void mouseDragged(MouseEvent e) {
-		
-			}
-		});
+		this.mouseManager = new MouseManager();
+		this.jpanelRenderer.addMouseListener(this.mouseManager);
+		this.jpanelRenderer.addMouseMotionListener(this.mouseManager);
+		this.jpanelRenderer.addMouseWheelListener(this.mouseManager);
+		this.mouseComponent = new MouseComponent(null);
+		this.mouseComponent.setMouseManager(this.mouseManager);
 	
 		this.renderer = new Renderer(this.jpanelRenderer.getPreferredSize().width, this.jpanelRenderer.getPreferredSize().height);
 		this.renderer.getLight().setPosition(new Vector3(0, -50, -50));
@@ -159,13 +156,27 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 		this.gameThread.start();
 		this.setVisible(true);
 	}
+	
+	private void update() {
+		for (Mesh m : this.meshes) {
+			m.rotate(0.005f, 0.005f, 0);
+		}
+		
+		if (this.mouseComponent.clickLeft(true)) {
+			Vector2 vec = this.mouseComponent.getDelta();
+			vec.normalize();
+			this.camera.position.x += vec.x;
+			this.camera.position.y += vec.y;
+			System.out.println(this.camera.position);
+		}
+	}
 
 	public void run() {
 		while(this.isRunning) {
 			this.renderer.clear(Color.black);
-			for (Mesh m : this.meshes) {
-				m.rotate(0.005f, 0.005f, 0);
-			}
+			
+			this.mouseComponent.update(null);
+			this.update();
 			this.renderer.render(this.renderTarget.getGraphics(), this.camera, this.meshes);
 			
 			this.jpanelRenderer.repaint();

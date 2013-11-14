@@ -4,6 +4,7 @@
 package atlantis.engine.graphics3d.geometry;
 
 import atlantis.engine.graphics3d.Face3;
+import atlantis.framework.Vector2;
 import atlantis.framework.Vector3;
 
 /**
@@ -17,6 +18,8 @@ public abstract class MeshGeometry {
 	protected float height;
 	protected float depth;
 	protected Vector3 [] vertices;
+	protected Vector3 [] normals;
+	protected Vector2 [] uvs;
 	protected Face3 [] faces;
 
 	protected void computeVertices() {

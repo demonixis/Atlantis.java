@@ -24,7 +24,7 @@ import atlantis.engine.graphics3d.geometry.CubeGeometry;
 import atlantis.engine.graphics3d.geometry.MeshGeometry;
 import atlantis.engine.graphics3d.geometry.PlaneGeometry;
 import atlantis.engine.graphics3d.geometry.QuadGeometry;
-import atlantis.engine.graphics3d.geometry.PyramidGeometry;
+import atlantis.engine.graphics3d.geometry.Pyramid3Geometry;
 import atlantis.engine.input.MouseComponent;
 import atlantis.framework.Vector2;
 import atlantis.framework.Vector3;
@@ -227,7 +227,7 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 			geometry = new QuadGeometry();
 		}
 		else if (arg0.getSource() == this.pyramidAddItem) {
-			geometry = new PyramidGeometry();
+			geometry = new Pyramid3Geometry();
 		}
 		
 		Mesh mesh = new Mesh("mesh", geometry);
@@ -281,7 +281,7 @@ public class EditorWindow extends JFrame implements IGameWindow, Runnable, Actio
 					geometry = new QuadGeometry();
 				}
 				else if (e.getSource() == EditorWindow.this.pyramidAddItem) {
-					geometry = new PyramidGeometry();
+					geometry = new Pyramid3Geometry();
 				}
 				
 				Mesh mesh = new Mesh("mesh", geometry);

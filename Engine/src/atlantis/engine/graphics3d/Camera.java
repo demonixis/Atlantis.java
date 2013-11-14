@@ -42,7 +42,7 @@ public class Camera {
 	}
 	
 	/**
-	 * Rotation the camera (radians)
+	 * Rotation the camera (radiant)
 	 * @param rx Angle on X axis.
 	 * @param ry Angle on Y axis.
 	 * @param rz Angle on Z axis.
@@ -62,7 +62,7 @@ public class Camera {
         Vector3 transformedRef = Vector3.transformCoordinate(this.reference, rotationMatrix);
         this.target.x = this.position.x + transformedRef.x;
         this.target.y = this.position.y + transformedRef.y;
-        this.target.z = this.position.z + transformedRef.z;
+        this.target.z = this.position.z + transformedRef.z; 
         return Matrix.createLookAt(this.position, this.target, Vector3.UnitY());
 	}
 }

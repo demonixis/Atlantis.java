@@ -498,21 +498,14 @@ public class Renderer {
 	 */
 	protected void internalRender(Camera camera, Mesh[] meshes) {
 		this.viewMatrix = camera.getViewMatrix();
-	
-		/*
-		this.viewMatrix = Matrix.createLookAt(camera.position, camera.target, Vector3.Up());
-		Quaternion rotation = Quaternion.createFromRotationMatrix(Matrix.invert(this.viewMatrix));
-		Matrix matrix = Matrix.createFromQuaternion(rotation);
-		matrix.setTranslation(camera.position);
-		this.viewMatrix = Matrix.invert(matrix);
-		*/
+		
 		for (int i = 0, l = meshes.length; i < l; i++) {
 			this.worldMeshMatrix = Matrix.multiply(
 					Matrix.createScale(meshes[i].scale), 
 					Matrix.createRotationYawPitchRoll(meshes[i].rotation.y, meshes[i].rotation.x, meshes[i].rotation.z),
 					Matrix.createTranslation(meshes[i].position));
 			this.worldViewProjectionMatrix = Matrix.multiply(this.worldMeshMatrix, this.viewMatrix, this.projectionMatrix);
-			
+
 			for (int j = 0, m = meshes[i].faces.length; j < m; j++) {
 				 Vertex vertA = meshes[i].getVertex(meshes[i].faces[j].a);
                  Vertex vertB = meshes[i].getVertex(meshes[i].faces[j].b);

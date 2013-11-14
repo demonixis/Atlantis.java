@@ -99,20 +99,27 @@ public class Mesh extends Object3D {
 		this.faces[workingIndex + 1].color = color;
 	}
 	
-	public void randomizeFaceColor() {
+	public void randomizeFaceColor(boolean twoFaces) {
 		int counter = 0;
+		int step = twoFaces ? 2 : 1;
 		Color current;
 		
 		Random random = new Random();
 		Color faceAColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
 		Color faceBColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
 		
-		for (int i = 0, l = this.faces.length - 2; i < l; i += 2) {
+		for (int i = 0, l = this.faces.length - step; i < l; i += step) {
 			current = (counter % 2 == 0) ? faceAColor : faceBColor;
 			this.faces[i].color = current;
-			this.faces[i + 1].color = current;
+			if (twoFaces) {
+				this.faces[i + 1].color = current;
+			}
 			counter++;
 		}
+	}
+	
+	public void randomizeFaceColor() {
+		randomizeFaceColor(true);
 	}
 	
 	public void randomizeHeight(Vector3 upVector) {

@@ -10,13 +10,13 @@ import atlantis.framework.Vector3;
  * A pyramid geometry.
  * @author Yannick
  */
-public class PyramidGeometry extends MeshGeometry {
+public class Pyramid3Geometry extends MeshGeometry {
 	
-	public PyramidGeometry() {
+	public Pyramid3Geometry() {
 		this(1.0f, 1.0f, 1.0f); 
 	}
 	
-	public PyramidGeometry(float width, float height, float depth) {
+	public Pyramid3Geometry(float width, float height, float depth) {
 		this.width = width;
         this.height = height;
         this.depth = depth;

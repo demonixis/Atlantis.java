@@ -63,7 +63,7 @@ public class Renderer {
 		this.backBufferHeight = backBufferHeight;
 		this.backBuffer = new int[this.backBufferWidth * this.backBufferHeight * 4];
 		this.depthBuffer = new float[this.backBufferWidth * this.backBufferHeight];
-		this.createFrontBuffer(this.width, this.height);
+		this.createFrontBuffer(this.backBufferWidth, this.backBufferHeight);
 		this.autoClear = autoClear;
 		this.autoClearColor = Color.black;
 		this.light = new Light(0, 50, 50);
@@ -177,7 +177,7 @@ public class Renderer {
 	 * @param color Desired pixel color for this pixel.
 	 */
 	protected void drawPixel(int x, int y, float z, Color color) {
-		int index = (x + y * this.width);
+		int index = (x + y * this.backBufferWidth);
 		int index4 = index * 4;
 		
 		if (this.depthBuffer[index] < z) {
@@ -498,6 +498,7 @@ public class Renderer {
 	 */
 	protected void internalRender(Camera camera, Mesh[] meshes) {
 		this.viewMatrix = camera.getViewMatrix();
+	
 		/*
 		this.viewMatrix = Matrix.createLookAt(camera.position, camera.target, Vector3.Up());
 		Quaternion rotation = Quaternion.createFromRotationMatrix(Matrix.invert(this.viewMatrix));

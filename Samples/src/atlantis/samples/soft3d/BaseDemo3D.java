@@ -23,11 +23,12 @@ public class BaseDemo3D extends Game {
 	public BaseDemo3D(String title) {
 		super(1024, 768, title);
 		this.camera = new Camera();
-		this.renderer = new Renderer(this.width, this.height);
+		this.renderer = new Renderer(this.width, this.height, 640, 480, true);
 		this.meshes = new Mesh[0];
 		this.moveSpeed = 0.01f;
 		this.rotateSpeed = 0.0005f;
 		this.strafeSpeed = -0.005f;
+		this.renderer.getLight().setEnabled(false);
 	}
 		
 	public void update(GameTime gameTime) {
@@ -54,10 +55,10 @@ public class BaseDemo3D extends Game {
             camera.translate(-this.strafeSpeed * gameTime.getElapsedTime(), 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_UP))
-            camera.rotate(this.strafeSpeed * gameTime.getElapsedTime(), 0.0f, 0.0f);
+            camera.rotate(-this.strafeSpeed * gameTime.getElapsedTime() * 0.01f, 0.0f, 0.0f);
 
         else if (keyboardState.isKeyDown(KeyEvent.VK_PAGE_DOWN))
-            camera.rotate(this.strafeSpeed * gameTime.getElapsedTime(), 0.0f, 0.0f);
+            camera.rotate(this.strafeSpeed * gameTime.getElapsedTime() * 0.01f, 0.0f, 0.0f);
 
         if (keyboardState.isKeyDown(KeyEvent.VK_A))
             camera.translate(0.0f, -this.strafeSpeed * gameTime.getElapsedTime(), 0.0f);

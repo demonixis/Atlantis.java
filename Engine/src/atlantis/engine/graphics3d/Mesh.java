@@ -115,6 +115,20 @@ public class Mesh extends Object3D {
 		}
 	}
 	
+	public void randomizeHeight(Vector3 upVector) {
+		Random random = new Random();
+		
+		for (int i = 0, l = this.faces.length - 2; i < l; i += 2) {
+			float value = random.nextFloat();
+			this.vertices[this.faces[i].a].position.add(Vector3.multiply(upVector, value)); 
+			this.vertices[this.faces[i].b].position.add(Vector3.multiply(upVector, value)); 
+			this.vertices[this.faces[i].c].position.add(Vector3.multiply(upVector, value)); 
+			this.vertices[this.faces[i + 1].a].position.add(Vector3.multiply(upVector, value)); 
+			this.vertices[this.faces[i + 1].b].position.add(Vector3.multiply(upVector, value)); 
+			this.vertices[this.faces[i + 1].c].position.add(Vector3.multiply(upVector, value)); 
+		}
+	}
+	
 	public Vertex[] getVertices() {
 		return this.vertices;
 	}

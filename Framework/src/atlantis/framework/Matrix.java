@@ -262,6 +262,28 @@ public class Matrix {
 		this.M43 = position.z;
 	}
 	
+	public Vector3 getTranslation() {
+		Vector3 vector = new Vector3();
+		vector.x = M41;
+		vector.y = M42;
+		vector.z = M43;
+		return vector;
+	}
+	
+	public void setScale(Vector3 scale) {
+		this.M11 = scale.x;
+		this.M22 = scale.y;
+		this.M33 = scale.z;
+	}
+	
+	public Vector3 getScale() {
+		Vector3 vector = new Vector3();
+		vector.x = this.M11;
+		vector.y = this.M22;
+		vector.z = this.M33;
+		return vector;
+	}
+	
 	/**
 	 * Gets values of matrix in array. Start at M11 to M44.
 	 * @return An array of values.

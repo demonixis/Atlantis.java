@@ -284,6 +284,12 @@ public class Vector3 {
 		return vec;
 	}
 	
+	public static Vector3 multiply(Vector3 vector, float value) {
+		Vector3 vec = new Vector3(vector);
+		vec.multiply(value);
+		return vec;
+	}
+	
 	// ---
 	// --- Advanced methods
 	// ---

@@ -9,6 +9,7 @@ import atlantis.engine.graphics3d.geometry.PlaneGeometry;
 import atlantis.engine.graphics3d.geometry.QuadGeometry;
 import atlantis.engine.graphics3d.geometry.PyramidGeometry;
 import atlantis.framework.GameTime;
+import atlantis.framework.Vector3;
 
 public class ProceduralGeometries extends BaseDemo3D {
 	
@@ -66,6 +67,7 @@ public class ProceduralGeometries extends BaseDemo3D {
 		meshArray.add(pyramid2);
 		
 		Mesh ground = new Mesh("plane", new PlaneGeometry(20, 20));
+		ground.randomizeHeight(new Vector3(0, 0.2f, 0));
 		ground.getPosition().set(-10f,  -4.5f, 0);
 		meshArray.add(ground);
 		

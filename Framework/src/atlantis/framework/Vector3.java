@@ -488,4 +488,8 @@ public class Vector3 {
 	public String toString() {
 		return "x: " + this.x + " y: " + this.y + " z: " + this.z;
 	}
+
+	public boolean equals(Vector3 other) {
+		return this.x == other.x && this.y == other.y && this.z == other.z;
+	}
 }

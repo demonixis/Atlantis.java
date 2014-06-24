@@ -4,6 +4,7 @@
 package atlantis.engine.graphics;
 
 import atlantis.engine.Application;
+import atlantis.engine.Screen;
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
@@ -12,16 +13,22 @@ import atlantis.framework.graphics.SpriteBatch;
 import atlantis.framework.graphics.SpriteEffect;
 import atlantis.framework.graphics.Texture2D;
 
+
 /**
  * A sprite is a graphical object which can be a simple image or a more complex animated entity.
  * @author Yannick
  */
 public class Sprite extends BaseEntity implements ICollidable2 {
+	public enum CollisionType {
+		Stop, None
+	}
+	
 	protected Rectangle rectangle;
 	protected Vector2 position;
 	protected Texture2D texture;
 	protected String textureName;
 	protected Rectangle sourceRectangle;
+	protected CollisionType collisionType;
 	protected float rotation;
 	protected int color;
 	protected int spriteEffect;
@@ -31,12 +38,14 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	protected Vector2 lastDistance;
 	protected Physics2 physics;
 	protected Rectangle viewport;
-	protected boolean forceInsideScreen;
+	protected boolean insideScreen;
 	protected boolean allowAcrossScreen;
 	protected SpriteAnimator spriteAnimator;
-	protected boolean hasAnimation; // Todo : move it in SpriteAnimator
+	protected boolean hasAnimation;
 	protected ISpriteMouseListener spriteMouseListener;
 	protected boolean hovered;
+	protected boolean dead;
+	protected Sprite parent;
 	
 	public Sprite() {
 		this.rectangle = new Rectangle();
@@ -44,6 +53,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		this.texture = null;
 		this.textureName = "";
 		this.sourceRectangle = new Rectangle();
+		this.collisionType = CollisionType.None;
 		this.rotation = 0.0f;
 		this.spriteEffect = SpriteEffect.None;
 		this.layerDepth = 1.0f;
@@ -53,12 +63,14 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		this.lastDistance = new Vector2();
 		this.physics = new Physics2();
 		this.viewport = new Rectangle(0, 0, Application.width, Application.height);
-		this.forceInsideScreen = false;
+		this.insideScreen = false;
 		this.allowAcrossScreen = false;
 		this.spriteAnimator = new SpriteAnimator();
 		this.hasAnimation = false;
 		this.spriteMouseListener = null;
 		this.hovered = false;
+		this.parent = null;
+		this.dead = false;
 	}
 	
 	public Sprite(String textureName) {
@@ -66,13 +78,42 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		this.textureName = textureName;
 	}
 	
-	public void loadContent(ContentManager content) {
-		if (this.textureName != "" && this.assetLoaded == false) {
-			this.texture = content.loadTexture(this.textureName);
+	public void initialize() {
+		this.viewport = new Rectangle(0, 0, Screen.getWidth(), Screen.getHeight());
+		
+		if (this.textureName != "" && !this.initialized) {
+			this.texture = Application.content.loadTexture(this.textureName);
 			this.rectangle.width = this.texture.getWidth();
 			this.rectangle.height = this.texture.getHeight();
-			this.assetLoaded = true;
+			this.initialized = true;
 		}
+	}
+	
+	public Boolean collides(Sprite sprite) {
+		boolean collides = this.rectangle.intersects(sprite.rectangle);
+		
+		if (sprite.collisionType == CollisionType.Stop) {
+			sprite.move(sprite.lastPosition);
+		}
+		
+		return collides;
+	}
+	
+	public void kill() {
+		this.enabled = false;
+		this.visible = false;
+		this.dead = true;
+	}
+	
+	public void revive() {
+		this.enabled = true;
+		this.visible = true;
+		this.dead = false;
+	}
+	
+	
+	public void preUpdate(GameTime gameTime) {
+		// Pass
 	}
 	
 	public void update(GameTime gameTime) { 
@@ -114,7 +155,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
             this.direction.y = this.position.y - this.lastPosition.y;
 
             // Force the sprite to stay inside screen
-            if (this.forceInsideScreen) {
+            if (this.insideScreen) {
             	boolean stopVelocity = false;
                 if (this.position.x < this.viewport.x) {
                     this.position.x = this.viewport.x;
@@ -193,7 +234,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 			this.postUpdate();
 		}
 		
-		if (this.visible && this.assetLoaded) {
+		if (this.visible && this.initialized) {
             if (this.hasAnimation) {
                 spriteBatch.draw(this.texture, this.rectangle, this.sourceRectangle, this.color, this.rotation);
             }
@@ -266,6 +307,21 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 */
 	public void move(Vector2 moveToVector) {
 		this.setPosition(Vector2.add(this.position, moveToVector));
+	}
+	
+	public void translate(int x, int y) {
+		this.position.x += x;
+		this.position.y += y;
+		this.rectangle.x += x;
+		this.rectangle.y += y;
+	}
+	
+	public void translate(float x, float y) {
+		this.translate((int)x, (int)y);
+	}
+	
+	public void translate(Vector2 vector) {
+		this.translate((int)vector.x, (int)vector.y);
 	}
 	
 	// ---
@@ -492,7 +548,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * @param insideScreen Sets to true to force.
 	 */
 	public void forceInsideScreen(boolean insideScreen) {
-		this.forceInsideScreen = insideScreen;
+		this.insideScreen = insideScreen;
 	}
 
 	/**

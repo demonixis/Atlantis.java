@@ -42,11 +42,6 @@ public class SpriteText extends Sprite {
 	}
 	
 	@Override
-	public void loadContent(ContentManager content) {
-		
-	}
-	
-	@Override
 	public void update(GameTime gameTime) {
 		
 	}

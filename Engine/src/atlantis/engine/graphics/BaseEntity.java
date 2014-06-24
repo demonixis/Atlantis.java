@@ -14,7 +14,6 @@ import atlantis.framework.graphics.SpriteBatch;
 public abstract class BaseEntity {
 	private static int entityCounter = 0;
 	protected boolean initialized;
-	protected boolean assetLoaded;
 	protected boolean enabled;
 	protected boolean visible;
 	protected String name;
@@ -23,17 +22,12 @@ public abstract class BaseEntity {
 		entityCounter++;
 		this.name = "Entity_" + entityCounter;
 		this.initialized = false;
-		this.assetLoaded = false;
 		this.enabled = true;
 		this.visible = true;
 	}
 	
 	public void initialize() {
 		this.initialized = true;
-	}
-	
-	public void loadContent(ContentManager content) {
-		
 	}
 	
 	public void update(GameTime gameTime) {
@@ -46,10 +40,6 @@ public abstract class BaseEntity {
 	
 	public boolean isInitialized() {
 		return initialized;
-	}
-
-	public boolean isAssetLoaded() {
-		return assetLoaded;
 	}
 
 	public boolean isActive() {
@@ -70,10 +60,6 @@ public abstract class BaseEntity {
 	
 	public void setInitialized(boolean initialized) {
 		this.initialized = initialized;
-	}
-
-	public void setAssetLoaded(boolean assetLoaded) {
-		this.assetLoaded = assetLoaded;
 	}
 
 	/**

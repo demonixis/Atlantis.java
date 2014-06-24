@@ -47,17 +47,6 @@ public class SpriteGroup extends Sprite {
 	}
 	
 	/**
-	 * Load asset for each entity
-	 */
-	public void loadContent(ContentManager content) {
-		for (int i = 0, l = this.entities.size(); i < l; i++) {
-			this.entities.get(i).loadContent(content);
-		}
-		
-		this.assetLoaded = true;
-	}
-	
-	/**
 	 * Update entities logic
 	 */
 	public void update(GameTime gameTime) {
@@ -104,8 +93,8 @@ public class SpriteGroup extends Sprite {
 			entity.initialize();
 		}
 		
-		if (this.assetLoaded) {
-			entity.loadContent(Application.content);
+		if (this.initialized) {
+			entity.initialize();
 		}
 		
 		this.entities.add(entity);

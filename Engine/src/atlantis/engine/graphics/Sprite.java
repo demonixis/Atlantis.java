@@ -4,11 +4,11 @@
 package atlantis.engine.graphics;
 
 import atlantis.engine.Application;
+import atlantis.engine.Input;
 import atlantis.engine.Screen;
 import atlantis.framework.GameTime;
 import atlantis.framework.Rectangle;
 import atlantis.framework.Vector2;
-import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.SpriteBatch;
 import atlantis.framework.graphics.SpriteEffect;
 import atlantis.framework.graphics.Texture2D;
@@ -36,7 +36,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	protected Vector2 direction;
 	protected Vector2 lastPosition;
 	protected Vector2 lastDistance;
-	protected Physics2 physics;
+	protected RigidBody2D physics;
 	protected Rectangle viewport;
 	protected boolean insideScreen;
 	protected boolean allowAcrossScreen;
@@ -48,6 +48,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	protected Sprite parent;
 	
 	public Sprite() {
+		this.name = "GameObject";
 		this.rectangle = new Rectangle();
 		this.position = new Vector2();
 		this.texture = null;
@@ -61,8 +62,8 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 		this.direction = new Vector2();
 		this.lastPosition = new Vector2();
 		this.lastDistance = new Vector2();
-		this.physics = new Physics2();
-		this.viewport = new Rectangle(0, 0, Application.width, Application.height);
+		this.physics = new RigidBody2D();
+		this.viewport = new Rectangle(0, 0, Screen.getWidth(), Screen.getHeight());
 		this.insideScreen = false;
 		this.allowAcrossScreen = false;
 		this.spriteAnimator = new SpriteAnimator();
@@ -198,23 +199,23 @@ public class Sprite extends BaseEntity implements ICollidable2 {
             }
             
             if (this.spriteMouseListener != null) {
-            	if (this.rectangle.contains(Application.mouse.getPosition())) {
+            	if (this.rectangle.contains(Input.mouse.getPosition())) {
             		this.spriteMouseListener.onMouseOver();
             		this.hovered = true;
             		
             		int button = -1;
-            		button = Application.mouse.click(0) ? 0 : button;
-            		button = Application.mouse.click(1) ? 1 : button;
-            		button = Application.mouse.click(2) ? 2 : button;
+            		button = Input.mouse.click(0) ? 0 : button;
+            		button = Input.mouse.click(1) ? 1 : button;
+            		button = Input.mouse.click(2) ? 2 : button;
             		
             		if (button > -1) {
             			this.spriteMouseListener.onMouseClick(button);
             		}
             		
             		int jcButton = -1;
-            		jcButton = Application.mouse.justClicked(0) ? 0 : jcButton;
-            		jcButton = Application.mouse.justClicked(1) ? 1 : jcButton;
-            		jcButton = Application.mouse.justClicked(2) ? 2 : jcButton;
+            		jcButton = Input.mouse.justClicked(0) ? 0 : jcButton;
+            		jcButton = Input.mouse.justClicked(1) ? 1 : jcButton;
+            		jcButton = Input.mouse.justClicked(2) ? 2 : jcButton;
             		
             		if (jcButton > -1) {
             			this.spriteMouseListener.onMouseJustClicked(jcButton);
@@ -364,7 +365,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * Gets the bounding rectangle of the sprite
 	 * @return Return the rectangle.
 	 */
-	public Rectangle getBoundingRectangle() {
+	public Rectangle getBounds() {
 		return this.rectangle;
 	}
 	
@@ -422,7 +423,7 @@ public class Sprite extends BaseEntity implements ICollidable2 {
 	 * Gets the physics configuration applied to the sprite.
 	 * @return Return the physics configuration of the object.
 	 */
-	public Physics2 getPhysics() {
+	public RigidBody2D getPhysics() {
 		return this.physics;
 	}
 	

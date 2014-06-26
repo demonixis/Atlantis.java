@@ -8,7 +8,7 @@ import atlantis.framework.Vector2;
  * A basic physics module for a 2D entity.
  * @author Yannick
  */
-public class Physics2 {
+public class RigidBody2D {
 	protected Vector2 acceleration;
 	protected Vector2 velocity;
 	protected float maxVelocity;
@@ -19,7 +19,7 @@ public class Physics2 {
 	/**
 	 * Create a default physics configuration without acceleration, velocity and gravity.
 	 */
-	public Physics2() {
+	public RigidBody2D() {
 		this.acceleration = new Vector2(1.0f);
 		this.velocity = new Vector2();
 		this.maxVelocity = 1.0f;

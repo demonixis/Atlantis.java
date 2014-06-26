@@ -7,7 +7,6 @@ import java.awt.Font;
 
 import atlantis.framework.GameTime;
 import atlantis.framework.Vector2;
-import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.SpriteBatch;
 import atlantis.framework.graphics.SpriteFont;
 

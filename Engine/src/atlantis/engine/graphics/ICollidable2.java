@@ -6,5 +6,5 @@ package atlantis.engine.graphics;
 import atlantis.framework.Rectangle;
 
 public interface ICollidable2 {
-	Rectangle getBoundingRectangle();
+	Rectangle getBounds();
 }

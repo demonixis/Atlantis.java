@@ -33,16 +33,14 @@ public class GameApplet extends JApplet implements IUpdateable, IDrawable {
 		this.game.contentManager().setLoadType(0);
 		//this.game.getGameWindow().getRenderer().addDrawable(this);
 		
-		KeyboardComponent keyboardComponent = new KeyboardComponent(this.game);
+		KeyboardComponent keys = new KeyboardComponent(this.game);
 		MouseComponent mouseComponent = new MouseComponent(this.game);
 		
 		Application.game = this.game;
 		Application.content = this.game.contentManager();
 		Application.components = this.game.components();
-		Application.keyboard = keyboardComponent;
-		Application.mouse = mouseComponent;
-		Application.width = this.getWidth();
-		Application.height = this.getHeight();
+
+		
 	}
 	
 	/**

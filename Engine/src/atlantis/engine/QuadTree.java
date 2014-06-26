@@ -64,7 +64,7 @@ public class QuadTree {
 	public ArrayList<ICollidable2> getCandidates(ICollidable2 collidableObject) {
 		ArrayList<ICollidable2> candidates = new ArrayList<ICollidable2>();
 
-		int index = this.getNodeIndex(collidableObject.getBoundingRectangle());
+		int index = this.getNodeIndex(collidableObject.getBounds());
 
 		// If the space is already splited we get node objects that can potentially collide with this collidableObject
 		if (index > -1 && this.nodes[0] != null)
@@ -153,7 +153,7 @@ public class QuadTree {
 	public void add(ICollidable2 collidableObject) {
 		// If the Quadtree is already splited
 		if (this.nodes[0] != null) {
-			int index = this.getNodeIndex(collidableObject.getBoundingRectangle());
+			int index = this.getNodeIndex(collidableObject.getBounds());
 
 			if (index > -1) {
 				this.nodes[index].add(collidableObject);
@@ -173,7 +173,7 @@ public class QuadTree {
 			int size = this.objects.size();
 
 			while (i < size) {
-				int index = this.getNodeIndex(this.objects.get(i).getBoundingRectangle());
+				int index = this.getNodeIndex(this.objects.get(i).getBounds());
 				if (index > -1) {
 					// Add the object to the correct node en remove it from the its parent
 					this.nodes[index].add(this.objects.get(i));

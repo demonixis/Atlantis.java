@@ -129,7 +129,7 @@ public final class Player extends Sprite {
 			if (Collider2.rectangleCollide(this, blocks.get(i))) {
 				if(this.position.y < blocks.get(i).getY() && this.movementState == MovementState.JumpingUp) {
 						this.movementState = MovementState.JumpingDown;
-						this.setY(blocks.get(i).getBoundingRectangle().getBottom());
+						this.setY(blocks.get(i).getBounds().getBottom());
 						collide = true;
 				} 
 				else {

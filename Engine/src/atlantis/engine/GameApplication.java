@@ -5,7 +5,7 @@ package atlantis.engine;
 
 import atlantis.engine.input.KeyboardComponent;
 import atlantis.engine.input.MouseComponent;
-import atlantis.engine.state.StateManager;
+import atlantis.engine.level.LevelManager;
 import atlantis.framework.Game;
 
 /**
@@ -13,7 +13,7 @@ import atlantis.framework.Game;
  * all objects used for the game
  */
 public class GameApplication extends Game {
-	protected StateManager stateManager;
+	protected LevelManager levelManager;
 	
 	public GameApplication(int width, int height, String title) {
 		super(width, height, title);
@@ -21,41 +21,23 @@ public class GameApplication extends Game {
 		KeyboardComponent keyboardComponent = new KeyboardComponent(this);
 		MouseComponent mouseComponent = new MouseComponent(this);
 		
-		this.stateManager = new StateManager(this);
-		this.components.add(this.stateManager);
+		this.levelManager = new LevelManager(this);
+		this.components.add(this.levelManager);
 		this.components.add(keyboardComponent);
 		this.components.add(mouseComponent);
 		
 		Application.game = this;
-		Application.stateManager = stateManager;
+		Application.levelManager = levelManager;
 		Application.content = this.content;
 		Application.components = this.components;
-		Application.keyboard = keyboardComponent;
-		Application.mouse = mouseComponent;
-		Application.width = this.width;
-		Application.height = this.height;
+		
+		Input.keys = keyboardComponent;
+		Input.mouse = mouseComponent;
+	
+		Screen.setup(this.width, this.height);
 	}
 	
 	public GameApplication(int width, int height) {
 		this(width, height, "Atlantis Game");
-	}
-	
-	/**
-	 * Enabled or disable the state manager
-	 * @param isActive
-	 */
-	public void setStateManager(boolean isActive) {
-		if (isActive) {
-			if (this.stateManager == null) {
-				this.stateManager = new StateManager(this);
-				this.components.add(this.stateManager);
-			}
-		}
-		else {
-			if (this.stateManager != null) {
-				this.components.remove(this.stateManager);
-				this.stateManager = null;
-			}
-		}
 	}
 }

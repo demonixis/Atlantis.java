@@ -6,7 +6,7 @@ public class Screen {
 	private static int widthPerTwo;
 	private static int heightPerTwo;
 	
-	public static void setup(int width, int height) {
+	protected static void setup(int width, int height) {
 		screenWidth = width;
 		screenHeight = height;
 		widthPerTwo = width / 2;

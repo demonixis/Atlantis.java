@@ -4,7 +4,6 @@
 package atlantis.engine.graphics;
 
 import atlantis.framework.GameTime;
-import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.SpriteBatch;
 
 /**

@@ -5,7 +5,7 @@ package atlantis.engine;
 
 import atlantis.engine.input.KeyboardComponent;
 import atlantis.engine.input.MouseComponent;
-import atlantis.engine.state.StateManager;
+import atlantis.engine.level.LevelManager;
 import atlantis.framework.Game;
 import atlantis.framework.GameComponentCollection;
 import atlantis.framework.content.ContentManager;
@@ -18,9 +18,13 @@ public class Application {
 	public static Game game;
 	public static ContentManager content;
 	public static GameComponentCollection components;
-	public static StateManager stateManager;
-	public static KeyboardComponent keyboard;
-	public static MouseComponent mouse;
-	public static int width;
-	public static int height;
+	protected static LevelManager levelManager;
+	
+	public static void loadLevel(int id) {
+		Application.levelManager.loadLevel(id);
+	}
+	
+	public static void loadLevel(String name) {
+		Application.levelManager.loadLevel(name);
+	}
 }

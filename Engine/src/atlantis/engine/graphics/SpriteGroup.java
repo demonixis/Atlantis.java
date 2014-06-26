@@ -6,9 +6,7 @@ package atlantis.engine.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import atlantis.engine.Application;
 import atlantis.framework.GameTime;
-import atlantis.framework.content.ContentManager;
 import atlantis.framework.graphics.SpriteBatch;
 
 /**

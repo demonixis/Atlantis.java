@@ -2,6 +2,7 @@ package atlantis.samples.sprite;
 
 import java.awt.event.KeyEvent;
 
+import atlantis.engine.Application;
 import atlantis.engine.graphics.Sprite;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
@@ -24,21 +25,23 @@ public class SpriteGame extends Game {
 		this.femaleSprite.setViewport(0, 0, this.width, this.height);
 		this.femaleSprite.forceInsideScreen(true);
 		this.spriteBatch = new SpriteBatch(graphicsDevice());
+		
+		Application.content = this.content;
 	}
 	
 	public void loadContent() {
 		super.loadContent();
 		
-		this.background.loadContent(this.content);
+		this.background.initialize();
 		this.background.setSize(this.width, this.height);
 		
-		this.tree.loadContent(content);
+		this.tree.initialize();
 		this.tree.setPosition(150, 150);
-		this.tree2.loadContent(content);
+		this.tree2.initialize();
 		this.tree2.setSize(128, 128);
 		this.tree2.setPosition(this.width - 250, this.height - 250);
 		
-		this.femaleSprite.loadContent(this.content);
+		this.femaleSprite.initialize();
 		this.femaleSprite.prepareAnimation(64, 64);
 		this.femaleSprite.addAnimation("up", new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, 15);
 		this.femaleSprite.addAnimation("left", new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 17 }, 15);
@@ -60,20 +63,20 @@ public class SpriteGame extends Game {
 		
 		if (state.isKeyDown(KeyEvent.VK_UP)) {
 			this.femaleSprite.play("up");
-			this.femaleSprite.setY(this.femaleSprite.getY() - 1);
+			this.femaleSprite.translate(0, -1);
 		}
 		else if (state.isKeyDown(KeyEvent.VK_DOWN)) {
 			this.femaleSprite.play("down");
-			this.femaleSprite.setY(this.femaleSprite.getY() + 1);
+			this.femaleSprite.translate(0, 1);
 		}
 		
 		if (state.isKeyDown(KeyEvent.VK_RIGHT)) {
 			this.femaleSprite.play("right");
-			this.femaleSprite.setX(this.femaleSprite.getX() + 1);
+			this.femaleSprite.translate(1, 0);
 		}
 		else if (state.isKeyDown(KeyEvent.VK_LEFT)) {
 			this.femaleSprite.play("left");
-			this.femaleSprite.setX(this.femaleSprite.getX() - 1);
+			this.femaleSprite.translate(-1, 0);
 		}
 		
 		if (state.isKeyDown(KeyEvent.VK_ESCAPE)) {

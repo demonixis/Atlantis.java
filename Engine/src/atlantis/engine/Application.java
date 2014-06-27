@@ -3,8 +3,6 @@
 // file 'LICENSE', which is part of this source code package.
 package atlantis.engine;
 
-import atlantis.engine.input.KeyboardComponent;
-import atlantis.engine.input.MouseComponent;
 import atlantis.engine.level.LevelManager;
 import atlantis.framework.Game;
 import atlantis.framework.GameComponentCollection;

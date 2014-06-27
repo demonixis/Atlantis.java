@@ -6,7 +6,7 @@ import atlantis.engine.GameApplet;
 public class SpriteAppletGame extends GameApplet {
 	public void init() {
 		super.init();
-		this.game.contentManager().setRootDirectory("atlantis/samples/content");
+		this.game.content().setRootDirectory("atlantis/samples/content");
 		this.game.components().add(new SpriteComponent(this.game));
 	}
 }

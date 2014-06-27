@@ -176,7 +176,7 @@ public class Game implements IDrawable, IUpdateable {
 	 * Retrieve the content manager
 	 * @return The content manager
 	 */
-	public ContentManager contentManager() {
+	public ContentManager content() {
 		return this.content;
 	}
 }

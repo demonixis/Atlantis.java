@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import atlantis.framework.DrawableGameComponent;
 import atlantis.framework.Game;
-import atlantis.framework.GameComponent;
 import atlantis.framework.GameTime;
 import atlantis.framework.graphics.GraphicsDevice;
 
@@ -15,6 +14,7 @@ public class LevelManager extends DrawableGameComponent {
 	protected boolean hasActiveLevel;
 	protected boolean autoClear;
 	protected String autoLoadLevel;
+	protected int autoLoadLevelIndex;
 	
 	public LevelManager(Game game) {
 		super(game);
@@ -23,39 +23,78 @@ public class LevelManager extends DrawableGameComponent {
 		this.autoClear = true;
 		this.hasActiveLevel = false;
 		this.activeLevel = null;
-		
+		this.autoLoadLevel = "";
+		this.autoLoadLevelIndex = -1;
 	}
 	
 	public void initialize() {
+		if (this.autoLoadLevel != "") {
+			this.loadLevel(this.autoLoadLevel);
+			this.autoLoadLevel = "";
+		}
+		else if (this.autoLoadLevelIndex > -1) {
+			this.loadLevel(this.autoLoadLevelIndex);
+			this.autoLoadLevelIndex = -1;
+		}
 		
+		this.initialized = true;
 	}
 	
 	public void update(GameTime gameTime) {
-		
+		if (this.activeLevel != null) {
+			this.activeLevel.update(gameTime);
+		}
 	}
 	
 	public void draw(GameTime gameTime) {
-		
+		if (this.activeLevel != null) {
+			if (this.autoClear) {
+				//this.graphicsDevice.clear();
+			}
+			this.activeLevel.draw(gameTime);
+		}
 	}
 	
 	public void loadLevel(String name) {
+		// Start a new level only when the manager is fully initialized
+		if (!this.initialized) {
+			this.autoLoadLevel = name;
+			return;
+		}
 		
+		this.activeLevel = this.getLevelByName(name);
+		
+		if (this.activeLevel != null) {
+			this.activeLevel.intialize();
+		}
 	}
 	
 	public void loadLevel(int id) {
-		
+		// Same here
+		if (!this.initialized) {
+			this.autoLoadLevelIndex = id;
+			return;
+		}
 	}
 	
 	public void add(Level level) {
+		if (level == this.activeLevel) {
+			this.activeLevel = null;
+		}
 		
+		this.levels.add(level);
 	}
 	
 	public void remove(Level level) {
+		if (level == this.activeLevel) {
+			this.activeLevel = null;
+		}
 		
+		this.levels.remove(level);
 	}
 	
 	public void remove(int index) {
-		
+		this.levels.remove(index);
 	}
 	
 	public Level get(int index) {

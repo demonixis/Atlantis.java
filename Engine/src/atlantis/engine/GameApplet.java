@@ -9,6 +9,7 @@ import javax.swing.JApplet;
 
 import atlantis.engine.input.KeyboardComponent;
 import atlantis.engine.input.MouseComponent;
+import atlantis.engine.level.LevelManager;
 import atlantis.framework.Game;
 import atlantis.framework.GameTime;
 import atlantis.framework.IDrawable;
@@ -24,23 +25,33 @@ public class GameApplet extends JApplet implements IUpdateable, IDrawable {
 	private static final long serialVersionUID = 5413818823844604622L;
 	protected JPanelRenderer renderer;
 	protected Game game;
+	protected LevelManager levelManager;
 	
 	public void init() {
 		Dimension dim = this.getSize();
 		this.setSize(dim.width, dim.height);
 		this.setVisible(true);
 		this.game = new Game(dim.width, dim.height, "Atlantis Applet");
-		this.game.contentManager().setLoadType(0);
+		this.game.content().setLoadType(0);
 		//this.game.getGameWindow().getRenderer().addDrawable(this);
-		
-		KeyboardComponent keys = new KeyboardComponent(this.game);
+
+		KeyboardComponent keyboardComponent = new KeyboardComponent(this.game);
 		MouseComponent mouseComponent = new MouseComponent(this.game);
 		
-		Application.game = this.game;
-		Application.content = this.game.contentManager();
-		Application.components = this.game.components();
-
+		this.levelManager = new LevelManager(this.game);
+		this.game.components().add(this.levelManager);
+		this.game.components().add(keyboardComponent);
+		this.game.components().add(mouseComponent);
 		
+		Application.game = this.game;
+		Application.levelManager = levelManager;
+		Application.content = this.game.content();
+		Application.components = this.game.components();
+		
+		Input.keys = keyboardComponent;
+		Input.mouse = mouseComponent;
+	
+		Screen.setup(dim.width, dim.height);
 	}
 	
 	/**

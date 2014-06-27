@@ -19,10 +19,19 @@ import atlantis.framework.Vector2;
  * @author Yannick
  */
 public class SpriteBatch {
+	public enum SpriteSortMode {
+		BackToFront, FrontToBack, Immediate
+	}
+	
+	private enum BatchItemType {
+		Texture, Font
+	}
+	
 	protected GraphicsDevice graphicsDevice;
 	protected Graphics2D graphics2D;
 	protected boolean beginStarted;
 	protected boolean readyToBatch;
+	protected SpriteSortMode spriteSortMode;
 	protected Font previousFont;
 	protected Color previousColor;
 	protected ArrayList<BatchOperation> batchOperations;
@@ -37,9 +46,14 @@ public class SpriteBatch {
 		this.beginStarted = false;
 		this.readyToBatch = false;
 		this.batchOperations = new ArrayList<BatchOperation>();
+		this.spriteSortMode = SpriteSortMode.Immediate;
 		this.tempRectangle = Rectangle.Empty();
 		this.previousColor = Color.WHITE;
 		this.previousFont = null;
+	}
+	
+	public void resize(int width, int height) {
+	
 	}
 	
 	/**
@@ -98,13 +112,13 @@ public class SpriteBatch {
 		}
 	}
 
-	public void drawString(SpriteFont spriteFont, String text, int x, int y, Color color) {
+	public void drawString(SpriteFont spriteFont, String text, int x, int y, int color) {
 		this.graphics2D = (Graphics2D)this.graphicsDevice.getGraphics();
 		
 		this.previousColor = this.graphics2D.getColor();
 		this.previousFont = this.graphics2D.getFont();
 		
-		this.graphics2D.setColor(color);
+		this.graphics2D.setColor(new Color(color));
 		this.graphics2D.setFont(spriteFont.font);
 		
 		// TODO : Make SpriteBatch inherit from BufferedImage or Texture2D
